@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">List des Utilisateurs</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nom et prénom</th>
+                      <th>Email</th>
+                      <th>Password</th>
+                      <th>Rôle</th>
+                      <th>Adresse</th>
+                      <th>Telephone</th>
+                      <th>Image</th>
+                      <th>Etat</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for p in utilisateurs %}
+                    <tr>
+                      <td>{{p.idU}}</td>
+                      <td>{{p.nomPrenom}}</td>
+                      <td>{{p.email}}</td>
+                      <td>{{p.password}}</td>
+                      <td>{{p.role}}</td>
+                      <td>{{p.adresse}}</td>
+                      <td>{{p.telephone}}</td>
+                      <td>{{p.picture}}</td>
+                      <td>{{p.verif}}</td>
+                      <td>
+                        <a href="{{ path('deleteUtilisateur',{'id':p.idU}) }}">Delete</a>
+                        <a href="{{ path('updateUtilisateur',{'id':p.idU}) }}">Update</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}

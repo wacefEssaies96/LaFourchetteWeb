@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="content-wrapper">
+{{ form_start(form) }}
+<div class="form-group">
+<section class="content">
+<div class="container-fluid p-10">
+    {{form_label(form.nomf,'Nom Fournisseur', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.nomf, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.telephonef,'Télephone', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.telephonef, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.emailf,'Email', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.emailf, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.lvl,'Level', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.lvl, {'attr': {'class': 'form-control'}} )}}
+</div>
+{{ form_end(form) }}
+</section>
+</div>
+</div>
+{% endblock %}

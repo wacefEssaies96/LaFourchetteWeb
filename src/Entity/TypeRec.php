@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TypeRec
  *
  * @ORM\Table(name="type_rec")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\TypeRecRepository")
  */
 class TypeRec
 {
@@ -17,7 +17,6 @@ class TypeRec
      *
      * @ORM\Column(name="typeRec", type="string", length=30, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $typerec;
 
@@ -37,7 +36,12 @@ class TypeRec
     {
         return $this->reft;
     }
+    public function setTyperec(string $typerec): self
+    {
+        $this->typerec = $typerec;
 
+        return $this;
+    }
     public function setReft(string $reft): self
     {
         $this->reft = $reft;

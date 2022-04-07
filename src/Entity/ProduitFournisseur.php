@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProduitFournisseur
  *
- * @ORM\Table(name="produit_fournisseur", indexes={@ORM\Index(name="nomProd", columns={"nomProd"}), @ORM\Index(name="idF", columns={"idF"})})
- * @ORM\Entity
+ * @ORM\Table(name="produit_fournisseur", indexes={@ORM\Index(name="idF", columns={"idF"}), @ORM\Index(name="id", columns={"id"})})
+ * @ORM\Entity(repositoryClass="App\Repository\ProduitFournisseurRepository")
  */
 class ProduitFournisseur
 {
@@ -36,7 +36,7 @@ class ProduitFournisseur
      *
      * @ORM\ManyToOne(targetEntity="Produit")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="nomProd", referencedColumnName="nomProd")
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
      */
     private $nomprod;
@@ -46,7 +46,7 @@ class ProduitFournisseur
         return $this->id;
     }
 
-    public function getIdf(): ?Fournisseur
+    public function getIdf()
     {
         return $this->idf;
     }
@@ -58,7 +58,7 @@ class ProduitFournisseur
         return $this;
     }
 
-    public function getNomprod(): ?Produit
+    public function getNomprod()
     {
         return $this->nomprod;
     }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Employer
  *
  * @ORM\Table(name="employer", indexes={@ORM\Index(name="job_EM", columns={"job_EM"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\EmployerRepository")
  */
 class Employer
 {
@@ -131,7 +131,7 @@ class Employer
         return $this;
     }
 
-    public function getJobEm(): ?Jobem
+    public function getJobEm()
     {
         return $this->jobEm;
     }

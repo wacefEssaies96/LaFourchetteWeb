@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employées{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">List des employées</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+              <a href="{{ path('addEmployer') }}">Add employer</a>
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nom et prenom</th>
+                      <th>Telephone</th>
+                      <th>Adresse</th>
+                      <th>Image</th>
+                      <th>salaire</th>
+                      <th>Job</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for c in employes %}
+                    <tr>
+                      <td>{{c.idEM}}</td>
+                      <td>{{c.nomPrenom}}</td>
+                      <td>{{c.telephone}}</td>
+                      <td>{{c.adresse}}</td>
+                      <td>{{c.picture}}</td>
+                      <td>{{c.salaire}}</td>
+                      <td>{{c.jobEM.jobEM}}</td>
+                      <td>
+                        <a href="{{ path('deleteEmployer',{'id':c.idEM}) }}">Delete</a>
+                        <a href="{{ path('updateEmployer',{'id':c.idEM}) }}">Update</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}
+

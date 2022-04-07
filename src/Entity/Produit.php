@@ -8,16 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
  * Produit
  *
  * @ORM\Table(name="produit")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ProduitRepository")
  */
 class Produit
 {
+    
     /**
      * @var string
-     *
-     * @ORM\Column(name="nomProd", type="string", length=255, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="nomProd", type="string", nullable=false)
      */
     private $nomprod;
 
@@ -42,9 +41,17 @@ class Produit
      */
     private $prix;
 
+    
+
     public function getNomprod(): ?string
     {
         return $this->nomprod;
+    }
+    public function setNomProd(string $nomprod): self
+    {
+        $this->nomprod = $nomprod;
+
+        return $this;
     }
 
     public function getQuantite(): ?int

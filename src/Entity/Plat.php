@@ -3,21 +3,19 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+// indexes={@ORM\Index(name="fk_plat", columns={"nomProd"})}
 /**
  * Plat
  *
- * @ORM\Table(name="plat", indexes={@ORM\Index(name="fk_plat", columns={"nomProd"})})
- * @ORM\Entity
+ * @ORM\Table(name="plat")
+ * @ORM\Entity(repositoryClass="App\Repository\PlatRepository")
  */
 class Plat
 {
     /**
      * @var string
-     *
-     * @ORM\Column(name="reference", type="string", length=255, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="reference", type="string", nullable=false)
      */
     private $reference;
 
@@ -60,7 +58,12 @@ class Plat
     {
         return $this->reference;
     }
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
 
+        return $this;
+    }
     public function getDesignation(): ?string
     {
         return $this->designation;

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plat{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">List des Plats</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+              <a href="{{ path('addPlat') }}">Add Plat</a>
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Réference</th>
+                      <th>Désignation</th>
+                      <th>Prix</th>
+                      <th>Description</th>
+                      <th>Image</th>
+                      <th>NomProd</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for p in plats %}
+                    <tr>
+                      <td>{{p.reference}}</td>
+                      <td>{{p.designation}}</td>
+                      <td>{{p.prix}}</td>
+                      <td>{{p.description}}</td>
+                      <td>{{p.imageP}}</td>
+                      <td>{{p.nomProd}}</td>
+                      <td>
+                        <a href="{{ path('deletePlat',{'id' : p.reference}) }}">Delete</a>
+                        <a href="{{ path('updatePlat',{'id' : p.reference}) }}">Update</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}

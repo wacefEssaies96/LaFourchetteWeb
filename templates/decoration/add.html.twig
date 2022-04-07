@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="content-wrapper">
+{{ form_start(form) }}
+<div class="form-group">
+<section class="content">
+<div class="container-fluid p-10">
+    {{form_label(form.nom,'Nom decoration', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.nom, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.prix,'Prix', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.prix, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.imaged,'Image', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.imaged, {'attr': {'class': 'form-control'}} )}}
+    
+</div>
+{{ form_end(form) }}
+</section>
+</div>
+</div>
+{% endblock %}
+

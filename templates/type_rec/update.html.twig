@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="content-wrapper">
+{{ form_start(form) }}
+<div class="form-group">
+<section class="content">
+<div class="container-fluid p-10">
+    {{form_label(form.typerec,'Type de reclamation', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.typerec, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.reft,'Réference', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.reft, {'attr': {'class': 'form-control'}} )}}
+</div>
+{{ form_end(form) }}
+</section>
+</div>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Jobem
  *
  * @ORM\Table(name="jobem")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\JobEmRepository")
  */
 class Jobem
 {
@@ -17,8 +17,7 @@ class Jobem
      *
      * @ORM\Column(name="job_EM", type="string", length=255, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    */
     private $jobEm;
 
     /**
@@ -37,7 +36,12 @@ class Jobem
     {
         return $this->nbHeure;
     }
+    public function setJobEm(string $jobEm): self
+    {
+        $this->jobEm = $jobEm;
 
+        return $this;
+    }
     public function setNbHeure(int $nbHeure): self
     {
         $this->nbHeure = $nbHeure;

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fournisseur{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">List des fournisseurs</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+              <a href="{{ path('addFournisseur') }}">Add fournisseur</a>
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nom</th>
+                      <th>Telephone</th>
+                      <th>Email</th>
+                      <th>Level</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for c in fournisseurs %}
+                    <tr>
+                      <td>{{c.idF}}</td>
+                      <td>{{c.nomF}}</td>
+                      <td>{{c.telephoneF}}</td>
+                      <td>{{c.emailF}}</td>
+                      <td>{{c.lvl}}</td>
+                      <td>
+                        <a href="{{ path('deleteFournisseur',{'id':c.idF}) }}">Delete</a>
+                        <a href="{{ path('updateFournisseur',{'id':c.idF}) }}">Update</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}
+

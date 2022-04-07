@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Reclamation
+ * Reclam
  *
- * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="fk_idU_Rec", columns={"idU"}), @ORM\Index(name="fk_type_Rec", columns={"typeRec"})})
- * @ORM\Entity
+ * @ORM\Table(name="reclam", indexes={@ORM\Index(name="fk_idU_Rec", columns={"idU"}), @ORM\Index(name="fk_type_Rec", columns={"idrec"})})
+ * @ORM\Entity(repositoryClass="App\Repository\ReclamRepository")
  */
-class Reclamation
+class Reclam
 {
     /**
      * @var int
@@ -84,7 +84,7 @@ class Reclamation
         return $this;
     }
 
-    public function getIdu(): ?Utilisateur
+    public function getIdu()
     {
         return $this->idu;
     }
@@ -96,7 +96,7 @@ class Reclamation
         return $this;
     }
 
-    public function getTyperec(): ?TypeRec
+    public function getTyperec()
     {
         return $this->typerec;
     }

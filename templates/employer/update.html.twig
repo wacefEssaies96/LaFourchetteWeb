@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="content-wrapper">
+{{ form_start(form) }}
+<div class="form-group">
+<section class="content">
+<div class="container-fluid p-10">
+    {{form_label(form.nomPrenom,'Nom et prenom', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.nomPrenom, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.telephone,'Télephone', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.telephone, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.adresse,'Adresse', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.adresse, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.picture,'Image', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.picture, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.salaire,'Salaire', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.salaire, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.jobEm,'Job', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.jobEm, {'attr': {'class': 'form-control'}} )}}
+</div>
+{{ form_end(form) }}
+</section>
+</div>
+</div>
+{% endblock %}

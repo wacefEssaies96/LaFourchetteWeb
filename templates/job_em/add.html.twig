@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="content-wrapper">
+{{ form_start(form) }}
+<div class="form-group">
+<section class="content">
+<div class="container-fluid p-10">
+    {{form_label(form.job_EM,'Job', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.job_EM, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.nbHeure,'Nombre d\'heure', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.nbHeure, {'attr': {'class': 'form-control'}} )}}
+</div>
+{{ form_end(form) }}
+</section>
+</div>
+</div>
+{% endblock %}
+

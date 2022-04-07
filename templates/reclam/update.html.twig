@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="content-wrapper">
+{{ form_start(form) }}
+<div class="form-group">
+<section class="content">
+<div class="container-fluid p-10">
+    {{form_label(form.typerec,'Type de rélamation', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.typerec, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.idu,'Id Utilisateur', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.idu, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.description,'Description', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.description, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.etatrec,'Etat', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.etatrec, {'attr': {'class': 'form-control'}} )}}
+</div>
+{{ form_end(form) }}
+</section>
+</div>
+</div>
+{% endblock %}

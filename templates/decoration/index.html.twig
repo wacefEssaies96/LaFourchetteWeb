@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Decoration{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">List des décorations</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+              <a href="{{ path('addDecoration') }}">Add decoration</a>
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nom</th>
+                      <th>Prix</th>
+                      <th>Image</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for c in decorations %}
+                    <tr>
+                      <td>{{c.idD}}</td>
+                      <td>{{c.Nom}}</td>
+                      <td>{{c.Prix}}</td>
+                      <td>{{c.ImageD}}</td>
+                      <td>
+                        <a href="{{ path('deleteDecoration',{'id':c.idD}) }}">Delete</a>
+                        <a href="{{ path('updateDecoration',{'id':c.idD}) }}">Update</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenements{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">List des évenements</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+              <a href="{{ path('addEvenement') }}">Add évenement</a>
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Designation</th>
+                      <th>Description</th>
+                      <th>Date</th>
+                      <th>Image</th>
+                      <th>Nombre de Participants</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for c in evenements %}
+                    <tr>
+                      <td>{{c.idE}}</td>
+                      <td>{{c.designationE}}</td>
+                      <td>{{c.descriptionE}}</td>
+                      <td>{{c.dateE | date}}</td>
+                      <td>{{c.imageE}}</td>
+                      <td>{{c.nbrParticipants}}</td>
+                      <td>
+                        <a href="{{ path('deleteEvenement',{'id':c.idE}) }}">Delete</a>
+                        <a href="{{ path('updateEvenement',{'id':c.idE}) }}">Update</a> 
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}
+

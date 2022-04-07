@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="content-wrapper">
+{{ form_start(form) }}
+<div class="form-group">
+<section class="content">
+<div class="container-fluid p-10">
+    {{form_label(form.nom_prenom,'Nom et présnom', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.nom_prenom, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.email,'Email', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.email, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.password,'Mot de passe', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.password, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.role,'Role', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.role, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.adresse,'Adresse', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.adresse, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.telephone,'Télephone', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.telephone, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.picture,'Image', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.picture, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.verif,'Etat', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.verif, {'attr': {'class': 'form-control'}} )}}
+</div>
+{{ form_end(form) }}
+</section>
+</div>
+</div>
+{% endblock %}
+

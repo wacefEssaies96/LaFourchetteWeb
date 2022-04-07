@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Table restaurant{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+<div class="card">
+              <div class="card-header">
+                <h3 class="card-title">List des Table restaurant</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+              <a href="{{ path('addTableResto') }}">Add table resto</a>
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nombre de place</th>
+                      <th>Etat</th>
+                      <th>Image</th>
+                      <th>Vip</th>
+                      <th>Prix</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for p in tableRestos %}
+                    <tr>
+                      <td>{{p.IdT}}</td>
+                      <td>{{p.NbrPlace}}</td>
+                      <td>{{p.Etat}}</td>
+                      <td>{{p.ImageTable}}</td>
+                      <td>{{p.Vip}}</td>
+                      <td>{{p.Prix}}</td>
+                      <td>
+                        <a href="{{ path('deleteTableResto',{'id':p.IdT}) }}">Delete</a>
+                        <a href="{{ path('updateTableResto',{'id':p.IdT}) }}">Update</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}
