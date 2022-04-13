@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProduitType extends AbstractType
 {
@@ -14,7 +15,7 @@ class ProduitType extends AbstractType
         $builder
             ->add('nomProd')
             ->add('quantite')
-            //->add('image')
+            ->add('image',FileType::class,array('data_class'=> null, 'label' => 'Image'))
             ->add('prix')
         ;
     }

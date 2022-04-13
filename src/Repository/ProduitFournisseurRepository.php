@@ -45,22 +45,26 @@ class ProduitFournisseurRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return ProduitFournisseur[] Returns an array of ProduitFournisseur objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
+    /**
+     * @return ProduitFournisseur[] 
     */
+    
+    public function join()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT pf,f FROM App\Entity\ProduitFournisseur pf
+            join App\Entity\Fournisseur f with pf.idf = f.idf
+            order by pf.idf"
+        );   
+        return $query->getResult();
+        // return $this->createQueryBuilder('pf')
+        //     ->join('pf.idf','f')
+        //     ->addSelect('f')
+        //     ->orderBy('f.idf')
+        //     ->getQuery()
+        //     ->getResult();
+    }
+    
 
     /*
     public function findOneBySomeField($value): ?ProduitFournisseur

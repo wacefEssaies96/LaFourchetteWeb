@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produits{% endblock %}
+{% block title %}Produit fournisseur{% endblock %}
 
 {% block body %}
 <div class="content-wrapper">
@@ -8,7 +8,7 @@
     <div class="container-fluid">
       <div class="card">
         <div class="card-header">
-            <h3 class="card-title">List des produits</h3>
+            <h3 class="card-title">List des fournisseur avec produit</h3>
             <div class="card-tools">
               <div class="input-group input-group-sm" style="width: 150px;">
                 <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -20,29 +20,32 @@
               </div>
             </div>
           </div>
-          <a class="btn btn-success" href="{{ path('addProduit') }}">Ajouter un nouveau produit</a>
+          <a class="btn btn-success" href="{{ path('addProduitFournisseur') }}">Ajouter un nouveau produit</a>
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">
               <thead>
                 <tr>
-                  <th>NomProd</th>
-                  <th>Quantité</th>
-                  <th>Prix</th>
-                  <th>Image</th>
+                  <th>IdF</th>
+                  <th>Nom</th>
+                  <th>Telephone</th>
+                  <th>Email</th>
+                  <th>Level</th>
+                  <th>Produit(s)</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-              {% for p in produits %}
+              {% for p in pf %}
                 <tr>
+                  <td>{{p.idF}}</td>
+                  <td>{{p.nomF}}</td>
+                  <td>{{p.telephoneF}}</td>
+                  <td>{{p.emailF}}</td>
+                  <td>{{p.lvl}}</td>
                   <td>{{p.nomProd}}</td>
-                  <td>{{p.quantite}}</td>
-                  <td>{{p.prix}}</td>
-                  <td><img src="{{asset('uploads/images/')}}{{p.image}}" alt="{{p.image}}" height="52" width="52"></td>
                   <td>
-                    <a class="btn btn-info" href="{{ path('updateProduit',{'id':p.nomProd}) }}">Modifier</a>
-                    <a class="btn btn-danger" href="{{ path('deleteProduit',{'id':p.nomProd}) }}">Supprimer</a>
+                    <a class="btn btn-danger" href="{{ path('deleteProduitFournisseur',{'id':p.idF}) }}">Supprimer</a>
                   </td>
                 </tr>
                 {% endfor %}

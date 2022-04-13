@@ -41,19 +41,16 @@ class ProduitController extends AbstractController
      */
     public function addProduit(Request $request)
     {
-       // var_dump($request->nomProd);
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-
-           /* $nom = $form['nomProd']->getData(); 
-            var_dump($nom);
-            die ; */  
+        if ($form->isSubmitted() && $form->isValid() ) {
+            $image = $form->get('image')->getData();
+            $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+            $image->move($this->getParameter('brochures_directory'), $imageName);
+            $produit->setImage($imageName);
             $em = $this->getDoctrine()->getManager();
-            $produit->setImage("test");
-           // $produit->setNomProd($request->nomProd);
             $em->persist($produit);
             $em->flush();
             return $this->redirectToRoute('app_produit');
@@ -70,7 +67,11 @@ class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class, $produit);
         $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+            $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+            $image->move($this->getParameter('brochures_directory'), $imageName);
+            $produit->setImage($imageName);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('app_produit');

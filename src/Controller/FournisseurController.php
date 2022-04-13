@@ -43,7 +43,7 @@ class FournisseurController extends AbstractController
         $form = $this->createForm(FournisseurType::class, $fournisseur);
         $form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($fournisseur);
             $em->flush();
@@ -61,7 +61,7 @@ class FournisseurController extends AbstractController
         $form = $this->createForm(FournisseurType::class, $commande);
         $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('app_fournisseur');

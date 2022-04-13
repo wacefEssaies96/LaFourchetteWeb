@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Produit
@@ -16,20 +17,24 @@ class Produit
     /**
      * @var string
      * @ORM\Id
+     * @ORM\OneToMany(targetEntity="ProduitFournisseur", mappedBy="produit")
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Unique(message="Ce produit existe déjà")
      * @ORM\Column(name="nomProd", type="string", nullable=false)
      */
     private $nomprod;
 
     /**
      * @var int
-     *
+     * @Assert\NotNull(message="La quantité doît être différente de 0")
      * @ORM\Column(name="quantite", type="integer", nullable=false)
      */
     private $quantite;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Il faut mettre une image")
+     * @Assert\File(mimeTypes={"image/png","image/jpeg"})
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
@@ -38,6 +43,7 @@ class Produit
      * @var float
      *
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     * @Assert\NotNull(message="Le prix doît être différent de 0")
      */
     private $prix;
 
@@ -66,12 +72,12 @@ class Produit
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage()
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage($image)
     {
         $this->image = $image;
 

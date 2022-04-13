@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Fournisseur
@@ -23,28 +24,29 @@ class Fournisseur
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
      * @ORM\Column(name="nomF", type="string", length=255, nullable=false)
      */
     private $nomf;
 
     /**
      * @var int
-     *
+     * @Assert\NotNull(message="Ce champ est obligatoire")
      * @ORM\Column(name="telephoneF", type="integer", nullable=false)
      */
     private $telephonef;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * * @Assert\Email(message = "Email n'est pas valide !")
      * @ORM\Column(name="emailF", type="string", length=255, nullable=false)
      */
     private $emailf;
 
     /**
      * @var int
-     *
+     * @Assert\NotNull(message="Ce champ est obligatoire")
      * @ORM\Column(name="lvl", type="integer", nullable=false)
      */
     private $lvl;

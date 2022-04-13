@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Reclam;
 use App\Entity\TypeRec;
 use App\Entity\Utilisateur;
-
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

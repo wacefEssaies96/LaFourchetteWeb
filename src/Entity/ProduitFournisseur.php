@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Fournisseur;
+use App\Entity\Produit;
 
 /**
  * ProduitFournisseur
  *
- * @ORM\Table(name="produit_fournisseur", indexes={@ORM\Index(name="idF", columns={"idF"}), @ORM\Index(name="id", columns={"id"})})
+ * @ORM\Table(name="produit_fournisseur", indexes={@ORM\Index(name="idF", columns={"idF"}), @ORM\Index(name="nomProd", columns={"nomProd"})})
  * @ORM\Entity(repositoryClass="App\Repository\ProduitFournisseurRepository")
  */
 class ProduitFournisseur
@@ -24,7 +26,7 @@ class ProduitFournisseur
     /**
      * @var \Fournisseur
      *
-     * @ORM\ManyToOne(targetEntity="Fournisseur")
+     * @ORM\ManyToOne(targetEntity="Fournisseur", inversedBy="produitFournisseur")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idF", referencedColumnName="idF")
      * })
@@ -34,9 +36,9 @@ class ProduitFournisseur
     /**
      * @var \Produit
      *
-     * @ORM\ManyToOne(targetEntity="Produit")
+     * @ORM\ManyToOne(targetEntity="Produit", inversedBy="produitFournisseur")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="nomProd", referencedColumnName="nomProd")
      * })
      */
     private $nomprod;

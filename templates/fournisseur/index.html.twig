@@ -23,8 +23,8 @@
                 </div>
               </div>
               <!-- /.card-header -->
+              <a class="btn btn-success" href="{{ path('addFournisseur') }}">Ajouter un fournisseur</a>
               <div class="card-body table-responsive p-0">
-              <a href="{{ path('addFournisseur') }}">Add fournisseur</a>
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
@@ -45,8 +45,8 @@
                       <td>{{c.emailF}}</td>
                       <td>{{c.lvl}}</td>
                       <td>
-                        <a href="{{ path('deleteFournisseur',{'id':c.idF}) }}">Delete</a>
-                        <a href="{{ path('updateFournisseur',{'id':c.idF}) }}">Update</a>
+                        <a class="btn btn-info" href="{{ path('updateFournisseur',{'id':c.idF}) }}">Modifier</a>
+                        <a class="btn btn-danger" href="{{ path('deleteFournisseur',{'id':c.idF}) }}">Supprimer</a>
                       </td>
                     </tr>
                     {% endfor %}
