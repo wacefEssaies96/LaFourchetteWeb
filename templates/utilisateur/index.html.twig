@@ -49,7 +49,9 @@
                       <td>{{p.role}}</td>
                       <td>{{p.adresse}}</td>
                       <td>{{p.telephone}}</td>
-                      <td>{{p.picture}}</td>
+                       </td>
+                                            <td><img src="{{asset('images/')}}{{p.picture}}" width="52" height="52" > </img></td>
+
                       <td>{{p.verif}}</td>
                       <td>
                         <a href="{{ path('deleteUtilisateur',{'id':p.idU}) }}">Delete</a>

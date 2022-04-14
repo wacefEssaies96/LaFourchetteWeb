@@ -46,6 +46,11 @@ class EmployerController extends AbstractController
         $form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
+            $image = $form->get('picture')->getData();
+            $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+            $image->move($this->getParameter('brochures_directory'), $imageName);
+            $employer->setPicture($imageName);
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($employer);
             $em->flush();
@@ -64,6 +69,10 @@ class EmployerController extends AbstractController
         $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
+            $image = $form->get('picture')->getData();
+            $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+            $image->move($this->getParameter('brochures_directory'), $imageName);
+            $employer->setPicture($imageName);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('app_employer');

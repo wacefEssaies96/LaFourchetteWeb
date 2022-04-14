@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Registration Page (v2)</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+              <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+              <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+ 
+ </head>
+<body class="hold-transition register-page">
+<div class="register-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="../../index2.html" class="h1"><b>Inscription</b></a>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Register a new membership</p>
+    
+   {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+    {{form_label(form.nomPrenom,'Nom et prénom', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.nomPrenom, {'attr': {'class': 'form-control'}} )}}
+   
+                
+       
+    {{form_label(form.email,'Email', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.email, {'attr': {'class': 'form-control'}} )}}
+   
+                {{ form_errors(form.email) }}
+       
+    {{form_label(form.password,'Mot de passe', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.password, {'attr': {'class': 'form-control'}} )}}
+  
+                {{ form_errors(form.password) }}
+       
+    {{form_label(form.adresse,'Adresse', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.adresse, {'attr': {'class': 'form-control'}} )}}
+   
+              
+        
+    {{form_label(form.telephone,'Télephone', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.telephone, {'attr': {'class': 'form-control'}} )}}
+   
+             
+      
+    {{form_label(form.picture,'Image', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.picture, {'attr': {'class': 'form-control'}} )}}
+    
+      <div style="display:none">
+   
+            {{ form_label(form.verif) }}
+
+        {{ form_widget(form.verif)  }}
+     {{ form_label(form.role) }}
+
+        {{ form_widget(form.role) }}
+  </div>
+    {{ form_end(form) }}
+
+ 
+
+     </div>
+     <p class="mb-0">
+        <a href="/adduser" class="text-center">Already have Account</a>
+      </p>
+    <!-- /.form-box -->
+  </div><!-- /.card -->
+</div>
+<!-- /.register-box -->
+
+<!-- jQuery -->
+            <script src="{{ asset('/plugins/jquery/jquery.min.js') }}"></script>
+            <script src="{{ asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+            <script src="{{ asset('/dist/js/adminlte.min.js') }}"></script>
+
+</body>
+</html>

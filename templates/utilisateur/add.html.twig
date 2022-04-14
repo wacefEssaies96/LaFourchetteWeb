@@ -2,26 +2,50 @@
 
 {% block body %}
 <div class="content-wrapper">
-{{ form_start(form) }}
+{{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
 <div class="form-group">
 <section class="content">
 <div class="container-fluid p-10">
     {{form_label(form.nom_prenom,'Nom et présnom', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.nom_prenom, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.nom_prenom) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.nom_prenom }}</div>
+        {% endif %}
     {{form_label(form.email,'Email', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.email, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.email) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.email) }}</div>
+        {% endif %}
     {{form_label(form.password,'Mot de passe', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.password, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.password) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.password) }}</div>
+        {% endif %}
     {{form_label(form.role,'Role', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.role, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.role) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.role) }}</div>
+        {% endif %}
     {{form_label(form.adresse,'Adresse', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.adresse, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.adresse) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.adresse) }}</div>
+        {% endif %}
     {{form_label(form.telephone,'Télephone', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.telephone, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.telephone) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.telephone) }}</div>
+        {% endif %}
     {{form_label(form.picture,'Image', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.picture, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.picture) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.picture) }}</div>
+        {% endif %}
     {{form_label(form.verif,'Etat', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.verif, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.verif) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.verif) }}</div>
+        {% endif %}
 </div>
 {{ form_end(form) }}
 </section>
