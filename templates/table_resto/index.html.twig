@@ -1,16 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Table restaurant{% endblock %}
+{% block title %}Tables restaurant{% endblock %}
 
 {% block body %}
 <div class="content-wrapper">
 <section class="content">
 <div class="container-fluid">
-<div class="card">
-              <div class="card-header">
-                <h3 class="card-title">List des Table restaurant</h3>
-
+<div class="card" style="margin:5px">
+              <div class="card-header"  style="background-color:#4d4d4d;color:white" >
+                <h3 class="card-title " style="font-weight: bold">Liste des Table du restaurant</h3>
+                
                 <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                  
+                  <button type="submit" class="btn btn-primary float-right">
+                    <a href="{{ path('addTableResto') }}"
+                    style="color:white;">
+                      <i class="fas fa-plus" ></i>
+                      Ajouter 
+                    </a>
+                  </button>
+                  </div>
+                </div>
+
+                <div class="card-tools"  style="margin:5px">
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
@@ -24,31 +37,45 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
-              <a href="{{ path('addTableResto') }}">Add table resto</a>
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead>
                     <tr>
-                      <th>Id</th>
-                      <th>Nombre de place</th>
-                      <th>Etat</th>
-                      <th>Image</th>
-                      <th>Vip</th>
-                      <th>Prix</th>
+                      <!--<th>Id</th>-->
+                      <th  width="50">Nombre<br> de <br> place</th>
+                      <th width="50">Etat</th>
+                      <th width="250">Image</th>
+                      <th  width="50">Vip</th>
+                      <th  width="50">Prix</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                  {% for p in tableRestos %}
+                  {% for t in tableRestos %}
                     <tr>
-                      <td>{{p.IdT}}</td>
-                      <td>{{p.NbrPlace}}</td>
-                      <td>{{p.Etat}}</td>
-                      <td>{{p.ImageTable}}</td>
-                      <td>{{p.Vip}}</td>
-                      <td>{{p.Prix}}</td>
+                      <!--<td>{t.IdT}}</td>-->
+                      <td>{{t.NbrPlace}}</td>
+                      <td>{{t.Etat}}</td>
                       <td>
-                        <a href="{{ path('deleteTableResto',{'id':p.IdT}) }}">Delete</a>
-                        <a href="{{ path('updateTableResto',{'id':p.IdT}) }}">Update</a>
+                      <img src="{{asset('uploads/images/')}}{{t.ImageTable}}" width="250" height="250">
+                      </td>
+                      <td>{{t.Vip}}</td>
+                      <td>{{t.Prix}}</td>
+                      <td>
+                        <button type="submit" class="btn btn-success " style="margin:5px">
+                          <a href="{{ path('updateTableResto',{'id':t.IdT}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-edit" ></i>
+                            Modifier 
+                          </a>
+                        </button>
+                        <br>
+                        <button type="submit" class="btn btn-danger " style="margin:5px">
+                          <a href="{{ path('deleteTableResto',{'id':t.IdT}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-trash" ></i>
+                            Supprimer 
+                          </a>
+                        </button>
                       </td>
                     </tr>
                     {% endfor %}

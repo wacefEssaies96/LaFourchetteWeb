@@ -24,7 +24,7 @@ class DecorationReservation
     /**
      * @var \Decoration
      *
-     * @ORM\ManyToOne(targetEntity="Decoration")
+     * @ORM\ManyToOne(targetEntity="Decoration",inversedBy="DecorationReservation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="IdD", referencedColumnName="IdD")
      * })
@@ -34,7 +34,7 @@ class DecorationReservation
     /**
      * @var \Reservation
      *
-     * @ORM\ManyToOne(targetEntity="Reservation")
+     * @ORM\ManyToOne(targetEntity="Reservation",inversedBy="DecorationReservation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="IdR", referencedColumnName="IdR")
      * })

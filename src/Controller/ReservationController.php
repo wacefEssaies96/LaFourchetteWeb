@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Reservation;
+use App\Entity\Utilisateur;
+use App\Entity\Decoration;
+use App\Entity\DecorationReservation;
+use App\Entity\TableResto;
+use App\Entity\ReservationTableResto;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ReservationType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -42,7 +47,6 @@ class ReservationController extends AbstractController
     {
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
-        $form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
@@ -60,7 +64,6 @@ class ReservationController extends AbstractController
     {
         $reservation = $this->getDoctrine()->getRepository(Reservation::class)->find($id);
         $form = $this->createForm(ReservationType::class, $reservation);
-        $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
@@ -69,4 +72,33 @@ class ReservationController extends AbstractController
         }
         return $this->render("reservation/update.html.twig",array('form'=>$form->createView()));
     }
+
+    /**
+     * @Route("/showReservation/{id}", name="showReservation")
+     */
+    public function showReservation(Request $request,$id)
+    {
+        $reservations = $this->getDoctrine()->getRepository(Reservation::class)->find($id);
+        
+        $tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->findAll();
+        $decorations = $this->getDoctrine()->getRepository(Decoration::class)->findAll();
+        
+        /*
+        $decorations = $this->getDoctrine()->getRepository(DecorationReservation::class)->JRD($id);
+        
+        $tableRestos = $this->getDoctrine()->getRepository(ReservationTableResto::class)->JRT($id);
+        */
+        /*
+        dump($tableRestos[0]->getNbrplace());
+        die;
+        */
+        
+        return $this->render('reservation/show.html.twig', [
+            'reservation' => $reservations,
+            'tableRestos' => $tableRestos,
+            'decorations' => $decorations,
+        ]);
+
+    }
+    
 }

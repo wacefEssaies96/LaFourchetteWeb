@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TableResto
@@ -17,6 +19,7 @@ class TableResto
      *
      * @ORM\Column(name="IdT", type="integer", nullable=false)
      * @ORM\Id
+     * @ORM\OneToMany(targetEntity="ReservationTableResto",mappedBy="TableResto")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idt;
@@ -25,6 +28,11 @@ class TableResto
      * @var int
      *
      * @ORM\Column(name="NbrPlace", type="integer", nullable=false)
+     * @Assert\NotBlank(message="Le Champ nombre de place est obligatoire")
+     * @Assert\GreaterThan(
+     *     value = 1,
+     *     message="Le nombre de place doit etre superieur a 1"
+     * )
      */
     private $nbrplace;
 
@@ -32,6 +40,7 @@ class TableResto
      * @var string
      *
      * @ORM\Column(name="Etat", type="string", length=20, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Etat est obligatoire")
      */
     private $etat;
 
@@ -39,6 +48,7 @@ class TableResto
      * @var string
      *
      * @ORM\Column(name="ImageTable", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Image est obligatoire")
      */
     private $imagetable;
 
@@ -46,6 +56,7 @@ class TableResto
      * @var string
      *
      * @ORM\Column(name="Vip", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="Le Champ vip est obligatoire")
      */
     private $vip;
 
@@ -53,6 +64,11 @@ class TableResto
      * @var float
      *
      * @ORM\Column(name="Prix", type="float", precision=10, scale=0, nullable=false)
+     * @Assert\NotBlank(message="Le Champ prix est obligatoire")
+     * @Assert\GreaterThan(
+     *     value = 10,
+     *     message="Le prix doit etre superieur a 10"
+     * )
      */
     private $prix;
 

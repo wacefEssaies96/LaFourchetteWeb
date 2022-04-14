@@ -44,6 +44,20 @@ class DecorationReservationRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+    
+    public function JRD($value)
+    {
+        return
+            $this->createQueryBuilder('dr')
+            ->select('r,d')
+            ->leftJoin('App\Entity\Reservation', 'r', 'WITH', 'r.idr = dr.idr')
+            ->leftJoin('App\Entity\Decoration', 'd', 'WITH', 'd.idd = dr.idd')
+            ->where('r.idr = :value ')
+            ->setParameter('value', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     // /**
     //  * @return DecorationReservation[] Returns an array of DecorationReservation objects

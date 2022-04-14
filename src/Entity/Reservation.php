@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Utilisateur;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +16,7 @@ class Reservation
     /**
      * @var int
      *
+     * @ORM\OneToMany(targetEntity="DecorationReservation",mappedBy="Reservation")
      * @ORM\Column(name="IdR", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -22,9 +24,12 @@ class Reservation
     private $idr;
 
     /**
-     * @var int
+     * @var \Utilisateur
      *
-     * @ORM\Column(name="IdU", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Utilisateur", inversedBy="Reservation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idU", referencedColumnName="idU", nullable=false)
+     * })
      */
     private $idu;
 
@@ -41,18 +46,19 @@ class Reservation
      * @ORM\Column(name="DateModification", type="date", nullable=false)
      */
     private $datemodification;
+    
 
     public function getIdr(): ?int
     {
         return $this->idr;
     }
 
-    public function getIdu(): ?int
+    public function getIdu(): ?Utilisateur
     {
         return $this->idu;
     }
 
-    public function setIdu(int $idu): self
+    public function setIdu(?Utilisateur $idu): self
     {
         $this->idu = $idu;
 

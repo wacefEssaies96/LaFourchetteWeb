@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réservation{% endblock %}
+{% block title %}Réservations{% endblock %}
 
 {% block body %}
 <div class="content-wrapper">
 <section class="content">
 <div class="container-fluid">
-<div class="card">
-              <div class="card-header">
-                <h3 class="card-title">List des reservations</h3>
+<div class="card"  style="margin:5px">
+              <div class="card-header"  style="background-color:#4d4d4d;color:white" >
+                <h3 class="card-title"  style="font-weight: bold">List des reservations</h3>
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
@@ -24,26 +24,48 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead>
                     <tr>
-                      <th>Id</th>
-                      <th>Id user</th>
+                      <!--<th>Id</th>-->
+                      <th>Utilisateur</th>
                       <th>Date de création</th>
                       <th>Date de modification</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                  {% for p in reservations %}
+                  {% for r in reservations %}
                     <tr>
-                      <td>{{p.idR}}</td>
-                      <td>{{p.idU}}</td>
-                      <td>{{p.DateCreation | date}}</td>
-                      <td>{{p.DateModification | date}}</td>
+                      <td>{{r.idU.nomprenom}}</td>
+                      
+                      </td>
+                      <td>{{r.DateCreation | date}}</td>
+                      <td>{{r.DateModification | date}}</td>
                       <td>
-                        <a href="{{ path('deleteReservation',{'id':p.idR}) }}">Delete</a>
-                        <a href="{{ path('updateReservation',{'id':p.idR}) }}">Update</a>
+                        <button type="submit" class="btn btn-primary " style="margin:5px">
+                          <a href="{{ path('showReservation',{'id':r.idR}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-edit" ></i>
+                            Detaille
+                          </a>
+                        </button>
+                        <br>
+                        <button type="submit" class="btn btn-success " style="margin:5px">
+                          <a href="{{ path('updateReservation',{'id':r.idR}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-edit" ></i>
+                            Modifier 
+                          </a>
+                        </button>
+                        <br>
+                        <button type="submit" class="btn btn-danger " style="margin:5px">
+                          <a href="{{ path('deleteReservation',{'id':r.idR}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-trash" ></i>
+                            Supprimer 
+                          </a>
+                        </button>
                       </td>
                     </tr>
                     {% endfor %}

@@ -45,6 +45,19 @@ class ReservationTableRepository extends ServiceEntityRepository
         }
     }
 
+    public function JRT($value)
+    {
+        return
+            $this->createQueryBuilder('tr')
+            ->select('r,t')
+            ->leftJoin('App\Entity\TableResto', 't', 'WITH', 't.idt = tr.idt')
+            ->leftJoin('App\Entity\Reservation', 'r', 'WITH', 'r.idr = tr.idr')
+            ->where('r.idr = :value ')
+            ->setParameter('value', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     // /**
     //  * @return ReservationTableResto[] Returns an array of ReservationTableResto objects
     //  */

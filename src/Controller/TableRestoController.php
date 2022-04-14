@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\TableResto;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\TableRestoType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class TableRestoController extends AbstractController
 {
@@ -41,15 +40,25 @@ class TableRestoController extends AbstractController
     {
         $tableResto = new TableResto();
         $form = $this->createForm(TableRestoType::class, $tableResto);
-        $form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+
+        $tableResto->setImagetable("imagenotfound.png");
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get('imagetable')->getData()!= null){
+                $image = $form->get('imagetable')->getData();
+                $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+                $image->move($this->getParameter('brochures_directory'), $imageName);
+                $tableResto->setImagetable($imageName);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($tableResto);
             $em->flush();
             return $this->redirectToRoute('app_table_resto');
+            
         }
         return $this->render("table_resto/add.html.twig",array('form'=>$form->createView()));
+        
     }
 
     /**
@@ -58,10 +67,21 @@ class TableRestoController extends AbstractController
     public function updateTableResto(Request $request,$id)
     {
         $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->find($id);
+        
         $form = $this->createForm(TableRestoType::class, $tableResto);
-        $form->add('modifier',SubmitType::class);
+        
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        
+        
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if($form->get('imagetable')->getData()){
+                $image = $form->get('imagetable')->getData();
+                $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+                $image->move($this->getParameter('brochures_directory'), $imageName);
+                $tableResto->setImagetable($imageName);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('app_table_resto');

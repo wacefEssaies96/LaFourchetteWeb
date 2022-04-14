@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Decoration;
 use App\Form\DecorationType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 class DecorationController extends AbstractController
@@ -42,9 +41,17 @@ class DecorationController extends AbstractController
     {
         $decoration = new Decoration();
         $form = $this->createForm(DecorationType::class, $decoration);
-        $form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+
+        $decoration->setImaged("imagenotfound.png");
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get('imaged')->getData()!= null){
+                $image = $form->get('imaged')->getData();
+                $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+                $image->move($this->getParameter('brochures_directory'), $imageName);
+                $decoration->setImaged($imageName);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($decoration);
             $em->flush();
@@ -60,9 +67,17 @@ class DecorationController extends AbstractController
     {
         $decoration = $this->getDoctrine()->getRepository(Decoration::class)->find($id);
         $form = $this->createForm(DecorationType::class, $decoration);
-        $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        
+        $decoration->setImaged("imagenotfound.png");
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get('imaged')->getData()){
+                $image = $form->get('imaged')->getData();
+                $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+                $image->move($this->getParameter('brochures_directory'), $imageName);
+                $decoration->setImaged($imageName);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('app_decoration');

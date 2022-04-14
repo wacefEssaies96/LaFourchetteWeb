@@ -15,6 +15,7 @@ class Utilisateur
     /**
      * @var int
      *
+     * @ORM\OneToMany(targetEntity="Reservation", mappedBy="Utilisateur")
      * @ORM\Column(name="idU", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -77,9 +78,18 @@ class Utilisateur
      */
     private $verif;
 
+   
+
     public function getIdu(): ?int
     {
         return $this->idu;
+    }
+    
+    public function setIdu(string $email): self
+    {
+        $this->idu = $idu;
+
+        return $this;
     }
 
     public function getNomPrenom(): ?string

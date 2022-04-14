@@ -44,6 +44,13 @@ class ReservationRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+    public function Join(){
+        $em = $this->getEntityManager();
+        $query= $em->createQuery('select r,d from App\Entity\Reservation r Join App\Entity\DecorationReservation dr   Join App\Entity\Decoration d ');
+        return $query->getResult();
+    }
+    
+    
 
     // /**
     //  * @return Reservation[] Returns an array of Reservation objects
