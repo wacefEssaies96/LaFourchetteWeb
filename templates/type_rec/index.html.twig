@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'Back/Back-base.html.twig' %}
 
 {% block title %}Type réclamation{% endblock %}
 
@@ -8,9 +8,12 @@
 <div class="container-fluid">
 <div class="card">
               <div class="card-header">
-                <h3 class="card-title">List des types des réclamations</h3>
-
+                <h3 class="card-title btn btn-primary">List des types des réclamations</h3>
                 <div class="card-tools">
+                 <a class="btn btn-success center float-right" href="{{ path('addTypeRec') }}">Add type reclamation</a>
+                 <br>
+                 <br>
+                
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
@@ -24,7 +27,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
-              <a href="{{ path('addTypeRec') }}">Add type reclamation</a>
+             
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
@@ -39,16 +42,19 @@
                       <td>{{p.typeRec}}</td>
                       <td>{{p.refT}}</td>
                       <td>
-                        <a href="{{ path('deleteTypeRec',{'id':p.typeRec}) }}">Delete</a>
-                        <a href="{{ path('updateTypeRec',{'id':p.typeRec}) }}">Update</a>
+                        <a class="btn btn-danger" href="{{ path('deleteTypeRec',{'id':p.typeRec}) }}">Delete</a>
+                        <a class="btn btn-warning" href="{{ path('updateTypeRec',{'id':p.typeRec}) }}">Update</a>
                       </td>
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
+                
               </div>
+             
               <!-- /.card-body -->
             </div>
+            
             <!-- /.card -->
             </div>
             </div>

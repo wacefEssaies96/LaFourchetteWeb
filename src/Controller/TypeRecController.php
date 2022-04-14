@@ -41,9 +41,11 @@ class TypeRecController extends AbstractController
     {
         $typeRec = new TypeRec();
         $form = $this->createForm(TypeRecType::class, $typeRec);
-        $form->add('Ajouter',SubmitType::class);
+        $form->add('Ajouter',SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success float-right'],
+        ]);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid() ) {
             // $nom = $form['typerec']->getData(); 
             // var_dump($nom);
             // die ; 
@@ -63,9 +65,11 @@ class TypeRecController extends AbstractController
     {
         $typeRec = $this->getDoctrine()->getRepository(TypeRec::class)->find($id);
         $form = $this->createForm(TypeRecType::class, $typeRec);
-        $form->add('modifier',SubmitType::class);
+        $form->add('modifier',SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success float-right'],
+        ]);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('app_type_rec');

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TypeRec
@@ -14,7 +15,7 @@ class TypeRec
 {
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Le Champ  typerec est obligatoire")
      * @ORM\Column(name="typeRec", type="string", length=30, nullable=false)
      * @ORM\Id
      */
@@ -22,7 +23,7 @@ class TypeRec
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Le Champ  ref est obligatoire")
      * @ORM\Column(name="refT", type="string", length=255, nullable=false)
      */
     private $reft;

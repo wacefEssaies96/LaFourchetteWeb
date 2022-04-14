@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'Back/Back-base.html.twig' %}
 
-{% block title %}Reclamation{% endblock %}
+
 
 {% block body %}
 <div class="content-wrapper">
@@ -8,7 +8,7 @@
 <div class="container-fluid">
 <div class="card">
               <div class="card-header">
-                <h3 class="card-title">List des Réclamation</h3>
+                <h3 class="card-title btn btn-primary">Liste des Réclamations</h3>
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
@@ -45,8 +45,8 @@
                       <td>{{p.description}}</td>
                       <td>{{p.etatRec}}</td>
                       <td>
-                        <a href="{{ path('deleteReclam',{'id':p.idRec}) }}">Delete</a>
-                        <a href="{{ path('updateReclam',{'id':p.idRec}) }}">Update</a>
+                        <a class="btn btn-danger" href="{{ path('deleteReclam',{'id':p.idRec}) }}">Delete</a>
+                        <a class="btn btn-warning" href="{{ path('updateReclam',{'id':p.idRec}) }}">Update</a>
                       </td>
                     </tr>
                     {% endfor %}

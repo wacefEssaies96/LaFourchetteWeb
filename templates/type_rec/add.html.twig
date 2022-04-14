@@ -1,15 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'Back/Back-base.html.twig' %}
 
 {% block body %}
 <div class="content-wrapper">
-{{ form_start(form) }}
+{{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
 <div class="form-group">
 <section class="content">
 <div class="container-fluid p-10">
     {{form_label(form.typerec,'Type de reclamation', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.typerec, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.typerec) is not empty %}
+    <div class="alert alert-danger" >{{ form_errors(form.typerec) }}</div>
+     {% endif %}
     {{form_label(form.reft,'Réference', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.reft, {'attr': {'class': 'form-control'}} )}}
+     {% if form_errors(form.reft) is not empty %}
+    <div class="alert alert-danger" >{{ form_errors(form.reft) }}</div>
+     {% endif %}
+    
 </div>
 {{ form_end(form) }}
 </section>

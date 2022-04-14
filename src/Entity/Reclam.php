@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reclam
@@ -23,7 +24,7 @@ class Reclam
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Le Champ  Description est obligatoire")
      * @ORM\Column(name="description", type="string", length=500, nullable=false)
      */
     private $description;
@@ -37,7 +38,7 @@ class Reclam
 
     /**
      * @var \Utilisateur
-     *
+     * 
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idU", referencedColumnName="idU")
@@ -47,7 +48,7 @@ class Reclam
 
     /**
      * @var \TypeRec
-     *
+     * 
      * @ORM\ManyToOne(targetEntity="TypeRec")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="typeRec", referencedColumnName="typeRec")

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}La Fourchette{% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+             <!-- Google Font: Source Sans Pro -->
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="{{ asset('Back/plugins/fontawesome-free/css/all.min.css') }}">
+            <!-- Ionicons -->
+            <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+            <!-- Tempusdominus Bootstrap 4 -->
+            <link rel="stylesheet" href="{{ asset('Back/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+            <!-- iCheck -->
+            <link rel="stylesheet" href="{{ asset('Back/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+            <!-- JQVMap -->
+            <link rel="stylesheet" href="{{ asset('Back/plugins/jqvmap/jqvmap.min.css') }}">
+            <!-- Theme style -->
+            <link rel="stylesheet" href="{{ asset('Back/dist/css/adminlte.min.css') }}">
+            <!-- overlayScrollbars -->
+            <link rel="stylesheet" href="{{ asset('Back/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+            <!-- Daterange picker -->
+            <link rel="stylesheet" href="{{ asset('Back/plugins/daterangepicker/daterangepicker.css') }}">
+            <!-- summernote -->
+            <link rel="stylesheet" href="{{ asset('Back/plugins/summernote/summernote-bs4.min.css') }}">
+        {% endblock %}
+
+        {% block javascripts %}
+            <!-- jQuery -->
+            <script src="{{ asset('Back/plugins/jquery/jquery.min.js') }}"></script>
+            <!-- jQuery UI 1.11.4 -->
+            <script src="{{ asset('Back/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+            <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+            <script>
+                $.widget.bridge('uibutton', $.ui.button)
+            </script>
+            <!-- Bootstrap 4 -->
+            <script src="{{ asset('Back/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+            <!-- ChartJS -->
+            <script src="{{ asset('Back/plugins/chart.js/Chart.min.js') }}"></script>
+            <!-- Sparkline -->
+            <script src="{{ asset('Back/plugins/sparklines/sparkline.js') }}"></script>
+            <!-- JQVMap -->
+            <script src="{{ asset('Back/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+            <script src="{{ asset('Back/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+            <!-- jQuery Knob Chart -->
+            <script src="{{ asset('Back/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+            <!-- daterangepicker -->
+            <script src="{{ asset('Back/plugins/moment/moment.min.js') }}"></script>
+            <script src="{{ asset('Back/plugins/daterangepicker/daterangepicker.js') }}"></script>
+            <!-- Tempusdominus Bootstrap 4 -->
+            <script src="{{ asset('Back/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+            <!-- Summernote -->
+            <script src="{{ asset('Back/plugins/summernote/summernote-bs4.min.js') }}"></script>
+            <!-- overlayScrollbars -->
+            <script src="{{ asset('Back/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+            <!-- AdminLTE App -->
+            <script src="{{ asset('Back/dist/js/adminlte.js') }}"></script>
+            <!-- AdminLTE for demo purposes -->
+            <script src="{{ asset('Back/dist/js/demo.js') }}"></script>
+            <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+            <script src="{{ asset('Back/dist/js/pages/dashboard.js') }}"></script>
+        {% endblock %}
+    </head>
+    <body>
+<!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      {# <li class="nav-item">
+        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <i class="fas fa-search"></i>
+        </a>
+        <div class="navbar-search-block">
+          <form class="form-inline">
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </li> #}
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+          <i class="fas fa-th-large"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+<!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <img src="Back/dist/img/AdminLTELogo.png" alt="La Fourchette Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">La Fourchette</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="Back/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">Admin</a>
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form -->
+      {# <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div> #}
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+         
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Gestion de stock
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../produit" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Produit</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../fournisseur" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Fournisseur</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Gestion de réservation
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="../reservation" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Réservation </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../table/resto" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Table resto </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../decoration" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Décoration</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                Gestion des évenements
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../evenement" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Evenement</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../commentaire" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Commantaire</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                Gestion des commandes
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../plat" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Plat</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../commande" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Commandes</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                Gestion des réclamations
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../reclam" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Réclamations</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../type/rec" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Type de réclamation</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                Gestion des utilisateurs
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../utilisateur" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Utilisateurs</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/employer" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Employer</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/job/em" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Job</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+        {% block body %}
+        
+        {% endblock %}
+        <footer class="main-footer">
+        <strong>La Fourchette</strong>
+       
+        <div class="float-right d-none d-sm-inline-block">
+        
+        </div>
+    </footer>
+    </body>
+    
+
+</html>
