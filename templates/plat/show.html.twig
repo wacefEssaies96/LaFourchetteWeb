@@ -1,0 +1,95 @@
+{% extends 'Front/Front-base.html.twig' %}
+
+
+{% block body %}
+    <!-- Start All Pages -->
+    <div class="all-page-title page-breadcrumb">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Cart</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Pages -->
+
+    <!-- Start blog details -->
+    <div class="blog-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading-title text-center">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-12">
+                    <div class="blog-inner-details-page">
+                        <div class="blog-inner-box">
+
+                            <div class="inner-blog-detail details-page">
+                                {% for item in paniers %}
+
+                                    {% if item.formation.id is not null %}
+                                        <blockquote>
+                                            <h3>Course :</h3> <h3>{{ item.formation.description }}</h3><br>
+                                            <h3>Price  :</h3> <h3>{{ item.formation.price }} DT</h3><br>
+                                            <label><h3>Quantity</h3></label>
+                                            <input class="form-control" id="{{ item.id }}"  type="number" value="{{ item.qte}}" min="1" >
+                                            <hr>
+                                            <a class="btn btn-danger" href="{{ path('panier_delete',{'id':item.id}) }}">Delete Item</a>
+                                            <a class="btn btn-info" onclick="updateCartFormation({{ item.id }},{{ item.formation.id }})" href="javascript:void(0)">Update Item</a>
+                                        </blockquote>
+
+
+                                    {% endif %}
+                                    <br>
+
+                                    {% if item.tutorial.id is not null %}
+                                        <blockquote>
+                                            <h3>Tutorial Title : </h3> <h3>{{ item.tutorial.titre }}</h3><br>
+                                            <h3>Price  : </h3> <h3>{{ item.tutorial.prix }} DT</h3><br>
+                                            <label><h3>Quantity</h3></label>
+                                            <input class="form-control" id="{{ item.id }}" type="number" value="{{ item.qte}}" min="1"> <hr>
+
+                                            <a class="btn btn-danger" href="{{ path('panier_delete',{'id':item.id}) }}">Delete Item</a>
+                                            <a class="btn btn-info" onclick="updateCartTutorial({{ item.id }},{{ item.tutorial.id }})" href="javascript:void(0)">Update Item</a>
+
+
+                                        </blockquote>
+
+                                    {% endif %}
+                                    <hr>
+                                {% endfor %}
+                                {% set total=0 %}
+                                {% for item in paniers %}
+                                    {% set total=total+item.total %}
+                                {% endfor %}
+                                <blockquote><p>Cart Total : {{ total }} DT</p></blockquote>
+                                <button class="btn btn-success">Checkout</button>
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                {# Right #}
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- End details -->
+{% endblock %}

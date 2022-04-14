@@ -30,8 +30,8 @@ class CommandeController extends AbstractController
     {
         $commande = $this->getDoctrine()->getRepository(Commande::class)->find($id);
         $em = $this->getDoctrine()->getManager();
-        $em->remove($commande);
-        $em->flush();
+        $em->remove($commande); //indiquer object a supprimer
+        $em->flush(); // envoyé tout ce qui est persisté a la base de donnne
         return $this->redirectToRoute("app_commande");
     }
 
@@ -47,8 +47,8 @@ class CommandeController extends AbstractController
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($commande);
-            $em->flush();
-            return $this->redirectToRoute('app_commande');
+            $em->flush(); //envoyé tout ce qui est persisté a la base de donnne
+            return $this->redirectToRoute('app_commande');  
         }
         return $this->render("commande/add.html.twig",array('form'=>$form->createView()));
     }

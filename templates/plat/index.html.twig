@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'Back/Back-base.html.twig' %}
 
 {% block title %}Plat{% endblock %}
 
@@ -44,7 +44,7 @@
                       <td>{{p.designation}}</td>
                       <td>{{p.prix}}</td>
                       <td>{{p.description}}</td>
-                      <td>{{p.imageP}}</td>
+                      <td> <img src="{{asset('uploads/images/')}}{{p.ImageP}}" width="100" height="100"></td>
                       <td>{{p.nomProd}}</td>
                       <td>
                         <a href="{{ path('deletePlat',{'id' : p.reference}) }}">Delete</a>

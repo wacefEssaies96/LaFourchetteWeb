@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'Back/Back-base.html.twig' %}
 
 {% block body %}
 <div class="content-wrapper">
@@ -8,16 +8,34 @@
 <div class="container-fluid p-10">
     {{form_label(form.reference,'Réference', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.reference, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.reference) is not empty %}
+        <div class="alert alert-danger" >{{ form_errors(form.reference) }}</div>
+    {% endif %}
     {{form_label(form.designation,'Désignation', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.designation, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.designation) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.designation) }}</div>
+        {% endif %}
     {{form_label(form.prix,'Prix', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.prix, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.prix) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.prix) }}</div>
+        {% endif %}
      {{form_label(form.description,'Description', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.description, {'attr': {'class': 'form-control'}} )}} 
+    {{form_widget(form.description, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.description) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.description) }}</div>
+        {% endif %}
     {{form_label(form.imagep,'Image', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.imagep, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.imagep) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.imagep) }}</div>
+        {% endif %}
      {{form_label(form.nomprod,'Nom produit', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.nomprod, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.nomprod) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.nomprod) }}</div>
+        {% endif %}
 </div>
 {{ form_end(form) }}
 </section>
