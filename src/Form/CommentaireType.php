@@ -14,7 +14,7 @@ class CommentaireType extends AbstractType
         $builder
             ->add('commantaire')
             ->add('nbrlike')
-            ->add('idu')
+            ->add('idu ')
             ->add('idevent')
         ;
     }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Commentaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,22 +46,12 @@ class CommentaireRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Commentaire[] Returns an array of Commentaire objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+     /**
+     * @return Commentaire[] Returns an array of Commentaire objects
+      */
+
+
+
 
     /*
     public function findOneBySomeField($value): ?Commentaire

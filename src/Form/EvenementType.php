@@ -4,9 +4,10 @@ namespace App\Form;
 
 use App\Entity\Evenement;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 class EvenementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -14,8 +15,8 @@ class EvenementType extends AbstractType
         $builder
             ->add('designatione')
             ->add('descriptione')
-            ->add('datee')
-            ->add('imagee')
+            ->add('datee',DateType::class)
+            ->add('imagee',FileType::class,array('data_class'=>null,'label'=>'image'))
             ->add('nbrparticipants')
         ;
     }

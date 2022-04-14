@@ -44,7 +44,7 @@ class Commentaire
 
     /**
      * @var int
-     *
+
      * @ORM\Column(name="idevent", type="integer", nullable=false)
      */
     private $idevent;
