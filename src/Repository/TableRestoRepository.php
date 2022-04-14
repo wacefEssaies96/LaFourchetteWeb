@@ -45,6 +45,17 @@ class TableRestoRepository extends ServiceEntityRepository
         }
     }
 
+    public function TD()
+    {
+        return
+            $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.etat = :value ')
+            ->setParameter('value', 'Disponible')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     // /**
     //  * @return TableResto[] Returns an array of TableResto objects
     //  */

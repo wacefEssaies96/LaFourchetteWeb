@@ -80,25 +80,57 @@ class ReservationController extends AbstractController
     {
         $reservations = $this->getDoctrine()->getRepository(Reservation::class)->find($id);
         
-        $tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->findAll();
-        $decorations = $this->getDoctrine()->getRepository(Decoration::class)->findAll();
+        /*$tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->findAll();
+        $decorations = $this->getDoctrine()->getRepository(Decoration::class)->findAll();*/
         
-        /*
+        
         $decorations = $this->getDoctrine()->getRepository(DecorationReservation::class)->JRD($id);
         
         $tableRestos = $this->getDoctrine()->getRepository(ReservationTableResto::class)->JRT($id);
-        */
+        $tr=[];
+        $i=0;
+        foreach($tableRestos as $t)
+        {
+            if($t instanceof TableResto)
+            $tr[$i] = $t;
+            $i+=1;
+        }
+        $dc=[];
+        $j=0;
+        foreach($decorations as $d)
+        {
+            if($d instanceof Decoration)
+            $dc[$j] = $d;
+            $j+=1;
+        }
         /*
-        dump($tableRestos[0]->getNbrplace());
-        die;
+        dump($tableRestos);
+        die();
         */
         
         return $this->render('reservation/show.html.twig', [
             'reservation' => $reservations,
-            'tableRestos' => $tableRestos,
-            'decorations' => $decorations,
+            'tableRestos' => $tr,
+            'decorations' => $dc,
         ]);
 
+    }
+
+    
+    /**
+     * @Route("/reserver", name="reserver")
+     */
+    public function reserver(): Response
+    {
+        $tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->TD();
+        
+        /*
+        dump($tableRestos);
+        die();
+        */
+        return $this->render('client/reservation.html.twig', [
+            'tableRestos' => $tableRestos,
+        ]);
     }
     
 }
