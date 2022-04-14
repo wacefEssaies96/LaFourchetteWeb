@@ -2,20 +2,42 @@
 
 {% block body %}
 <div class="content-wrapper">
-{{ form_start(form) }}
+
 <div class="form-group">
 <section class="content">
 <div class="container-fluid p-10">
+ <div class="card card-secondary">
+              <div class="card-header">
+                <h3 class="card-title">Ajouter un nouveau produit</h3>
+              </div>
+              <div class="card-body">
+{{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
     {{form_label(form.nomf,'Nom Fournisseur', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.nomf, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.nomf) is not empty %}
+        <div class="alert alert-danger" >{{ form_errors(form.nomf) }}</div>
+    {% endif %}
     {{form_label(form.telephonef,'Télephone', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.telephonef, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.telephonef) is not empty %}
+        <div class="alert alert-danger" >{{ form_errors(form.telephonef) }}</div>
+    {% endif %}
     {{form_label(form.emailf,'Email', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.emailf, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.emailf) is not empty %}
+        <div class="alert alert-danger" >{{ form_errors(form.emailf) }}</div>
+    {% endif %}
     {{form_label(form.lvl,'Level', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.lvl, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.lvl) is not empty %}
+        <div class="alert alert-danger" >{{ form_errors(form.lvl) }}</div>
+    {% endif %}
+    <div class="form-group"></div>
+    {{ form_end(form) }}
+    </div>
 </div>
-{{ form_end(form) }}
+</div>
+
 </section>
 </div>
 </div>

@@ -57,7 +57,9 @@ class ProduitFournisseurController extends AbstractController
     {
         $pf = new ProduitFournisseur();
         $form = $this->createForm(ProduitFournisseurType::class, $pf);
-        $form->add('Ajouter',SubmitType::class);
+        $form->add('Ajouter',SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success'],
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -75,11 +77,19 @@ class ProduitFournisseurController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $pf = $this->getDoctrine()->getRepository(ProduitFournisseur::class)->findAll();
-        foreach($pf as $item){
+        if(sizeof($pf) == 1){
             $f = $this->getDoctrine()->getRepository(ProduitFournisseur::class)->findOneBy(['idf' => $id]);
             $em->remove($f);
             $em->flush();
         }
+        else{
+            foreach($pf as $item){
+                $f = $this->getDoctrine()->getRepository(ProduitFournisseur::class)->findOneBy(['idf' => $id]);
+                $em->remove($f);
+                $em->flush();
+            }
+        }
+       
         return $this->redirectToRoute('app_produit_fournisseur');
     }
 

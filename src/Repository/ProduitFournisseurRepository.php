@@ -57,12 +57,6 @@ class ProduitFournisseurRepository extends ServiceEntityRepository
             order by pf.idf"
         );   
         return $query->getResult();
-        // return $this->createQueryBuilder('pf')
-        //     ->join('pf.idf','f')
-        //     ->addSelect('f')
-        //     ->orderBy('f.idf')
-        //     ->getQuery()
-        //     ->getResult();
     }
     
 

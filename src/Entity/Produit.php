@@ -19,7 +19,6 @@ class Produit
      * @ORM\Id
      * @ORM\OneToMany(targetEntity="ProduitFournisseur", mappedBy="produit")
      * @Assert\NotBlank(message="Ce champ est obligatoire")
-     * @Assert\Unique(message="Ce produit existe déjà")
      * @ORM\Column(name="nomProd", type="string", nullable=false)
      */
     private $nomprod;

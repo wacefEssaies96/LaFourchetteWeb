@@ -41,7 +41,9 @@ class FournisseurController extends AbstractController
     {
         $fournisseur = new Fournisseur();
         $form = $this->createForm(FournisseurType::class, $fournisseur);
-        $form->add('Ajouter',SubmitType::class);
+        $form->add('Ajouter',SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success'],
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -59,7 +61,9 @@ class FournisseurController extends AbstractController
     {
         $commande = $this->getDoctrine()->getRepository(Fournisseur::class)->find($id);
         $form = $this->createForm(FournisseurType::class, $commande);
-        $form->add('modifier',SubmitType::class);
+        $form->add('modifier',SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success'],
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();

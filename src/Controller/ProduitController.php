@@ -43,7 +43,9 @@ class ProduitController extends AbstractController
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
-        $form->add('Ajouter',SubmitType::class);
+        $form->add('Ajouter',SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success'],
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() ) {
             $image = $form->get('image')->getData();
@@ -65,7 +67,9 @@ class ProduitController extends AbstractController
     {
         $produit = $this->getDoctrine()->getRepository(Produit::class)->find($id);
         $form = $this->createForm(ProduitType::class, $produit);
-        $form->add('modifier',SubmitType::class);
+        $form->add('modifier',SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success'],
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('image')->getData();
