@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Reçu ne PDF</title>
+    </head>
+    <body>
+
+        <center><h2>Reçu</h2></center>
+        
+        <h3> Fournisseur</h3>
+        <p>Fournisseur Id : {{f.idF}}</p>
+        <p>Nom fournisseur : {{f.nomF}}</p>
+        <p>Télèphone : {{f.telephoneF}}</p>
+        <p>Email : {{f.emailF}}</p>
+        <p>Level : {{f.lvl}}</p>
+
+        
+        <table border="1">
+            <thead>
+                <th>Nom produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ p.nomProd }}</td>
+                    <td>{{ q }}</td>
+                    <td>{{ p.prix }}</td>
+                    <td>{{ p.prix * q}}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </body>
+</html>

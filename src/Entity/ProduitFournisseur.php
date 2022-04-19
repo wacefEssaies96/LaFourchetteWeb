@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Fournisseur;
 use App\Entity\Produit;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ProduitFournisseur
@@ -42,6 +43,18 @@ class ProduitFournisseur
      * })
      */
     private $nomprod;
+    /**
+     * @var int
+     * @Assert\NotNull(message="La quantité doît être différente de 0")
+     */
+    private $quantite;
+    
+    public function getQuantite(){
+        return $this->quantite;
+    }
+    public function setQuantite($quantite){
+        $this->quantite = $quantite;
+    }
 
     public function getId(): ?int
     {

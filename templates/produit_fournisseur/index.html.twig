@@ -20,7 +20,14 @@
               </div>
             </div>
           </div>
-          <a class="btn btn-success" href="{{ path('addProduitFournisseur') }}">Ajouter un nouveau produit</a>
+          <div class="row">
+            <div class="col">
+              <a class="btn btn-success" href="{{ path('addProduitFournisseur') }}">Ajouter un nouveau produit</a>
+            </div>
+            <div class="col">
+              <a class="btn btn-success" href="{{ path('addPdf') }}">Génerer un reçu en PDF</a>
+            </div>
+          </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
             <table class="table table-hover text-nowrap">

@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Fournisseur;
 use App\Entity\ProduitFournisseur;
+use App\Form\RecuType;
 use App\Form\ProduitFournisseurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+// Include Dompdf required namespaces
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class ProduitFournisseurController extends AbstractController
 {
@@ -48,6 +52,54 @@ class ProduitFournisseurController extends AbstractController
             }
         }
         return false;
+    }
+    /**
+     * @Route("/produit/fournisseur/addpdf", name="addPdf")
+     */
+    public function addPdf(Request $request){
+        $pf = new ProduitFournisseur();
+        $form = $this->createForm(RecuType::class,$pf);
+        $form->add('Ajouter',SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success'],
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->generatePdf($form->getData()->getnomprod(),$form->getData()->getidf(),$form->getData()->getquantite());
+        }
+        return $this->render('produit_fournisseur/addpdf.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
+
+    public function generatePdf($produit, $fournisseur, $quantite){
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('produit_fournisseur/recu.html.twig', [
+            'f' => $fournisseur,
+            'p' => $produit,
+            'q' => $quantite
+         ]);
+        
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+        
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("Reçu.pdf", [
+            "Attachment" => true
+        ]);
+        //return $this->render("produit_fournisseur/recu.html.twig");
     }
 
     /**
