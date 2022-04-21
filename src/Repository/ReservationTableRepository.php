@@ -49,7 +49,7 @@ class ReservationTableRepository extends ServiceEntityRepository
     {
         return
             $this->createQueryBuilder('tr')
-            ->select('r,t')
+            ->select('t')
             ->leftJoin('App\Entity\TableResto', 't', 'WITH', 't.idt = tr.idt')
             ->leftJoin('App\Entity\Reservation', 'r', 'WITH', 'r.idr = tr.idr')
             ->where('r.idr = :value ')

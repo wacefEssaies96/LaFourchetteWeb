@@ -44,7 +44,27 @@ class DecorationRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+    public function SearchNomD($nom)
+    {
+         return $this->createQueryBuilder('d')
+            ->select('d')
+            ->where('d.nom LIKE :nom')
+            ->setParameter('nom','%'.$nom.'%')
+            ->getQuery()->getResult();
+    }
+    public function tridecoration($type){
 
+         
+        $queryBuilder=$this->createQueryBuilder('d')
+            ->select('d');
+            if($type == 'nom'){
+                $queryBuilder->orderBy('d.nom', 'ASC');
+            }else{
+                $queryBuilder->orderBy('d.prix', 'ASC');
+            }
+            return $queryBuilder->getQuery()->getResult();
+    }
+    
     // /**
     //  * @return Decoration[] Returns an array of Decoration objects
     //  */

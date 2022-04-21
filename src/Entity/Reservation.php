@@ -52,6 +52,11 @@ class Reservation
     {
         return $this->idr;
     }
+    public function setIdr( ?int $idr ): self
+    {
+        $this->idr=$idr;
+        return $this;
+    }
 
     public function getIdu(): ?Utilisateur
     {

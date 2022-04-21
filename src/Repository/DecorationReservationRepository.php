@@ -49,7 +49,7 @@ class DecorationReservationRepository extends ServiceEntityRepository
     {
         return
             $this->createQueryBuilder('dr')
-            ->select('r,d')
+            ->select('d')
             ->leftJoin('App\Entity\Reservation', 'r', 'WITH', 'r.idr = dr.idr')
             ->leftJoin('App\Entity\Decoration', 'd', 'WITH', 'd.idd = dr.idd')
             ->where('r.idr = :value ')

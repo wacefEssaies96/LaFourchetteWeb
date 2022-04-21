@@ -88,4 +88,33 @@ class TableRestoController extends AbstractController
         }
         return $this->render("table_resto/update.html.twig",array('form'=>$form->createView()));
     }
+     
+    
+    
+    /**
+     * @Route ("/searchtableresto", name="searchtableresto")
+     */
+    function searchtableresto(Request $request): Response
+    {
+        $nbrp=$request->request->get('searchtableresto');
+
+        $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->Searchnbrplace($nbrp);
+
+        return $this->render('table_resto/index.html.twig', [
+            'tableRestos' => $tableResto,
+        ]);
+    }
+
+    /**
+     * @Route ("/tritableresto/{type}", name="tritableresto")
+     */
+    function tritableresto(Request $request,$type)
+    {
+        
+        $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->tritableresto($type);
+        /*dump($tableResto);die();*/
+        return $this->render('table_resto/index.html.twig', [
+            'tableRestos' => $tableResto,
+        ]);
+    }
 }

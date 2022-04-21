@@ -84,4 +84,31 @@ class DecorationController extends AbstractController
         }
         return $this->render("decoration/update.html.twig",array('form'=>$form->createView()));
     }
+    
+    /**
+     * @Route ("/searchdecoration", name="searchdecoration")
+     */
+    function searchdecoration(Request $request): Response
+    {
+        $nom=$request->request->get('searchdecoration');
+
+        $decoration = $this->getDoctrine()->getRepository(Decoration::class)->SearchNomD($nom);
+
+        return $this->render('decoration/index.html.twig', [
+            'decorations' => $decoration,
+        ]);
+    }
+
+    /**
+     * @Route ("/tridecoration/{type}", name="tridecoration")
+     */
+    function tridecoration(Request $request,$type)
+    {
+        
+        $decoration = $this->getDoctrine()->getRepository(Decoration::class)->tridecoration($type);
+        /*dump($decoration);die();*/
+        return $this->render('decoration/index.html.twig', [
+            'decorations' => $decoration,
+        ]);
+    }
 }

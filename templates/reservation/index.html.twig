@@ -9,19 +9,35 @@
 <div class="card"  style="margin:5px">
               <div class="card-header"  style="background-color:#4d4d4d;color:white" >
                 <h3 class="card-title"  style="font-weight: bold">List des reservations</h3>
-
+                
+                
                 <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                  <form method="post" action="{{path('searchreservation')}}">
+                    <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
+                        <input type="text" name="searchreservation" class="form-control float-right" placeholder="Search">
 
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                    </div>
+                  </form>
+                </div>
+                
+                  <div class="btn-group card-tools"  style="margin:10px">
+                    <button type="button" class="btn btn-success">TRI</button>
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                      <a class="dropdown-item" href="{{ path('trireservation',{'type' : 'idu'}) }}">Utilisateur</a>
+                      <a class="dropdown-item" href="{{ path('trireservation',{'type' : "datecreation"}) }}">Date de Creation</a>
+                      <a class="dropdown-item" href="{{ path('trireservation',{'type': "datemodification"}) }}">Date de Modification</a>
                     </div>
                   </div>
-                </div>
               </div>
+              
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap" style="text-align: center;">
@@ -76,6 +92,8 @@
             </div>
             <!-- /.card -->
             </div>
+            
+            
             </div>
             </section>
 {% endblock %}

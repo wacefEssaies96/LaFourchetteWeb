@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tables restaurant{% endblock %}
+{% block title %}Mes reservations{% endblock %}
 
 {% block body %}
 <div class="content-wrapper">
 <section class="content">
 <div class="container-fluid">
-<div class="card" style="margin:5px">
+<div class="card"  style="margin:5px">
               <div class="card-header"  style="background-color:#4d4d4d;color:white" >
-                <h3 class="card-title " style="font-weight: bold">Liste des Table du restaurant</h3>
-                
-                <div class="card-tools ">
-                  <form method="post" action="{{path('searchtableresto')}}">
+                <h3 class="card-title"  style="font-weight: bold">Mes reservations</h3>
+
+                <!--div class="card-tools">
+                  <form method="post" action="{path('searchMesreservation')}}">
                     <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
-                        <input type="text" name="searchtableresto" class="form-control float-right" placeholder="Search">
+                        <input type="text" name="searchMesreservation" class="form-control float-right" placeholder="Search">
 
                         <div class="input-group-append">
                           <button type="submit" class="btn btn-default">
@@ -22,32 +22,18 @@
                         </div>
                     </div>
                   </form>
-                </div>
-                <div class="card-tools">
-                  <div class="input-group card-tools" style="margin:10px ;width: 150px;">
-                  
-                    <button type="submit" class="btn btn-primary ">
-                      <a href="{{ path('addTableResto') }}"
-                      style="color:white;">
-                        <i class="fas fa-plus" ></i>
-                        Ajouter 
-                      </a>
-                    </button>
-                  </div>
-                </div>
-                  <div class="btn-group card-tools float right"  style="margin:10px">
+                </div-->
+                
+                  <div class="btn-group card-tools"  style="margin:10px">
                     <button type="button" class="btn btn-success">TRI</button>
                     <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu" role="menu">
-                      <a class="dropdown-item" href="{{ path('tritableresto',{'type' : 'nbrp'}) }}">Nombre de Place</a>
-                      <a class="dropdown-item" href="{{ path('tritableresto',{'type' : "etat"}) }}">Etat</a>
-                      <a class="dropdown-item" href="{{ path('tritableresto',{'type': "prix"}) }}">Prix</a>
+                      <a class="dropdown-item" href="{{ path('triMesreservation',{'type' : "datecreation",'idu' : iduser}) }}">Date de Creation</a>
+                      <a class="dropdown-item" href="{{ path('triMesreservation',{'type': "datemodification",'idu' : iduser}) }}">Date de Modification</a>
                     </div>
                   </div>
-
-                
               </div>
               
               <!-- /.card-header -->
@@ -56,28 +42,29 @@
                   <thead>
                     <tr>
                       <!--<th>Id</th>-->
-                      <th  width="50">Nombre<br> de <br> place</th>
-                      <th width="50">Etat</th>
-                      <th width="250">Image</th>
-                      <th  width="50">Vip</th>
-                      <th  width="50">Prix</th>
+                      <th>Date de création</th>
+                      <th>Date de modification</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                  {% for t in tableRestos %}
+                  {% for r in reservations %}
                     <tr>
-                      <!--<td>{t.IdT}}</td>-->
-                      <td>{{t.NbrPlace}}</td>
-                      <td>{{t.Etat}}</td>
-                      <td>
-                      <img src="{{asset('uploads/images/')}}{{t.ImageTable}}" width="250" height="250">
+                      
                       </td>
-                      <td>{{t.Vip}}</td>
-                      <td>{{t.Prix}}</td>
+                      <td>{{r.DateCreation | date}}</td>
+                      <td>{{r.DateModification | date}}</td>
                       <td>
+                        <button type="submit" class="btn btn-primary " style="margin:5px">
+                          <a href="{{ path('showReservation',{'id':r.idR}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-edit" ></i>
+                            Detaille
+                          </a>
+                        </button>
+                        <br>
                         <button type="submit" class="btn btn-success " style="margin:5px">
-                          <a href="{{ path('updateTableResto',{'id':t.IdT}) }}" 
+                          <a href="{{ path('updateReservation',{'id':r.idR}) }}" 
                           style="color:white;">
                             <i class="fas fa-edit" ></i>
                             Modifier 
@@ -85,7 +72,7 @@
                         </button>
                         <br>
                         <button type="submit" class="btn btn-danger " style="margin:5px">
-                          <a href="{{ path('deleteTableResto',{'id':t.IdT}) }}" 
+                          <a href="{{ path('deleteReservation',{'id':r.idR}) }}" 
                           style="color:white;">
                             <i class="fas fa-trash" ></i>
                             Supprimer 

@@ -49,6 +49,67 @@ class ReservationRepository extends ServiceEntityRepository
         $query= $em->createQuery('select r,d from App\Entity\Reservation r Join App\Entity\DecorationReservation dr   Join App\Entity\Decoration d ');
         return $query->getResult();
     }
+    public function MR($idU)
+    {
+        return
+            $this->createQueryBuilder('r')
+            ->select('r')
+            ->where('r.idu = :value ')
+            ->setParameter('value', $idU)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    public function MaxId()
+    {
+        return
+            $this->createQueryBuilder('r')
+            ->select('MAX(r.idr)')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    public function SearchUser($nom)
+    {
+         return $this->createQueryBuilder('r')
+            ->select('r')
+            ->leftJoin('App\Entity\Utilisateur', 'u', 'WITH', 'u.idu = r.idu')
+            ->where('u.nomPrenom LIKE :nom')
+            ->setParameter('nom','%'.$nom.'%')
+            ->getQuery()->getResult();
+    }
+    public function trireservation($type){
+
+         
+        $queryBuilder=$this->createQueryBuilder('r')
+            ->select('r')
+            ->leftJoin('App\Entity\Utilisateur', 'u', 'WITH', 'u.idu = r.idu');
+            if($type == 'datecreation'){
+                $queryBuilder->orderBy('r.datecreation', 'ASC');
+            }if($type == 'datemodification'){
+                $queryBuilder->orderBy('r.datemodification', 'ASC');
+            }else{
+                $queryBuilder->orderBy('r.idu', 'ASC');
+            }
+            return $queryBuilder->getQuery()->getResult();
+    }
+    
+    public function triMesreservation($type,$idu){
+
+         
+        $queryBuilder=$this->createQueryBuilder('r')
+            ->select('r')
+            ->leftJoin('App\Entity\Utilisateur', 'u', 'WITH', 'u.idu = :idu')
+            ->setParameter('idu','%'.$idu.'%');
+            if($type == 'datecreation'){
+                $queryBuilder->orderBy('r.datecreation', 'ASC');
+            }if($type == 'datemodification'){
+                $queryBuilder->orderBy('r.datemodification', 'ASC');
+            }else{
+                $queryBuilder->orderBy('r.idu', 'ASC');
+            }
+            return $queryBuilder->getQuery()->getResult();
+    }
     
     
 

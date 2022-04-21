@@ -14,6 +14,9 @@ use App\Entity\ReservationTableResto;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ReservationType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 class ReservationController extends AbstractController
 {
@@ -23,11 +26,13 @@ class ReservationController extends AbstractController
     public function index(): Response
     {
         $reservations = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
+
         return $this->render('reservation/index.html.twig', [
             'reservations' => $reservations,
         ]);
     }
 
+    
      /**
      * @Route("/deleteReservation/{id}", name="deleteReservation")
      */
@@ -87,7 +92,7 @@ class ReservationController extends AbstractController
         $decorations = $this->getDoctrine()->getRepository(DecorationReservation::class)->JRD($id);
         
         $tableRestos = $this->getDoctrine()->getRepository(ReservationTableResto::class)->JRT($id);
-        $tr=[];
+        /*$tr=[];
         $i=0;
         foreach($tableRestos as $t)
         {
@@ -102,11 +107,13 @@ class ReservationController extends AbstractController
             if($d instanceof Decoration)
             $dc[$j] = $d;
             $j+=1;
-        }
+        }*/
         /*
         dump($tableRestos);
         die();
         */
+        $tr=$tableRestos;
+        $dc=$decorations;
         
         return $this->render('reservation/show.html.twig', [
             'reservation' => $reservations,
@@ -130,6 +137,167 @@ class ReservationController extends AbstractController
         */
         return $this->render('client/reservation.html.twig', [
             'tableRestos' => $tableRestos,
+        ]);
+    }
+    /**
+     * @Route("/ConfirmerReservation/{id}", name="ConfirmerReservation")
+     */
+    public function ConfirmerReservation(Request $request,$id)
+    {
+        $maxidres = $this->getDoctrine()->getRepository(Reservation::class)->MaxId();
+        $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->find($id);
+        
+        
+        $reservation = new Reservation();
+
+        $form = $this->createForm(ReservationType::class, $reservation);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $maxidres=$maxidres[0][1]+1;
+            $reservation->setIdr($maxidres);
+            
+            $rtr = new ReservationTableResto();
+            $rtr->setIdr($reservation);
+            $rtr->setIdt($tableResto);
+            $tableResto->setEtat('Reserver');
+
+            
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reservation);
+            $em->flush();
+            $emrtr= $this->getDoctrine()->getManager();
+            $emrtr->persist($rtr);
+            $emrtr->flush();
+            $emtr= $this->getDoctrine()->getManager();
+            $emtr->persist($tableResto);
+            $em->flush();
+            
+        
+        
+            $reservations = $this->getDoctrine()->getRepository(Reservation::class)->MR($form->get('idu')->getData());
+            return $this->render("reservation/Mes_Reservations.html.twig",
+            array(
+                'reservations' => $reservations,
+                'tableRestos' => $tableResto,
+                'iduser' => $reservation->getIdu()->getIdu()
+                )
+            );
+            
+        }
+        return $this->render("reservation/add.html.twig",array('form'=>$form->createView(),'t' => $tableResto));
+    }
+    /**
+     * @Route("/Mes_Reservations/{idu}", name="Mes_Reservations")
+     */
+    public function Mes_Reservations(Request $request,$idu): Response
+    {
+        $reservations = $this->getDoctrine()->getRepository(Reservation::class)->MR($idu);
+
+        return $this->render('reservation/Mes_Reservations.html.twig', [
+            'reservations' => $reservations,
+            'iduser' => $idu,
+        ]);
+    }
+    /**
+     * @Route("/front", name="front")
+     */
+    public function front(): Response
+    {
+        $tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->TD();
+        return $this->render('front.html.twig', [
+            'tableRestos' => $tableRestos,
+        ]);
+    }
+    
+    /**
+     * @Route ("/pdfreservation/{idr}", name="pdfreservation", methods={"GET"})
+     */
+    public function pdfreservation($idr): Response
+    {
+        $pdfOptions = new Options();
+        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->find($idr);
+        $decorations = $this->getDoctrine()->getRepository(DecorationReservation::class)->JRD($idr);
+        $tableRestos = $this->getDoctrine()->getRepository(ReservationTableResto::class)->JRT($idr);
+
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+        $html = $this->renderView('reservation/pdfreservation.html.twig', [
+            'reservation' => $reservation,
+            'decorations' => $decorations,
+            'tableRestos' => $tableRestos,
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("VotreReservation.pdf", [
+            "Attachment" => true
+        ]);
+
+    }
+
+     
+    /**
+     * @Route ("/showpdfreservation/{idr}", name="showpdfreservation", methods={"GET"})
+     */
+    public function showpdfreservation($idr): Response
+    {
+        
+        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->find($idr);
+        $decorations = $this->getDoctrine()->getRepository(DecorationReservation::class)->JRD($idr);
+        $tableRestos = $this->getDoctrine()->getRepository(ReservationTableResto::class)->JRT($idr);
+
+        
+        return $this->render('reservation/pdfreservation.html.twig', [
+            'reservation' => $reservation,
+            'decorations' => $decorations,
+            'tableRestos' => $tableRestos,
+        ]);
+        
+
+    }
+
+    
+    /**
+     * @Route ("/searchreservation", name="searchreservation")
+     */
+    function searchreservation(Request $request): Response
+    {
+        $nom=$request->request->get('searchreservation');
+
+        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->SearchUser($nom);
+
+        return $this->render('reservation/index.html.twig', [
+            'reservations' => $reservation,
+        ]);
+    }
+
+    /**
+     * @Route ("/trireservation/{type}", name="trireservation")
+     */
+    function trireservation(Request $request,$type)
+    {
+        
+        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->trireservation($type);
+        /*dump($reservation);die();*/
+        return $this->render('reservation/index.html.twig', [
+            'reservations' => $reservation,
+        ]);
+    }
+    
+    /**
+     * @Route ("/triMesreservation/{type}/{idu}", name="triMesreservation")
+     */
+    function triMesreservation(Request $request,$type,$idu)
+    {
+        
+        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->triMesreservation($type,$idu);
+        /*dump($reservation);die();*/
+        return $this->render('reservation/Mes_Reservations.html.twig', [
+            'reservations' => $reservation,
+            'iduser' => $idu,
         ]);
     }
     

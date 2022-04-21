@@ -56,6 +56,31 @@ class TableRestoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    
+    public function Searchnbrplace($nbrp)
+    {
+         return $this->createQueryBuilder('tr')
+            ->select('tr')
+            ->where('tr.nbrplace LIKE :nbrp')
+            ->setParameter('nbrp','%'.$nbrp.'%')
+            ->getQuery()->getResult();
+    }
+    public function tritableresto($type){
+
+         
+        $queryBuilder=$this->createQueryBuilder('tr')
+            ->select('tr');
+            if($type == 'nbrp'){
+                $queryBuilder->orderBy('tr.nbrplace', 'ASC');
+            }if($type == 'etat'){
+                $queryBuilder->orderBy('tr.etat', 'ASC');
+            }else{
+                $queryBuilder->orderBy('tr.prix', 'ASC');
+            }
+            return $queryBuilder->getQuery()->getResult();
+    }
+    
+
     // /**
     //  * @return TableResto[] Returns an array of TableResto objects
     //  */

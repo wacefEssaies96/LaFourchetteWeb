@@ -1,0 +1,130 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Ajouter une Reservation{% endblock %}
+
+{% block body %}
+
+    <div class="special-menu pad-top-100 parallax">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div id="reservation" class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title color-white text-center"> Reservation </h2>
+                        <h5 class="title-caption text-center">
+                        </h5>
+                    </div>
+                    <div class="special-box">
+                        <div id="owl-demo">
+                            <!--{ for t in tableRestos %}-->
+                                <div class="item item-type-zoom" >
+                                    <a href="#" class="item-hover">
+                                    <!--{ path('ConfirmerReservation',{'id':t.idT}) }}-->
+                                        <div class="item-info">
+                                            <div class="headline">
+                                                {% if t.Vip == 'Oui' %}
+                                                    Vip
+                                                {% endif %}
+                                                <div class="line"></div>
+                                                <div class="dit-line">
+                                                    Prix : {{t.Prix}} DT
+                                                    <br>
+                                                    Nombre de place{{t.NbrPlace}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="item-img" >
+                                        <img src="{{asset('uploads/images/')}}{{t.ImageTable}}" style="background-attachment: fixed;" alt="sp-menu">
+                                    </div>
+                                </div>
+                            <!--{ endfor %}-->
+                        </div>
+                        
+                        
+                    </div>
+                    <!-- end special-box -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end special-menu -->
+    <div  class="reservations-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+                <div class="form-reservations-box">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        
+                        {{ form_start(form) }}
+                            <div class="wow fadeIn col-lg-6 col-md-6 col-sm-6 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <h2 class="block-title text-center">
+                                    Choisir la date de votre reservation
+                                </h2>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-box">
+                                    <label>{{form_widget(form.datemodification, {'attr': {'class': 'hidden-row'}} )}}</label>
+                                    {% if form_errors(form.datemodification) is not empty %}
+                                        <div class="alert alert-danger" >{{ form_errors(form.datemodification) }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- end col -->
+                            
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="visibility: hidden;">
+                                <div class="form-box">
+                                    {{form_label(form.datemodification,'Date de modification', {'attr': {'class': 'hidden-row'}} )}}
+                                </div>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="reserve-book-btn text-center">
+                                    {{form_widget(form.Enregistrer, {'attr': {'class': 'hvr-underline-from-center'}}) }}
+                                </div>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="visibility: hidden;">
+                                <div class="form-box">
+                                    {{form_label(form.idu,'Id utilisateur', {'attr': {'class': 'hidden-row'}} )}}
+                                </div>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="visibility: hidden;">
+                                <label>
+                                    <div class="form-box">
+                                        {{form_widget(form.idu, {'attr': {'class': 'hidden-row' }} )}}
+                                    </div>
+                                </label>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="visibility: hidden;">
+                                <div class="form-box">
+                                    {{form_label(form.datecreation,'Date de creation', {'attr': {'class': 'hidden-row'}} )}}
+                                </div>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="visibility: hidden;">
+                                <div class="form-box">
+                                    <label>{{form_widget(form.datecreation, {'attr': {'class' : 'hidden-row' }} )}}</label>
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        {{ form_end(form) }}
+                        <!-- end form -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end reservations-box -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end reservations-main -->
+    
+                        
+
+{% endblock %}
