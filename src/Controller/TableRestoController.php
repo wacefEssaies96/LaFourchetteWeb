@@ -14,11 +14,16 @@ class TableRestoController extends AbstractController
     /**
      * @Route("/table/resto", name="app_table_resto")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $TRT=$request->request->get('TRT');
+        $VRT=$request->request->get('searchtableresto');
         $tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->findAll();
+        
         return $this->render('table_resto/index.html.twig', [
             'tableRestos' => $tableRestos,
+            'TRT' => $TRT,
+            'searchtableresto' => $VRT,
         ]);
     }
      /**
@@ -96,12 +101,15 @@ class TableRestoController extends AbstractController
      */
     function searchtableresto(Request $request): Response
     {
-        $nbrp=$request->request->get('searchtableresto');
+        $TRT=$request->request->get('TRT');
+        $VRT=$request->request->get('searchtableresto');
 
-        $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->Searchnbrplace($nbrp);
+        $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->Search($TRT,$VRT);
 
         return $this->render('table_resto/index.html.twig', [
             'tableRestos' => $tableResto,
+            'TRT' => $TRT,
+            'searchtableresto' => $VRT,
         ]);
     }
 
@@ -111,10 +119,14 @@ class TableRestoController extends AbstractController
     function tritableresto(Request $request,$type)
     {
         
+        $TRT=$request->request->get('TRT');
+        $VRT=$request->request->get('searchtableresto');
         $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->tritableresto($type);
-        /*dump($tableResto);die();*/
+        
         return $this->render('table_resto/index.html.twig', [
             'tableRestos' => $tableResto,
+            'TRT' => $TRT,
+            'searchtableresto' => $VRT,
         ]);
     }
 }

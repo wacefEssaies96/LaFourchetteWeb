@@ -52,6 +52,27 @@ class DecorationRepository extends ServiceEntityRepository
             ->setParameter('nom','%'.$nom.'%')
             ->getQuery()->getResult();
     }
+    public function SearchPrixD($prix)
+    {
+         return $this->createQueryBuilder('d')
+            ->select('d')
+            ->where('d.prix LIKE :prix')
+            ->setParameter('prix','%'.$prix.'%')
+            ->getQuery()->getResult();
+    }
+    
+    public function Search($TRD,$VRD)
+    {
+         $queryBuilder = $this->createQueryBuilder('d')
+            ->select('d')
+            ->setParameter('valeur','%'.$VRD.'%');
+            if($TRD == 'prix'){
+                $queryBuilder->where('d.prix LIKE :valeur');
+            }else{
+                $queryBuilder->where('d.nom LIKE :valeur');
+            }
+            return $queryBuilder->getQuery()->getResult();
+    }
     public function tridecoration($type){
 
          

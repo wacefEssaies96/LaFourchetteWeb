@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Detaille d'une Reservation{% endblock %}
+{% block title %}Details d'une Reservation{% endblock %}
 
 {% block body %}
 <div class="content-wrapper">
@@ -9,7 +9,7 @@
 
 <div class="card"  style="margin:5px">
     <div class="card-header"  style="background-color:#4d4d4d;color:white" >
-        <h3 class="card-title"  style="font-weight: bold">Detaille d'une reservation</h3>
+        <h3 class="card-title"  style="font-weight: bold">Details d'une reservation</h3>
         
         <button type="submit" class="btn btn-success float-right">
         <a href="{{ path('pdfreservation',{'idr':reservation.idR}) }}"

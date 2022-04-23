@@ -12,8 +12,20 @@
 
                 <div class="card-tools ">
                   <form method="post" action="{{path('searchdecoration')}}">
+                  
+                    <button type="button"  class="btn btn-success">
+                      Cretère
+                    </button>
+                    <select name="TRD" id="TRD" class="btn btn-success" >
+
+                        <option value="prix" class="btn btn-success" {% if TRD == 'prix' %} selected {% endif %}>Prix</option>
+                        <option value="nom" class="btn btn-success" {% if TRD == 'nom' %} selected {% endif %}>Nom</option>
+
+                    </select>
                     <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
-                        <input type="text" name="searchdecoration" class="form-control float-right" placeholder="Search">
+                        <input type="text" name="searchdecoration" class="form-control float-right"
+                        value="{{searchdecoration}}"
+                         placeholder="Search">
 
                         <div class="input-group-append">
                           <button type="submit" class="btn btn-default">

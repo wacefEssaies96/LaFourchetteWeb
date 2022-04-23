@@ -78,6 +78,38 @@ class ReservationRepository extends ServiceEntityRepository
             ->setParameter('nom','%'.$nom.'%')
             ->getQuery()->getResult();
     }
+    public function Search($TRR,$VRR)
+    {
+         $queryBuilder = $this->createQueryBuilder('r')
+            ->select('r')
+            ->setParameter('valeur','%'.$VRR.'%');
+            if($TRR == 'datecreation'){
+                $queryBuilder->where('r.datecreation LIKE :valeur');
+            }else if($TRR == 'datemodification'){
+                $queryBuilder->where('r.datemodification LIKE :valeur');
+            }else{
+                $queryBuilder
+                ->leftJoin('App\Entity\Utilisateur', 'u', 'WITH', 'u.idu = r.idu')
+                ->where('u.nomPrenom LIKE :valeur');
+            }
+            return $queryBuilder->getQuery()->getResult();
+    }
+    public function SearchMesRes($idu,$TRMR,$VRR)
+    {
+        $queryBuilder = $this->createQueryBuilder('r')
+        ->select('r')
+        ->where('r.idu = :idu ')
+        ;
+        if($TRMR == 'datecreation'){
+            $queryBuilder->andwhere('r.datecreation = :valeur');
+        }else{
+            $queryBuilder->andwhere('r.datemodification = :valeur');
+        }
+        return $queryBuilder
+        ->setParameter('idu',$idu)
+        ->setParameter('valeur',$VRR)
+        ->getQuery()->getResult();
+    }
     public function trireservation($type){
 
          
@@ -99,7 +131,8 @@ class ReservationRepository extends ServiceEntityRepository
          
         $queryBuilder=$this->createQueryBuilder('r')
             ->select('r')
-            ->leftJoin('App\Entity\Utilisateur', 'u', 'WITH', 'u.idu = :idu')
+            ->leftJoin('App\Entity\Utilisateur', 'u', 'WITH', 'u.idu = r.idu')
+            ->where('u.idu LIKE :idu')
             ->setParameter('idu','%'.$idu.'%');
             if($type == 'datecreation'){
                 $queryBuilder->orderBy('r.datecreation', 'ASC');

@@ -10,10 +10,22 @@
               <div class="card-header"  style="background-color:#4d4d4d;color:white" >
                 <h3 class="card-title"  style="font-weight: bold">Mes reservations</h3>
 
-                <!--div class="card-tools">
-                  <form method="post" action="{path('searchMesreservation')}}">
+                <div class="card-tools">
+                  <form method="post" action="{{path('searchMesreservation',{'idu' : iduser })}}">
+                  
+                    <button type="button"  class="btn btn-success">
+                      Cretère
+                    </button>
+                    <select name="TRMR" id="TRMR" class="btn btn-success" >
+
+                        <option value="datecreation" class="btn btn-success" {% if TRMR == 'datecreation' %} selected {% endif %}>Date de Creation</option>
+                        <option value="datemodification" class="btn btn-success" {% if TRMR == 'datemodification' %} selected {% endif %}>Date de Modification</option>
+
+                    </select>
                     <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
-                        <input type="text" name="searchMesreservation" class="form-control float-right" placeholder="Search">
+                        <input type="text" name="searchMesreservation" class="form-control float-right" 
+                        value="{{searchMesreservation}}"
+                        placeholder="Search">
 
                         <div class="input-group-append">
                           <button type="submit" class="btn btn-default">
@@ -22,7 +34,7 @@
                         </div>
                     </div>
                   </form>
-                </div-->
+                </div>
                 
                   <div class="btn-group card-tools"  style="margin:10px">
                     <button type="button" class="btn btn-success">TRI</button>
@@ -59,7 +71,7 @@
                           <a href="{{ path('showReservation',{'id':r.idR}) }}" 
                           style="color:white;">
                             <i class="fas fa-edit" ></i>
-                            Detaille
+                            Details
                           </a>
                         </button>
                         <br>

@@ -12,8 +12,19 @@
                 
                 <div class="card-tools ">
                   <form method="post" action="{{path('searchtableresto')}}">
+                  
+                    <button type="button"  class="btn btn-success">
+                      Cretère
+                    </button>
+                    <select name="TRT" id="TRT" class="btn btn-success" >
+                      <option value="prix" class="btn btn-success"   {% if TRT == 'prix' %} selected {% endif %}>Prix</option>
+                      <option value="etat" class="btn btn-success"  {% if TRT == 'etat' %} selected {% endif %}>Etat</option>
+                      <option value="nbrplace" class="btn btn-success" {% if TRT == 'nbrplace' %} selected {% endif %}>Nombre de Place</option>
+                    </select>
                     <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
-                        <input type="text" name="searchtableresto" class="form-control float-right" placeholder="Search">
+                        <input type="text" name="searchtableresto" class="form-control float-right"
+                        value="{{searchtableresto}}"
+                        placeholder="Search">
 
                         <div class="input-group-append">
                           <button type="submit" class="btn btn-default">
@@ -23,6 +34,7 @@
                     </div>
                   </form>
                 </div>
+                
                 <div class="card-tools">
                   <div class="input-group card-tools" style="margin:10px ;width: 150px;">
                   

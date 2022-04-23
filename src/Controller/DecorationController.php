@@ -14,11 +14,15 @@ class DecorationController extends AbstractController
     /**
      * @Route("/decoration", name="app_decoration")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $TRD=$request->request->get('TRD');
+        $VRD=$request->request->get('searchdecoration');
         $decorations = $this->getDoctrine()->getRepository(Decoration::class)->findAll();
         return $this->render('decoration/index.html.twig', [
             'decorations' => $decorations,
+            'TRD' => $TRD,
+            'searchdecoration' => $VRD,
         ]);
     }
 
@@ -90,12 +94,18 @@ class DecorationController extends AbstractController
      */
     function searchdecoration(Request $request): Response
     {
-        $nom=$request->request->get('searchdecoration');
+        
+        $TRD=$request->request->get('TRD');
+        $VRD=$request->request->get('searchdecoration');
+        
+        $decoration = $this->getDoctrine()->getRepository(Decoration::class)->Search($TRD,$VRD);
 
-        $decoration = $this->getDoctrine()->getRepository(Decoration::class)->SearchNomD($nom);
+        
 
         return $this->render('decoration/index.html.twig', [
             'decorations' => $decoration,
+            'TRD' => $TRD,
+            'searchdecoration' => $VRD,
         ]);
     }
 
@@ -104,11 +114,14 @@ class DecorationController extends AbstractController
      */
     function tridecoration(Request $request,$type)
     {
-        
+        $TRD=$request->request->get('TRD');
+        $VRD=$request->request->get('searchdecoration');
         $decoration = $this->getDoctrine()->getRepository(Decoration::class)->tridecoration($type);
         /*dump($decoration);die();*/
         return $this->render('decoration/index.html.twig', [
             'decorations' => $decoration,
+            'TRD' => $TRD,
+            'searchdecoration' => $VRD,
         ]);
     }
 }

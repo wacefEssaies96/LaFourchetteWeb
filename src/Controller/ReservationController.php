@@ -23,12 +23,16 @@ class ReservationController extends AbstractController
     /**
      * @Route("/reservation", name="app_reservation")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $TRR=$request->request->get('TRR');
+        $VRR=$request->request->get('searchreservation');
         $reservations = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
 
         return $this->render('reservation/index.html.twig', [
             'reservations' => $reservations,
+            'TRR' => $TRR,
+            'searchreservation' => $VRR,
         ]);
     }
 
@@ -144,6 +148,9 @@ class ReservationController extends AbstractController
      */
     public function ConfirmerReservation(Request $request,$id)
     {
+        $TRMR=$request->request->get('TRMR');
+        $VRR=$request->request->get('searchMesreservation');
+
         $maxidres = $this->getDoctrine()->getRepository(Reservation::class)->MaxId();
         $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->find($id);
         
@@ -182,7 +189,9 @@ class ReservationController extends AbstractController
             array(
                 'reservations' => $reservations,
                 'tableRestos' => $tableResto,
-                'iduser' => $reservation->getIdu()->getIdu()
+                'iduser' => $reservation->getIdu()->getIdu(),
+                'TRMR' => $TRMR,
+                'searchMesreservation' => $VRR,
                 )
             );
             
@@ -194,11 +203,16 @@ class ReservationController extends AbstractController
      */
     public function Mes_Reservations(Request $request,$idu): Response
     {
+        $TRMR=$request->request->get('TRMR');
+        $VRR=$request->request->get('searchMesreservation');
+
         $reservations = $this->getDoctrine()->getRepository(Reservation::class)->MR($idu);
 
         return $this->render('reservation/Mes_Reservations.html.twig', [
             'reservations' => $reservations,
             'iduser' => $idu,
+            'TRMR' => $TRMR,
+            'searchMesreservation' => $VRR,
         ]);
     }
     /**
@@ -265,12 +279,15 @@ class ReservationController extends AbstractController
      */
     function searchreservation(Request $request): Response
     {
-        $nom=$request->request->get('searchreservation');
+        $TRR=$request->request->get('TRR');
+        $VRR=$request->request->get('searchreservation');
 
-        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->SearchUser($nom);
+        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->Search($TRR,$VRR);
 
         return $this->render('reservation/index.html.twig', [
             'reservations' => $reservation,
+            'TRR' => $TRR,
+            'searchreservation' => $VRR,
         ]);
     }
 
@@ -280,24 +297,50 @@ class ReservationController extends AbstractController
     function trireservation(Request $request,$type)
     {
         
+        $TRR=$request->request->get('TRR');
+        $VRR=$request->request->get('searchreservation');
         $reservation = $this->getDoctrine()->getRepository(Reservation::class)->trireservation($type);
         /*dump($reservation);die();*/
         return $this->render('reservation/index.html.twig', [
             'reservations' => $reservation,
+            'TRR' => $TRR,
+            'searchreservation' => $VRR,
         ]);
     }
     
+    /**
+     * @Route ("/searchMesreservation/{idu}", name="searchMesreservation")
+     */
+    function searchMesreservation(Request $request,$idu): Response
+    {
+        $TRMR=$request->request->get('TRMR');
+        $VRR=$request->request->get('searchMesreservation');
+        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->SearchMesRes($idu,$TRMR,$VRR);
+        //dd($reservation);
+
+        return $this->render('reservation/Mes_Reservations.html.twig', [
+            'reservations' => $reservation,
+            'iduser' => $idu,
+            'TRMR' => $TRMR,
+            'searchMesreservation' => $VRR,
+        ]);
+    }
+
     /**
      * @Route ("/triMesreservation/{type}/{idu}", name="triMesreservation")
      */
     function triMesreservation(Request $request,$type,$idu)
     {
         
+        $TRMR=$request->request->get('TRMR');
+        $VRR=$request->request->get('searchMesreservation');
         $reservation = $this->getDoctrine()->getRepository(Reservation::class)->triMesreservation($type,$idu);
         /*dump($reservation);die();*/
         return $this->render('reservation/Mes_Reservations.html.twig', [
             'reservations' => $reservation,
             'iduser' => $idu,
+            'TRMR' => $TRMR,
+            'searchMesreservation' => $VRR,
         ]);
     }
     
