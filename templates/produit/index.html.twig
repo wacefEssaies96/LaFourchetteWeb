@@ -41,6 +41,7 @@
                   <td>{{p.prix}}</td>
                   <td><img src="{{asset('uploads/images/')}}{{p.image}}" alt="{{p.image}}" height="52" width="52"></td>
                   <td>
+                    <a class="btn btn-outline-success" href="{{ path('sendmail',{'id':p.nomProd}) }}">Commander</a>
                     <a class="btn btn-info" href="{{ path('updateProduit',{'id':p.nomProd}) }}">Modifier</a>
                     <a class="btn btn-danger" href="{{ path('deleteProduit',{'id':p.nomProd}) }}">Supprimer</a>
                   </td>
@@ -55,4 +56,46 @@
     </div>
   </section>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+       {# $(document).ready(function () {
+            $("#search").keyup(function (e) {
+                /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+                var value = $(this).val();
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                    url: "{{ path('search_user') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type: 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue': value
+                    },
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                    success: function (retour) {
+                        //console.log(retour);
+                        if (retour) {
+                            $('#t tbody#search').empty();
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                $('#t tbody#all').hide();
+                                $('#t tbody#search').append(
+                                    ' <tr></td><td>    ' + obj.id + '' +
+                                    '  </td><td>' + obj.Nom + '' +
+                                    '  </td><td>' + obj.Prenom + '' +
+                                    '  </td><td>' + obj.Numtel + '' +
+                                    '  </td><td>' + obj.email + '' +
+                                    '  </td></tr>');
+                            });
+                        } else {
+                            $('#t tbody#all').show();
+                            $('#t tbody#search').empty();
+                            $('#t tbody#search').fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+        }); #}
+    </script>
 {% endblock %}

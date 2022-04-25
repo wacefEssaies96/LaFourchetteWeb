@@ -5,7 +5,7 @@
         <title>Reçu ne PDF</title>
     </head>
     <body>
-
+    <img width="80" height="100" src='data:image;base64,<?= {{ logo }};?>' />
         <center><h2>Reçu</h2></center>
         
         <h3> Fournisseur</h3>
@@ -16,7 +16,7 @@
         <p>Level : {{f.lvl}}</p>
 
         
-        <table border="1">
+        <table border="5">
             <thead>
                 <th>Nom produit</th>
                 <th>Quantité</th>
@@ -26,9 +26,9 @@
             <tbody>
                 <tr>
                     <td>{{ p.nomProd }}</td>
-                    <td>{{ q }}</td>
-                    <td>{{ p.prix }}</td>
-                    <td>{{ p.prix * q}}</td>
+                    <td>{{ q }} unité</td>
+                    <td>{{ p.prix }} DT</td>
+                    <td>{{ p.prix * q}} DT</td>
                 </tr>
             </tbody>
         </table>

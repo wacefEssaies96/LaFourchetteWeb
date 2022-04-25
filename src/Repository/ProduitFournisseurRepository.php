@@ -60,15 +60,15 @@ class ProduitFournisseurRepository extends ServiceEntityRepository
     }
     
 
-    /*
-    public function findOneBySomeField($value): ?ProduitFournisseur
+    
+    public function findByIdF($value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+            ->andWhere('p.idf = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+    
 }

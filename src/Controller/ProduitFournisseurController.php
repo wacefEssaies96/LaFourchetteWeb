@@ -72,34 +72,23 @@ class ProduitFournisseurController extends AbstractController
     }
 
     public function generatePdf($produit, $fournisseur, $quantite){
-        // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
-        
-        // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
-        
-        // Retrieve the HTML generated in our twig file
+        $logo = file_get_contents('lafourchette.png');
+        $logo64 = base64_encode($logo);
         $html = $this->renderView('produit_fournisseur/recu.html.twig', [
             'f' => $fournisseur,
             'p' => $produit,
-            'q' => $quantite
+            'q' => $quantite,
+            'logo' => $logo64
          ]);
-        
-        // Load HTML to Dompdf
         $dompdf->loadHtml($html);
-        
-        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'portrait');
-
-        // Render the HTML as PDF
         $dompdf->render();
-
-        // Output the generated PDF to Browser (force download)
         $dompdf->stream("Reçu.pdf", [
             "Attachment" => true
         ]);
-        //return $this->render("produit_fournisseur/recu.html.twig");
     }
 
     /**
@@ -113,7 +102,7 @@ class ProduitFournisseurController extends AbstractController
             'attr' => ['class' => 'btn btn-success'],
         ]);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($pf);
             $em->flush();
@@ -128,20 +117,12 @@ class ProduitFournisseurController extends AbstractController
     public function deleteProduitFournisseur($id): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $pf = $this->getDoctrine()->getRepository(ProduitFournisseur::class)->findAll();
-        if(sizeof($pf) == 1){
+        $pf = $this->getDoctrine()->getRepository(ProduitFournisseur::class)->findByIdF($id);
+        for($i=0 ; $i<sizeof($pf) ; $i++){
             $f = $this->getDoctrine()->getRepository(ProduitFournisseur::class)->findOneBy(['idf' => $id]);
             $em->remove($f);
             $em->flush();
         }
-        else{
-            foreach($pf as $item){
-                $f = $this->getDoctrine()->getRepository(ProduitFournisseur::class)->findOneBy(['idf' => $id]);
-                $em->remove($f);
-                $em->flush();
-            }
-        }
-       
         return $this->redirectToRoute('app_produit_fournisseur');
     }
 
