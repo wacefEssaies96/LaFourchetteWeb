@@ -73,4 +73,29 @@ class UtilisateurRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    public function bloc($email)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            UPDATE utilisateur set verif="bloc" where email=:mail
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['mail' => $email]);
+        return $resultSet;
+
+    }
+    public function debloc($email)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            UPDATE utilisateur set verif="non_bloc" where email=:mail
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['mail' => $email]);
+        return $resultSet;
+
+    }
 }

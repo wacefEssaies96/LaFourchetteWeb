@@ -1,0 +1,47 @@
+
+{% block body %}
+ <h5>la fourchette </h5>
+
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <div class="w3-serif">
+
+                <h1 align="center" style="color:#fa521c" > Liste des Employer </h1>
+                        </div>
+                        <table class="table table-hover text-nowrap" border="1">
+                            <thead>
+                            <tr>
+                               <th>Id</th>
+                                <th>Nom et prenom</th>
+                                <th>Telephone</th>
+                                <th>Adresse</th>
+                                <th>Image</th>
+                                <th>salaire</th>
+                                <th>Job</th>
+                                
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for c in employes %}
+                                <tr>
+                                    <td>{{c.idEM}}</td>
+                                <td>{{c.nomPrenom}}</td>
+                                <td>{{c.telephone}}</td>
+                                 <td>{{c.adresse}}</td>
+                                 <td><img src="{{asset('uploads/images/')}}{{c.picture}}" width="52" height="52" > </img></td>
+                                <td>{{c.salaire}}</td>
+                                 <td>{{c.jobEM.jobEM}}</td>
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+    </div>
+    </section>
+{% endblock %}

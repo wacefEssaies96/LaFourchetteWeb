@@ -8,10 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Utilisateur;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\UtilisateurType;
+
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class UtilisateurController extends AbstractController
 {
@@ -38,6 +43,10 @@ class UtilisateurController extends AbstractController
     }
 
      /**
+    * @param MailerInterface $mailer
+      *@return Response
+      *@throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+
      * @Route("/addUtilisateur", name="addUtilisateur")
      */
     public function addUtilisateur(Request $request)
@@ -49,7 +58,9 @@ class UtilisateurController extends AbstractController
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($utilisateur);
+           
             $em->flush();
+           
             return $this->redirectToRoute('app_utilisateur');
         }
         return $this->render("utilisateur/add.html.twig",array('form'=>$form->createView()));
@@ -85,7 +96,7 @@ class UtilisateurController extends AbstractController
 /**
      * @Route("/adduser", name="adduser")
      */
-    public function add_user(Request $request)
+    public function add_user(MailerInterface $mailer ,Request $request)
     {
         $utilisateur = new Utilisateur('User','Non_bloc');
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
@@ -105,7 +116,14 @@ class UtilisateurController extends AbstractController
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($utilisateur);
-
+            $email = (new Email())
+            ->from('lafourchette.esprit@gmail.com')
+            ->to($utilisateur->getEmail())
+            ->subject('Inscription effectuer')
+            ->text('Inscription : ')
+            ->html(
+                '<p>Votre compte a été creer avec succées </p>');
+            $mailer->send($email);
             $em->flush();
             return $this->redirectToRoute('app_utilisateur');
         }
@@ -130,7 +148,9 @@ class UtilisateurController extends AbstractController
             $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->findBy(array('email' => $email,'password'=>$mdp));
             foreach ($utilisateur as $event)
 {
-   
+    if($event->getVerif() =="bloc"){
+        return new  Response("Vous etes bloqué");
+    }  
      
 if( $event->getRole()=='Admin')
 {
@@ -163,6 +183,46 @@ else {
          }
         return $this->render("login.html.twig",array('form'=>$form->createView()));
     }
+  /**
+     * @Route("/bloc/{id}", name="blocuser")
+     */
+    public function bloc($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
 
+        $utilisateur = $entityManager->getRepository(Utilisateur::class)->bloc($id);
+
+        return $this->redirectToRoute("app_utilisateur");
+    }
+      /**
+     * @Route("/debloc/{id}", name="deblocuser")
+     */
+    public function debbloc($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $utilisateur = $entityManager->getRepository(Utilisateur::class)->debloc($id);
+
+        return $this->redirectToRoute("app_utilisateur");
+    }
+    
+     /**
+     * @Route("/RecupererPass", name="RecupererPass")
+     */
+    /*
+public function ResetPassword(MailerInterface $mailer,Request $request){
+    dd($form);
+    $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->findBy(array('email' => $email));
+   
+    $email = (new Email())
+    ->from('lafourchette.esprit@gmail.com')
+    ->to($utilisateur->getPassword())
+    ->subject('Inscription effectuer')
+    ->text('Inscription : ')
+    ->html(
+        '<p>Votre compte a été creer avec succées </p>');
+    $mailer->send($email);
+}
+*/
 
 }
