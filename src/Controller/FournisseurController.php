@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Fournisseur;
 use App\Form\FournisseurType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class FournisseurController extends AbstractController
 {
@@ -32,6 +33,19 @@ class FournisseurController extends AbstractController
         $em->remove($fournisseur);
         $em->flush();
         return $this->redirectToRoute("app_fournisseur");
+    }
+
+    /**
+     * @Route("/search/fournisseur", name="search_fournisseur", requirements={"id":"\d+"})
+     */
+    public function searchProduit(Request $request, NormalizerInterface $Normalizer)
+    {
+        $repository = $this->getDoctrine()->getRepository(Fournisseur::class);
+        $requestString = $request->get('searchValue');
+        $fournisseur = $repository->findByNomF($requestString);
+        $jsonContent = $Normalizer->normalize($fournisseur, 'json',[]);
+
+        return new Response(json_encode($jsonContent));
     }
 
      /**

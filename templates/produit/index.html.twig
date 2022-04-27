@@ -11,7 +11,7 @@
             <h3 class="card-title">List des produits</h3>
             <div class="card-tools">
               <div class="input-group input-group-sm" style="width: 150px;">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                <input type="text" id="search" name="table_search" class="form-control float-right" placeholder="Search">
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-default">
                     <i class="fas fa-search"></i>
@@ -23,7 +23,7 @@
           <a class="btn btn-success" href="{{ path('addProduit') }}">Ajouter un nouveau produit</a>
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-nowrap">
+            <table id="t" class="table table-hover text-nowrap">
               <thead>
                 <tr>
                   <th>NomProd</th>
@@ -33,13 +33,15 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="all">
               {% for p in produits %}
                 <tr>
                   <td>{{p.nomProd}}</td>
                   <td>{{p.quantite}}</td>
                   <td>{{p.prix}}</td>
-                  <td><img src="{{asset('uploads/images/')}}{{p.image}}" alt="{{p.image}}" height="52" width="52"></td>
+                  
+                  <td><img src="{{'uploads/images/' ~ p.image}}" alt="{{p.image}}" height="52" width="52"></td>
+                  {# <td><img src="{{asset('uploads/images/')}}{{p.image}}" alt="{{p.image}}" height="52" width="52"></td> #}
                   <td>
                     <a class="btn btn-outline-success" href="{{ path('sendmail',{'id':p.nomProd}) }}">Commander</a>
                     <a class="btn btn-info" href="{{ path('updateProduit',{'id':p.nomProd}) }}">Modifier</a>
@@ -48,9 +50,14 @@
                 </tr>
                 {% endfor %}
               </tbody>
+              
+              <tbody id="search">
+              </tbody>
             </table>
+             
           </div>
-          <!-- /.card-body -->
+        <div class="card-footer clearfix">
+                {{ knp_pagination_render(produits) }}
       </div>
           <!-- /.card -->
     </div>
@@ -58,33 +65,29 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-       {# $(document).ready(function () {
+        $(document).ready(function () {
             $("#search").keyup(function (e) {
-                /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
                 var value = $(this).val();
-                /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
                 $.ajax({
-                    /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
-                    url: "{{ path('search_user') }}",
-                    /* La méthode utilisée pour transférer les données est GET */
+                    url: "{{ path('search_produit') }}",
                     type: 'GET',
-                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
                     data: {
                         'searchValue': value
                     },
-                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
                     success: function (retour) {
-                        //console.log(retour);
                         if (retour) {
                             $('#t tbody#search').empty();
                             $.each(JSON.parse(retour), function (i, obj) {
+                              console.log(obj.image)
                                 $('#t tbody#all').hide();
                                 $('#t tbody#search').append(
-                                    ' <tr></td><td>    ' + obj.id + '' +
-                                    '  </td><td>' + obj.Nom + '' +
-                                    '  </td><td>' + obj.Prenom + '' +
-                                    '  </td><td>' + obj.Numtel + '' +
-                                    '  </td><td>' + obj.email + '' +
+                                    ' <tr></td><td>    ' + obj.nomprod + '' +
+                                    '  </td><td>' + obj.quantite + '' +
+                                    '  </td><td>' + obj.prix + '' +
+                                    '  </td><td><img height="52" width="52" src="uploads/images/' + obj.image + '">' +
+                                    '  </td><td> <a class="btn btn-outline-success" href="/sendmail/'+obj.nomprod+'">Commander</a>'+
+                                    '  <a class="btn btn-info" href="/updateProduit/'+obj.nomprod+'">Modifier</a>'+
+                                    '  <a class="btn btn-danger" href="/deleteProduit/'+obj.nomprod+'">Supprimer</a>'+
                                     '  </td></tr>');
                             });
                         } else {
@@ -96,6 +99,6 @@
                 });
                 return false;
             });
-        }); #}
+        });
     </script>
 {% endblock %}

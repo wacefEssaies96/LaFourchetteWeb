@@ -12,7 +12,7 @@
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                    <input type="text" id="search" name="table_search" class="form-control float-right" placeholder="Search">
 
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-default">
@@ -25,7 +25,7 @@
               <!-- /.card-header -->
               <a class="btn btn-success" href="{{ path('addFournisseur') }}">Ajouter un fournisseur</a>
               <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+                <table id="t" class="table table-hover text-nowrap">
                   <thead>
                     <tr>
                       <th>Id</th>
@@ -36,7 +36,7 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="all">
                   {% for c in fournisseurs %}
                     <tr>
                       <td>{{c.idF}}</td>
@@ -51,6 +51,8 @@
                     </tr>
                     {% endfor %}
                   </tbody>
+                  <tbody id="search">
+                  </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
@@ -59,5 +61,44 @@
             </div>
             </div>
             </section>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search").keyup(function (e) {
+                var value = $(this).val();
+                $.ajax({
+                    url: "{{ path('search_fournisseur') }}",
+                    type: 'GET',
+                    data: {
+                        'searchValue': value
+                    },
+                    success: function (retour) {
+                        if (retour) {
+                            $('#t tbody#search').empty();
+                            $.each(JSON.parse(retour), function (i, obj) {
+                              console.log(obj.image)
+                                $('#t tbody#all').hide();
+                                $('#t tbody#search').append(
+                                    ' <tr></td><td>    ' + obj.idf + '' +
+                                    '  </td><td>' + obj.nomf + '' +
+                                    '  </td><td>' + obj.telephonef + '' +
+                                    '  </td><td>' + obj.emailf + '' +
+                                    '  </td><td>' + obj.lvl + '' +
+                                    '  </td><td><a class="btn btn-info" href="/updateFournisseur/'+obj.idf+'">Modifier</a>'+
+                                    '  <a class="btn btn-danger" href="/deleteFournisseur/'+obj.idf+'">Supprimer</a>'+
+                                    '  </td></tr>');
+                            });
+                        } else {
+                            $('#t tbody#all').show();
+                            $('#t tbody#search').empty();
+                            $('#t tbody#search').fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+        });
+    </script>
 {% endblock %}
 

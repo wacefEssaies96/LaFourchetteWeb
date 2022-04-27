@@ -10,20 +10,23 @@ use App\Entity\ProduitFournisseur;
 use App\Entity\Fournisseur;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ProduitType;
+// use ContainerAlUzHxa\PaginatorInterface_82dac15;
+use Knp\Component\Pager\PaginatorInterface;
 use Swift_Mailer;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProduitController extends AbstractController
 {
     /**
      * @Route("/produit", name="app_produit")
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $produits = $this->getDoctrine()->getRepository(Produit::class)->findAll();
+        $pp = $paginator->paginate($produits, $request->query->getInt('page', 1), 3);
         return $this->render('produit/index.html.twig', [
-            'produits' => $produits,
+            'produits' => $pp,
         ]);
     }
     /**
@@ -84,20 +87,19 @@ class ProduitController extends AbstractController
         }
         return $this->render("produit/update.html.twig",array('form'=>$form->createView()));
     }
-    
+
     /**
-     * @Route("/search", name="search_user", requirements={"id":"\d+"})
-
+     * @Route("/search/produit", name="search_produit", requirements={"id":"\d+"})
      */
-    // public function searchGuides(Request $request, NormalizerInterface $Normalizer)
-    // {
-    //     $repository = $this->getDoctrine()->getRepository(User::class);
-    //     $requestString = $request->get('searchValue');
-    //     $user = $repository->findUserByNom($requestString);
-    //     $jsonContent = $Normalizer->normalize($user, 'json',[]);
+    public function searchProduit(Request $request, NormalizerInterface $Normalizer)
+    {
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $requestString = $request->get('searchValue');
+        $produit = $repository->findByNomProd($requestString);
+        $jsonContent = $Normalizer->normalize($produit, 'json',[]);
 
-    //     return new Response(json_encode($jsonContent));
-    // }
+        return new Response(json_encode($jsonContent));
+    }
 
 
     /**
