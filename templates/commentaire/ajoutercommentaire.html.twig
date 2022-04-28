@@ -1,0 +1,72 @@
+
+{% block stylesheets %}
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="{{asset('images/apple-touch-icon.png') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="{{asset('css/style.css')  }}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+    <!-- color -->
+    <link id="changeable-colors" rel="stylesheet" href="{{asset('css/colors/orange.css') }}" />
+
+
+{% endblock %}
+
+    {% block javascripts %}
+        <!-- Modernizer -->
+        <script src="{{ asset('js/modernizer.js') }}"></script>
+        <script src="{{ asset('js/all.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <!-- ALL PLUGINS -->
+        <script src="{{ asset('js/custom.js') }}"></script>
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    {% endblock %}
+</head>
+<body>
+
+
+{% block body %}
+
+<div id="blog" class="blog-main pad-top-100 pad-bottom-100 parallax">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h2 class="block-title text-center">
+                    Commantaires&Avis
+                </h2>
+            </div></div></div></div>
+
+
+
+    <div class="content-wrapper">
+
+        {{ form_start(form) }}
+        <div class="form-group">
+            <section class="content">
+                <div class="container-fluid p-10" >
+                  <div> {{form_label(form.commantaire,'Commantaire', {'attr': {'class': 'form-control'}} )}}
+                    {{form_widget(form.commantaire, {'attr': {'class': 'form-control'}} )}}
+                </div>
+                    <div style="visibility: hidden">
+                    {{form_label(form.nbrlike,'Nombre like', {'attr': {'class': 'form-control'}} )}}
+                    {{form_widget(form.nbrlike, {'attr': {'class': 'form-control'}} )}}
+                    </div>
+                    <div style="visibility: hidden">
+                        {{form_label(form.idu,'Utilisateur', {'attr': {'class': 'form-control'}} )}}
+                        {{form_widget(form.idu, {'attr': {'class': 'form-control'}} )}}
+                    </div >
+                    <div style="visibility: hidden">{{form_label(form.idevent,'Event', {'attr': {'class': 'form-control'}} )}}
+                        {{form_widget(form.idevent, {'attr': {'class': 'form-control'}} )}}</div>
+
+                </div>
+                {{ form_end(form) }}
+            </section>
+        </div>
+    </div>
+{% endblock %}

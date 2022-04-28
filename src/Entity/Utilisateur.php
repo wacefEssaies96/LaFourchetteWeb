@@ -18,6 +18,7 @@ class Utilisateur
      * @ORM\Column(name="idU", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\OneToMany(targetEntity="Commentaire", mappedBy="Utilisateur")
      */
     private $idu;
 
@@ -76,6 +77,12 @@ class Utilisateur
      * @ORM\Column(name="verif", type="string", length=255, nullable=false)
      */
     private $verif;
+
+    public function  setIdu(int $idu):self
+    {
+        $this->idu=$idu;
+        return $this;
+    }
 
     public function getIdu(): ?int
     {

@@ -1,63 +1,122 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commantaire{% endblock %}
-
 {% block body %}
-<div class="content-wrapper">
-<section class="content">
-<div class="container-fluid">
-<div class="card">
-              <div class="card-header">
-                <h3 class="card-title">List des commantaires</h3>
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="container-fluid">
 
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
+        <div class="card" style="margin:5px">
+          <div class="card-header " style="background-color:#ffffff;color:black" >
+            <h3>Liste des Commentaires</h3>
+
+            <div class="card-tools ">
+              <div class="card-tools float left">
+                <div class="input-group card-tools" style="margin:5px ;width: 163px;">
+
+
+
                 </div>
               </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-              
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Commantaire</th>
-                      <th>Nombre like</th>
-                      <th>IdU</th>
-                      <th>Id event</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for c in commantaires %}
-                    <tr>
-                      <td>{{c.idCO}}</td>
-                      <td>{{c.commantaire}}</td>
-                      <td>{{c.nbrlike}}</td>
-                      <td>{{c.idU}}</td>
-                      <td>{{c.idevent}}</td>
-                      <td>
-                        <a href="{{ path('deleteCommentaire',{'id':c.idCO}) }}">Delete</a>
-                        <a href="{{ path('updateCommentaire',{'id':c.idCO}) }}">Update</a>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-            </div>
-            </div>
-            </section>
-{% endblock %}
+              <div class="card-tools float left">
+                <div class="input-group card-tools" style="margin:5px ;width: 163px;">
 
+                </div>
+              </div>
+              <div class="btn-group card-tools "  style="margin:5px ;width: 163px;">
+                <button type="button" class="btn btn-success"><i class="fa fa-level-up" aria-hidden="true"></i>  Trier la liste</button>
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" role="menu">
+                  <a class="dropdown-item" href="{{ path('tricommentaire') }}">commantaires</a>
+                  <a class="dropdown-item" href="{{ path('likeback') }}">like</a>
+                </div>
+              </div>
+
+              <form method="post" action="{{path('searchComment')}}"  >
+                <select name="te" id="te" class="btn btn-success" style="margin:5px ;width: 163px;" >
+                  <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
+                  <option value="nbrlike" class="btn btn-success" {% if te == 'nbrlike' %} selected {% endif %}>like</option>
+                  <option value="commantaire" class="btn btn-success" {% if te == 'commantaire' %} selected {% endif %}>commentaire</option>
+                </select><br>
+                <div class="input-group input-group-sm" style="margin:5px ;width: 163px;">
+
+                  <input type="text" name="searchComment" class="form-control float-right" value="{{ searchComment }}" placeholder="Search">
+
+                  <div class="input-group-append">
+
+                    <button type="submit" class="btn btn-default" >
+
+                      <i class="fas fa-search"></i>
+                    </button>
+
+                  </div>
+              </form>
+
+            </div>
+          </div>
+
+          <!-- /.card-header -->
+
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
+
+
+              <thead>
+              <tr>
+                <th>Id</th>
+                <th>Commantaire</th>
+                <th>Nombre like</th>
+                <th>IdU</th>
+                <th>Id event</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for c in commantaires %}
+                <tr>
+                  <td>{{c.idCO}}</td>
+                  <td>{{c.commantaire}}</td>
+                  <td>{{c.nbrlike}}</td>
+                  <td>{{c.idU.nomPrenom}}</td>
+
+                  <td>
+                    {{ c.idevent.ide}}
+                  </td>
+                  <td>
+
+                    <button type="submit" class="btn btn-danger " style="margin:5px">
+                      <a href="{{ path('deleteCommentaire',{'id':c.idCO}) }}"
+                         style="color:white;">
+                        <i class="fas fa-trash" ></i>
+                        Supprimer
+                      </a>
+                    </button>
+
+                    {#<a href="{{ path('updateCommentaire',{'id':c.idCO}) }}">Update</a> #}
+                    {# <a href="{{ path('updateCommentaire',{'id':c.idCO}) }}">Update</a> #}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+
+
+
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <div class="content-wrapper>"
+        <div class="utf_pagination_container_part margin-bottom-70">
+          <nav class="pagination">
+            <ul>
+              <li>{{ knp_pagination_render(commantaires) }}</li>
+            </ul>
+          </nav>
+        </div> </div>
+        <!-- /.card -->
+      </div>
+  </div>
+  </section>
+{% endblock %}

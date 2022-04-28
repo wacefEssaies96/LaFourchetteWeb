@@ -3,63 +3,129 @@
 {% block title %}Evenements{% endblock %}
 
 {% block body %}
-<div class="content-wrapper">
-<section class="content">
-<div class="container-fluid">
-<div class="card">
-              <div class="card-header">
-                <h3 class="card-title">List des évenements</h3>
 
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
+
+
+  <div class="content-wrapper">
+    {% for message in app.flashes('info') %}
+      <div  id ="notification" class="alert alert-success" >
+        {{ message }}
+
+
+      </div>
+    {% endfor %}
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-header">
+
+            <h3 class="card-title">Liste des évenements</h3>
+
+            <div class="card-tools">
+
+            </div>
+          </div>
+
+        </div>
+        <!-- /.card-header -->
+
+
+
+        <div class="card-body table-responsive p-0">
+          <a  class="btn btn-success" href="{{ path('addEvenement') }}">Add évenement</a>
+          <a  class="btn btn-success" href="{{ path('evenementliste') }}"><i class="fas fa-file-pdf"></i> PDF </a>
+
+
+          <div class="btn-group card-tools "  style="margin:5px ;width: 163px;">
+            <button type="button" class="btn btn-success"><i class="fa fa-level-up" aria-hidden="true"></i>  Trier la liste</button>
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <a class="dropdown-item" href="{{ path('listeDQL') }}">Designation</a>
+              <a class="dropdown-item" href="{{ path('listeDQLDate') }}">Date</a>
+              <a class="dropdown-item" href="{{ path('listeDQLParticipants') }}">NombreParticipants</a>
+
+            </div>
+
+          </div>
+          <div>
+            <form method="post" action="{{path('searchEvent')}}"  >
+              <select name="te" id="te" class="btn btn-success" style="margin:5px ;width: 163px;" >
+                <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
+                <option value="nbrparticipants" class="btn btn-success" {% if te == 'nbrparticipants' %} selected {% endif %}>Nbr participants</option>
+                <option value="designatione" class="btn btn-success" {% if te == 'designatione' %} selected {% endif %}>Designation</option>
+              </select>
+              <div class="input-group input-group-sm" style="margin:5px ;width: 163px;">
+
+                <input type="text" name="searchEvent" class="form-control float-right" value="{{ searchEvent }}" placeholder="Search">
+
+                <div class="input-group-append">
+
+                  <button type="submit" class="btn btn-default" >
+
+                    <i class="fas fa-search"></i>
+                  </button>
+
                 </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-              <a href="{{ path('addEvenement') }}">Add évenement</a>
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Designation</th>
-                      <th>Description</th>
-                      <th>Date</th>
-                      <th>Image</th>
-                      <th>Nombre de Participants</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for c in evenements %}
-                    <tr>
-                      <td>{{c.idE}}</td>
-                      <td>{{c.designationE}}</td>
-                      <td>{{c.descriptionE}}</td>
-                      <td>{{c.dateE | date}}</td>
-                      <td>{{c.imageE}}</td>
-                      <td>{{c.nbrParticipants}}</td>
-                      <td>
-                        <a href="{{ path('deleteEvenement',{'id':c.idE}) }}">Delete</a>
-                        <a href="{{ path('updateEvenement',{'id':c.idE}) }}">Update</a> 
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-            </div>
-            </div>
-            </section>
-{% endblock %}
+            </form>
+          </div>
+          <table class="table table-hover text-nowrap">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>Designation</th>
+              <th>Description</th>
+              <th>Date</th>
+              <th>Image</th>
+              <th>Nombre de Participants</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for c in evenements %}
+              <tr>
+                <td>{{c.idE}}</td>
+                <td>{{c.designationE}}</td>
+                <td>{{c.descriptionE}}</td>
+                <td>{{c.dateE | date}}</td>
+                <td><img src="{{asset('uploads/images/')}}{{c.imageE}}" alt="{{c.imageE}}" height="52" width="52"></td>
+                <td>{{c.nbrParticipants}}</td>
+                <td>
+                  <button type="submit" class="btn btn-danger " style="margin:5px">
+                    <a href="{{ path('deleteEvenement',{'id':c.idE}) }}" onclick="notify_delete_Evenement()"
+                       style="color:white;">
+                      <i class="fas fa-trash" ></i>
+                      Supprimer
+                    </a>
+                  </button>
+                  <button type="submit" class="btn btn-success " style="margin:5px">
+                    <a href="{{ path('updateEvenement',{'id':c.idE}) }}"
+                       style="color:white;">
+                      <i class="fas fa-edit" ></i>
+                      Modifier
+                    </a>
+                  </button>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
 
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+  </div>
+  <div class="utf_pagination_container_part margin-bottom-70">
+    <nav class="pagination">
+      <ul>
+        <li>{{ knp_pagination_render(evenements) }}</li>
+      </ul>
+    </nav>
+  </div>
+  </div>
+
+  </section>
+{% endblock %}

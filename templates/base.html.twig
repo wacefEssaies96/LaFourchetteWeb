@@ -26,6 +26,12 @@
             <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
             <!-- summernote -->
             <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+
+          <!-- sssssssssssssss -->
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" integrity="sha256-5veQuRbWaECuYxwap/IOE/DAwNxgm4ikX7nrgsqYp88=" crossorigin="anonymous">
+
+
+
         {% endblock %}
 
         {% block javascripts %}
@@ -63,11 +69,24 @@
             <script src="{{ asset('dist/js/demo.js') }}"></script>
             <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
             <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+          <script src="{{asset('assets/scripts/jquery.min.js')}}"></script>
+
+
+
+
+          <!-- sssssssssssssssssssssssssss-->
+          <script src="{{ asset('https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js') }}"></script>
+          <script src="{{ asset('js/filters.js') }}"></script>
+
+
+
+
         {% endblock %}
     </head>
     <body>
 <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -83,6 +102,7 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+
       <!-- Navbar Search -->
       {# <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
@@ -105,6 +125,7 @@
         </div>
       </li> #}
       <li class="nav-item">
+
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
@@ -312,8 +333,22 @@
     <!-- /.sidebar -->
   </aside>
         {% block body %}
-        
+
         {% endblock %}
+
+
+{% block js %}
+
+
+<script>
+  function closeDiv(){
+
+    document.getElementById("notification").style.display="none";
+
+  }
+  window.setTimeout(closeDiv,3000);
+</script>
+{% endblock %}
         <footer class="main-footer">
         <strong>Copyright &copy; 2021-2022.</strong>
         All rights reserved.

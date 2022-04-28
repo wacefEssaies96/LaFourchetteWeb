@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Commentaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,33 +45,36 @@ class CommentaireRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+    public function orderbyNbrLike($id){
 
-    // /**
-    //  * @return Commentaire[] Returns an array of Commentaire objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Commentaire
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->createQueryBuilder('c')->where('c.idevent = :id')
+            ->setParameter('id',$id)->orderBy('c.nbrlike' ,'ASC') ->getQuery()->getResult();
     }
-    */
+
+    public function orderbycommentaire(){
+        $em=$this->getEntityManager();
+        $query =$em->createQuery(' select e from App\Entity\Commentaire e order by e.commantaire ASC');
+        return $query->getResult();
+    }
+
+    public function orderbylikeback(){
+        $em=$this->getEntityManager();
+        $query =$em->createQuery(' select e from App\Entity\Commentaire e order by e.nbrlike DESC');
+        return $query->getResult();
+    }
+
+    public function searchComment($te,$tt)
+    {
+        $queryBuilder=$this->createQueryBuilder('search')->select('search')
+            ->setParameter('value', '%'.$tt.'%');
+        if($te == 'nbrlike'){
+            $queryBuilder->where('search.nbrlike LIKE :value');
+        }else {
+            $queryBuilder->where('search.commantaire LIKE :value');
+        }
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
 }

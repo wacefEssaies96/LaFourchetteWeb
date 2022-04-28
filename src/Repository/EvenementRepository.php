@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Commentaire;
 use App\Entity\Evenement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -45,22 +46,23 @@ class EvenementRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Evenement[] Returns an array of Evenement objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    /**
+      * @return Commentaire[] Returns an array of Evenement objects
+     */
+
+   public function Join()
+    {   $em=$this->getEntityManager();
+        $query = $em->createQueryBuilder()
+            ->select('c')
+            ->from('App\Entity\Commentaire', 'c')
+            ->leftJoin('c.idevent', 'e', 'WITH', 'e.id=c.idevent')
+            ->from('App\Entity\Evenement', 'e');
+        return $query->getQuery()->getResult();
+        return $query->getResult();
+
+
+        
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Evenement
@@ -73,4 +75,38 @@ class EvenementRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function orderbydesignation(){
+        $em=$this->getEntityManager();
+        $query =$em->createQuery(' select e from App\Entity\Evenement e order by e.designatione ASC');
+         return $query->getResult();
+    }
+    public function orderbyDate(){
+        $em=$this->getEntityManager();
+        $query =$em->createQuery(' select e from App\Entity\Evenement e order by e.datee ASC');
+        return $query->getResult();
+    }
+    public function orderbyNbrPartcipants(){
+        $em=$this->getEntityManager();
+        $query =$em->createQuery(' select e from App\Entity\Evenement e order by e.nbrparticipants ASC');
+        return $query->getResult();
+    }
+
+    public function searchEvent($te,$tt)
+    {
+        $queryBuilder=$this->createQueryBuilder('search')->select('search')
+            ->setParameter('value', '%'.$tt.'%');
+        if($te == 'nbrparticipants'){
+            $queryBuilder->where('search.nbrparticipants LIKE :value');
+        }else {
+            $queryBuilder->where('search.designatione LIKE :value');
+        }
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+
 }
+
