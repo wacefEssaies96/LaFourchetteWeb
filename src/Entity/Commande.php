@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Scalar\String_;
 
 /**
  * Commande
  *
- * @ORM\Table(name="commande", indexes={@ORM\Index(name="fk_idU_C", columns={"idU"})})
+ * @ORM\Table(name="commande", indexes={@ORM\Index(name="fk_idU_C", columns={"idU"}),@ORM\Index(name="fk_refplat", columns={"referenceplat"})})
  * @ORM\Entity(repositoryClass="App\Repository\CommandeRepository")
  */
 class Commande
@@ -22,18 +23,19 @@ class Commande
     private $idc;
 
     /**
-     * @var int
+     * @var Utilisateur
      *
-     * @ORM\Column(name="idU", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Utilisateur", inversedBy="Commande")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idU", referencedColumnName="idU", nullable=false)
+     * })
      */
     private $idu;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="etatC", type="string", length=255, nullable=false)
-     */
-    private $etatc;
+     /**
+      * @ORM\Column(name="quantity", type="integer", length=255, nullable=false)
+      */
+    private $quantity;
 
     /**
      * @var string
@@ -49,31 +51,42 @@ class Commande
      */
     private $prixc;
 
+    /**
+     * @var Plat
+     * @ORM\Column(name="referenceplat", type="string", nullable=false)
+     * @ORM\ManyToOne(targetEntity=Plat::class)
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="reference", referencedColumnName="reference", nullable=false)
+     * })
+     */
+    private $referenceplat;
+
+
     public function getIdc(): ?int
     {
         return $this->idc;
     }
 
-    public function getIdu(): ?int
+    public function getIdu(): ?Utilisateur
     {
         return $this->idu;
     }
 
-    public function setIdu(int $idu): self
+    public function setIdu(?Utilisateur $idu): self
     {
         $this->idu = $idu;
 
         return $this;
     }
 
-    public function getEtatc(): ?string
+    public function getQuantity(): ?int
     {
-        return $this->etatc;
+        return $this->quantity;
     }
 
-    public function setEtatc(string $etatc): self
+    public function setQuantity(int $quantity): self
     {
-        $this->etatc = $etatc;
+        $this->quantity = $quantity;
 
         return $this;
     }
@@ -101,6 +114,20 @@ class Commande
 
         return $this;
     }
+
+    public function getReferencePlat(): ?string
+    {
+        return  $this->referenceplat;
+    }
+
+    public function setReferencePlat(?Plat $referenceplat): self
+    {
+        $this->referenceplat = $referenceplat;
+
+        return $this;
+    }
+
+
 
 
 }

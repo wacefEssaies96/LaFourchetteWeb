@@ -45,6 +45,30 @@ class PlatRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function searchPlat($te,$tt)
+    {
+        $queryBuilder=$this->createQueryBuilder('search')->select('search')
+            ->setParameter('value', '%'.$tt.'%');
+        if($te == 'designation'){
+            $queryBuilder->where('search.designation LIKE :value');
+        }else {
+            $queryBuilder->where('search.prix LIKE :value');
+        }
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+    public function triPlat($type)
+    {
+        $queryBuilder=$this->createQueryBuilder('tri')->select('tri');
+        if ($type == 'designation'){
+            $queryBuilder->orderBy('tri.designation', 'ASC');
+        }else {
+            $queryBuilder->orderBy('tri.nomprod', 'ASC');
+        }
+        return  $queryBuilder->getQuery()->getResult();
+    }
     // /**
     //  * @return Plat[] Returns an array of Plat objects
     //  */

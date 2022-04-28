@@ -36,7 +36,7 @@ class ProduitFournisseur
      *
      * @ORM\ManyToOne(targetEntity="Produit")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="nomProd", referencedColumnName="nomProd")
      * })
      */
     private $nomprod;

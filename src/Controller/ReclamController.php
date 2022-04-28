@@ -41,15 +41,16 @@ class ReclamController extends AbstractController
     {
         $reclam = new Reclam();
         $form = $this->createForm(ReclamType::class, $reclam);
-        $form->add('Ajouter',SubmitType::class);
+        //$form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($reclam);
             $em->flush();
-            return $this->redirectToRoute('app_reclam');
+           // return $this->redirectToRoute('app_reclam');
+            return $this->render("Front/Front-base.html.twig");
         }
-        return $this->render("reclam/add.html.twig",array('form'=>$form->createView()));
+        return $this->render("reclam/ADD_Reclam.html.twig",array('form'=>$form->createView()));
     }
 
     /**

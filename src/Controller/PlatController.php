@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PlatRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,11 +16,15 @@ class PlatController extends AbstractController
     /**
      * @Route("/plat", name="app_plat")
      */
-    public function index(): Response
-    {
+    public function index(Request $request): Response
+    {    $te=$request->request->get('te');
+        $tt=$request->request->get('searchPlat');
         $plats = $this->getDoctrine()->getRepository(Plat::class)->findAll();
         return $this->render('plat/index.html.twig', [
             'plats' => $plats,
+            'te' => $te,
+            'searchPlat' => $tt,
+
         ]);
     }
     /**
@@ -87,5 +92,36 @@ class PlatController extends AbstractController
             return $this->redirectToRoute('app_plat');
         }
         return $this->render("plat/update.html.twig",array('form'=>$form->createView()));
+    }
+    /**
+     * @Route("/searchPlat", name="searchPlat")
+     */
+    public function searchReclam(Request $request, PlatRepository $PlatRepository): Response
+    {
+        $te=$request->request->get('te');
+        $tt=$request->request->get('searchPlat');
+        $plats= $PlatRepository->searchPlat($te,$tt);
+        return $this->render('plat/index.html.twig', [
+            'plats' => $plats,
+            'te' => $te,
+            'searchPlat' => $tt,
+
+        ]);
+    }
+    /**
+     * @Route("/triPLat/{type}", name="triPlat" )
+     */
+    public function triPlat(Request $request,PlatRepository $PlatRepository,$type): Response
+    {
+        $te=$request->request->get('te');
+        $tt=$request->request->get('searchPlat');
+        $plats = $PlatRepository->triPlat($type);
+
+        return $this->render('plat/index.html.twig', [
+            'plats' => $plats,
+            'te' => $te,
+            'searchPlat' => $tt,
+        ]);
+
     }
 }
