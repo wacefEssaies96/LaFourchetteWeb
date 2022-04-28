@@ -105,6 +105,11 @@
                     <!-- end col -->
                 </div>
                 <!-- end row -->
+                {% for message in app.flashes('info')%}
+    <div id="notif" class="alert alert-success">
+    {{message}}
+    </div>
+    {% endfor %}
             </div>
             <!-- end container -->
         </div>

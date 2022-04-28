@@ -31,6 +31,7 @@ class TypeRecController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($typeRec);
         $em->flush();
+        $this->addFlash('info','Type réclamation supprimé !');
         return $this->redirectToRoute("app_type_rec");
     }
 
@@ -53,6 +54,7 @@ class TypeRecController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($typeRec);
             $em->flush();
+            $this->addFlash('info','Type réclamation ajouté !');
             return $this->redirectToRoute('app_type_rec');
         }
         return $this->render("type_rec/add.html.twig",array('form'=>$form->createView()));
@@ -72,6 +74,7 @@ class TypeRecController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+            $this->addFlash('info','Type réclamation modifié !');
             return $this->redirectToRoute('app_type_rec');
         }
         return $this->render("type_rec/update.html.twig",array('form'=>$form->createView()));

@@ -58,7 +58,7 @@ class ProduitFournisseur
         return $this;
     }
 
-    public function getNomprod()
+    public function getNomprod()    
     {
         return $this->nomprod;
     }

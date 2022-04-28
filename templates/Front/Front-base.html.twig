@@ -99,9 +99,15 @@
                             <h1>Bienvenu chez <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="La Fourchette" data-colors="red"></span><span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span></h1>
                             <h2>Commandez et emportez vos plats préférés</h2>
                             <p>Un apéritif, une soirée, un événement !</p>
+                            {% for message in app.flashes('info')%}
+                            <div id="notif" class="alert alert-success">
+                            {{message}}
+                            </div>
+                            {% endfor %}
                             <div class="book-btn">
                                 <a href="#reservation" class="table-btn hvr-underline-from-center">Réserver une table</a>
                             </div>
+                            
                             <a href="#about">
                                 <div class="mouse"></div>
                             </a>
@@ -1083,6 +1089,11 @@
                                     
                                 </div>
                             </div>
+                            {% for message in app.flashes('info')%}
+                            <div class="alert alert-success">
+                            {{message}}
+                            {% endfor %}
+                            </div>
                             <!-- end col -->
 
                                 
@@ -1230,6 +1241,12 @@
     </section>
     {% endblock %}
     {% block js %}
+    <script> 
+            function closeDiv(){
+            document.getElementById("notif").style.display=" none";
+            }
+            window.setTimeout( closeDiv, 3000 );
+            </script>
     <!-- ALL JS FILES -->
     <!-- Modernizer -->
     <script src="Front/js/modernizer.js"></script>

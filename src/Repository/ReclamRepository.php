@@ -73,4 +73,36 @@ class ReclamRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function searchReclam($te,$tt)
+    {
+        $queryBuilder=$this->createQueryBuilder('search')->select('search')
+            ->setParameter('value', '%'.$tt.'%');
+            if($te == 'Etat'){
+                $queryBuilder->where('search.etatrec LIKE :value');
+            }else {
+                $queryBuilder->where('search.idrec LIKE :value');
+            }
+            return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+    public function triReclam($type)
+    {
+        $queryBuilder=$this->createQueryBuilder('tri')->select('tri');
+        if ($type == 'Etat'){
+            $queryBuilder->orderBy('tri.etatrec', 'ASC');
+        }else {
+            $queryBuilder->orderBy('tri.typerec', 'ASC');
+        }
+          return  $queryBuilder->getQuery()->getResult();
+    }
+    public function findByTypeRec($typerec)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.typerec = :val')
+            ->setParameter('val', $typerec)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

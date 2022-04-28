@@ -26,9 +26,33 @@
             <link rel="stylesheet" href="{{ asset('Back/plugins/daterangepicker/daterangepicker.css') }}">
             <!-- summernote -->
             <link rel="stylesheet" href="{{ asset('Back/plugins/summernote/summernote-bs4.min.css') }}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         {% endblock %}
 
         {% block javascripts %}
+            <script> 
+           
+            function notify_delete_rec() {
+            var notification = new Notification('Réclamation', {
+            body: "Réclamtion supprimée !!",
+             });
+
+            setTimeout(notification.close.bind(notification), 3000); 
+            }
+            function notify_delete_typerec() {
+            var notification = new Notification('Type Réclamation', {
+            body: "Type Réclamtion supprimée !!",
+             });
+
+            setTimeout(notification.close.bind(notification), 3000); 
+            }
+           
+            function closeDiv(){
+            document.getElementById("notif").style.display=" none";
+            }
+            window.setTimeout( closeDiv, 3000 );
+            </script>
             <!-- jQuery -->
             <script src="{{ asset('Back/plugins/jquery/jquery.min.js') }}"></script>
             <!-- jQuery UI 1.11.4 -->
@@ -36,6 +60,20 @@
             <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
             <script>
                 $.widget.bridge('uibutton', $.ui.button)
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+                let categories = document.querySelector("#categories");
+                let categGraph = new Chart(categories, {
+                    type: "pie",
+                    data: {
+                        labels: ["cat1","cat2","cat3"],
+                        datasets: [{
+                            label: "Répartition des réclamations",
+                            data: [2, 5, 3]
+                        }]
+                    }
+                })
             </script>
             <!-- Bootstrap 4 -->
             <script src="{{ asset('Back/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -67,6 +105,7 @@
     </head>
     <body>
 <!-- Navbar -->
+ 
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -79,9 +118,14 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
       </li>
+     
+     
+      
+     
     </ul>
 
     <!-- Right navbar links -->
+    
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
       {# <li class="nav-item">
@@ -104,6 +148,8 @@
           </form>
         </div>
       </li> #}
+      
+      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
@@ -114,8 +160,10 @@
           <i class="fas fa-th-large"></i>
         </a>
       </li>
+      
     </ul>
   </nav>
+ 
   <!-- /.navbar -->
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -307,6 +355,7 @@
           </li>
         </ul>
       </nav>
+      
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

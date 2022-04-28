@@ -24,7 +24,7 @@ class Reclam
 
     /**
      * @var string
-     * @Assert\NotNull(message="Le Champ  Description est obligatoire")
+     * 
      * @ORM\Column(name="description", type="string", length=500, nullable=false)
      */
     private $description;
@@ -55,6 +55,8 @@ class Reclam
      * })
      */
     private $typerec;
+
+   
 
     public function getIdrec(): ?int
     {
