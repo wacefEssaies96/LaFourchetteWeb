@@ -8,17 +8,23 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Decoration;
 use App\Form\DecorationType;
 use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 class DecorationController extends AbstractController
 {
     /**
      * @Route("/decoration", name="app_decoration")
      */
-    public function index(Request $request): Response
+    public function index(PaginatorInterface $paginator,Request $request): Response
     {
         $TRD=$request->request->get('TRD');
         $VRD=$request->request->get('searchdecoration');
         $decorations = $this->getDoctrine()->getRepository(Decoration::class)->findAll();
+        $decorations = $paginator->paginate(
+            $decorations,
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('decoration/index.html.twig', [
             'decorations' => $decorations,
             'TRD' => $TRD,
@@ -35,6 +41,7 @@ class DecorationController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($decoration);
         $em->flush();
+        $this->addFlash('info','Decoration supprimer');
         return $this->redirectToRoute("app_decoration");
     }
 
@@ -59,6 +66,7 @@ class DecorationController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($decoration);
             $em->flush();
+            $this->addFlash('info','Decoration ajoutée');
             return $this->redirectToRoute('app_decoration');
         }
         return $this->render("decoration/add.html.twig",array('form'=>$form->createView()));
@@ -84,6 +92,7 @@ class DecorationController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+            $this->addFlash('info','Decoration modifié');
             return $this->redirectToRoute('app_decoration');
         }
         return $this->render("decoration/update.html.twig",array('form'=>$form->createView()));
@@ -92,18 +101,31 @@ class DecorationController extends AbstractController
     /**
      * @Route ("/searchdecoration", name="searchdecoration")
      */
-    function searchdecoration(Request $request): Response
+    function searchdecoration(PaginatorInterface $paginator,Request $request): Response
     {
         
         $TRD=$request->request->get('TRD');
         $VRD=$request->request->get('searchdecoration');
         
-        $decoration = $this->getDoctrine()->getRepository(Decoration::class)->Search($TRD,$VRD);
+        $decorations = $this->getDoctrine()->getRepository(Decoration::class)->Search($TRD,$VRD);
 
         
-
+        if($decorations == []){
+            if($TRD == 'prix'){
+                $this->addFlash('info','Il n\'y aucune decoration de prix = " '.$VRD.' "');
+            }else{
+                $this->addFlash('info','Il n\'y aucune decoration de nom = " '.$VRD.' "');
+            }
+            $decorations = $this->getDoctrine()->getRepository(Decoration::class)->findAll();
+           
+        }
+        $decorations = $paginator->paginate(
+            $decorations,
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('decoration/index.html.twig', [
-            'decorations' => $decoration,
+            'decorations' => $decorations,
             'TRD' => $TRD,
             'searchdecoration' => $VRD,
         ]);
@@ -112,14 +134,19 @@ class DecorationController extends AbstractController
     /**
      * @Route ("/tridecoration/{type}", name="tridecoration")
      */
-    function tridecoration(Request $request,$type)
+    function tridecoration(PaginatorInterface $paginator,Request $request,$type)
     {
         $TRD=$request->request->get('TRD');
         $VRD=$request->request->get('searchdecoration');
-        $decoration = $this->getDoctrine()->getRepository(Decoration::class)->tridecoration($type);
-        /*dump($decoration);die();*/
+        $decorations = $this->getDoctrine()->getRepository(Decoration::class)->tridecoration($type);
+        /*dd($decoration);*/
+        $decorations = $paginator->paginate(
+            $decorations,
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('decoration/index.html.twig', [
-            'decorations' => $decoration,
+            'decorations' => $decorations,
             'TRD' => $TRD,
             'searchdecoration' => $VRD,
         ]);

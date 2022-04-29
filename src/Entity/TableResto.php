@@ -20,6 +20,7 @@ class TableResto
      * @ORM\Column(name="IdT", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\OneToMany(targetEntity="ReservationTableResto",mappedBy="TableResto")
+     * @ORM\OneToMany(targetEntity="DatetimetrTableResto",mappedBy="TableResto")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idt;

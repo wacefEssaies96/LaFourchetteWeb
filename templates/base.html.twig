@@ -6,6 +6,15 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
+        <!--Image Cropper refresh img-->
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css"
+        />
+        
+        <link rel="stylesheet" href="{{ asset('refreshimg/style.css') }}" />
+        <!--Image Cropper refresh img-->
+
              <!-- Google Font: Source Sans Pro -->
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
             <!-- Font Awesome -->
@@ -26,9 +35,18 @@
             <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
             <!-- summernote -->
             <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+
         {% endblock %}
 
         {% block javascripts %}
+        
+        <!--Image Cropper refresh img-->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>
+          
+          <script src="{{ asset('refreshimg/index.js') }}" defer></script>
+        <!--Image Cropper refresh img-->
+
             <!-- jQuery -->
             <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
             <!-- jQuery UI 1.11.4 -->
@@ -63,6 +81,8 @@
             <script src="{{ asset('dist/js/demo.js') }}"></script>
             <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
             <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+            
+
         {% endblock %}
     </head>
     <body>
@@ -313,6 +333,17 @@
   </aside>
         {% block body %}
         
+        {% endblock %}
+        {% block js %}
+        
+          <script> 
+          
+            function CloseNotification(){
+              document.getElementById("notification").style.display="none";
+            }
+            window.setTimeout(CloseNotification,5000);
+          </script>
+
         {% endblock %}
         <footer class="main-footer">
         <strong>Copyright &copy; 2021-2022.</strong>

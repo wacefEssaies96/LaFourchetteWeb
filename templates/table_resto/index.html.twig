@@ -6,6 +6,14 @@
 <div class="content-wrapper">
 <section class="content">
 <div class="container-fluid">
+                {% for message in app.flashes('info')%}
+                  <div id="notification" class="alert alert-success">
+                  {{message}}
+                  <button type="button" class="close" style="color:white" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+                {% endfor %}
 <div class="card" style="margin:5px">
               <div class="card-header"  style="background-color:#4d4d4d;color:white" >
                 <h3 class="card-title " style="font-weight: bold">Liste des Table du restaurant</h3>
@@ -13,12 +21,13 @@
                 <div class="card-tools ">
                   <form method="post" action="{{path('searchtableresto')}}">
                   
-                    <button type="button"  class="btn btn-success">
+                    <!--button type="button"  class="btn btn-success">
                       Cretère
-                    </button>
+                    </button-->
                     <select name="TRT" id="TRT" class="btn btn-success" >
+                        <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
                       <option value="prix" class="btn btn-success"   {% if TRT == 'prix' %} selected {% endif %}>Prix</option>
-                      <option value="etat" class="btn btn-success"  {% if TRT == 'etat' %} selected {% endif %}>Etat</option>
+                      <!--option value="etat" class="btn btn-success"  % if TRT == 'etat' %} selected % endif %}>Etat</option-->
                       <option value="nbrplace" class="btn btn-success" {% if TRT == 'nbrplace' %} selected {% endif %}>Nombre de Place</option>
                     </select>
                     <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
@@ -54,7 +63,7 @@
                     </button>
                     <div class="dropdown-menu" role="menu">
                       <a class="dropdown-item" href="{{ path('tritableresto',{'type' : 'nbrp'}) }}">Nombre de Place</a>
-                      <a class="dropdown-item" href="{{ path('tritableresto',{'type' : "etat"}) }}">Etat</a>
+                      <!--a class="dropdown-item" href="{ path('tritableresto',{'type' : "etat"}) }}">Etat</a-->
                       <a class="dropdown-item" href="{{ path('tritableresto',{'type': "prix"}) }}">Prix</a>
                     </div>
                   </div>
@@ -81,7 +90,15 @@
                     <tr>
                       <!--<td>{t.IdT}}</td>-->
                       <td>{{t.NbrPlace}}</td>
-                      <td>{{t.Etat}}</td>
+                      <td>
+                        <button type="submit" class="btn btn-success " style="margin:5px">
+                          <a href="{{ path('gererdisponibiliteTableResto',{'id':t.IdT}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-edit" ></i>
+                            gerer 
+                          </a>
+                        </button>
+                      </td>
                       <td>
                       <img src="{{asset('uploads/images/')}}{{t.ImageTable}}" width="250" height="250">
                       </td>
@@ -112,6 +129,13 @@
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            <div class="utf_pagination_container_part margin-bottom-70">
+              <nav class="pagination">
+                <ul>
+                  <li>{{ knp_pagination_render(tableRestos) }}</li>
+                </ul>
+              </nav>
+            </div>
             </div>
             </div>
             </section>

@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DATE and TIME {% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+<div class="card"  style="margin:5px">
+              <div class="card-header"  style="background-color:#4d4d4d;color:white" >
+                <h3 class="card-title " style="font-weight: bold">Liste des Dates</h3>
+
+                <div class="card-tools ">
+                  <form method="post" action="{{path('searchdate')}}">
+                  
+                    <!--button type="button"  class="btn btn-success">
+                      Cretère
+                    </button-->
+                    <select name="TRDTR" id="TRDTR" class="btn btn-success" >
+
+                        <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
+                        <option value="date" class="btn btn-success" {% if TRDTR == 'date' %} selected {% endif %}>Date</option>
+                        <option value="etat" class="btn btn-success" {% if TRDTR == 'etat' %} selected {% endif %}>Etat</option>
+
+                    </select>
+                    <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
+                        <input type="text" name="searchdate" class="form-control float-right"
+                        value="{{searchdate}}"
+                         placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="card-tools">
+                  <div class="input-group card-tools" style="margin:10px ;width: 150px;">
+                  
+                    <button type="submit" class="btn btn-primary ">
+                      <a href="{{ path('addDate') }}"
+                      style="color:white;">
+                        <i class="fas fa-plus" ></i>
+                        Ajouter 
+                      </a>
+                    </button>
+                  </div>
+                </div>
+                  <div class="btn-group card-tools float right"  style="margin:10px">
+                    <button type="button" class="btn btn-success">TRI</button>
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                      <a class="dropdown-item" href="{{ path('tridate',{'type' : "etat"}) }}">Etat</a>
+                      <a class="dropdown-item" href="{{ path('tridate',{'type': "date"}) }}">Date</a>
+                    </div>
+                  </div>
+
+                
+              </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+
+                <table class="table table-hover text-nowrap" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th width="50">Date</th>
+                      <th width="250">Etat</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for d in datetimetrs %}
+                    <tr>
+                      <td>{{d.iddt}}</td>
+                      <td>{{d.date | date }}</td>
+                      <td>{{d.etat}}</td>
+
+                      <td>
+                      <button type="submit" class="btn btn-success " style="margin:5px">
+                        <a href="{{ path('updateDate',{'id':d.iddt}) }}" 
+                        style="color:white;">
+                          <i class="fas fa-edit" ></i>
+                          Modifier 
+                        </a>
+                      </button>
+                      <br>
+                      <button type="submit" class="btn btn-danger " style="margin:5px">
+                        <a href="{{ path('deleteDate',{'id':d.iddt}) }}" 
+                        style="color:white;">
+                          <i class="fas fa-trash" ></i>
+                          Supprimer 
+                        </a>
+                      </button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}

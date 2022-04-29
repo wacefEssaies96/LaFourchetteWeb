@@ -1,7 +1,32 @@
 {% extends 'front.html.twig' %}
 
 {% block title %}Ajouter une Reservation{% endblock %}
+{% block javascripts %}
+<script>
+var expanded = false;
 
+function showCheckboxes() {
+  var checkboxes = document.getElementById("checkboxes");
+  if (!expanded) {
+    checkboxes.style.display = "block";
+    expanded = true;
+  } else {
+    checkboxes.style.display = "none";
+    expanded = false;
+  }
+}
+
+    $(document).ready(function() {
+        $("button").click(function(){
+            var idsD = [];
+            $.each($("input[name='decoration']:checked"), function(){
+                idsD.push($(this).val());
+            });
+            alert("Decoration selectionne: " + idsD.join(", "));
+        });
+    });
+</script>
+{% endblock %}
 {% block body %}
 
     <div class="special-menu pad-top-100 parallax">
@@ -57,14 +82,56 @@
                 <div class="form-reservations-box">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         
+                            
                         {{ form_start(form) }}
-                            <div class="wow fadeIn col-lg-6 col-md-6 col-sm-6 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                            <div class="wow fadeIn col-lg-12 col-md-12 col-sm-12 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
                                 <h2 class="block-title text-center">
                                     Choisir la date de votre reservation
                                 </h2>
                             </div>
+                             <div class="wow fadeIn col-lg-12 col-md-12 col-sm-12 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <select name="datereservation" id="datereservation" class="form-controle" style="color:white;background-color: #FF4500;padding:30px;font-weight:bold;font-size: 18px;">
+                                    <option value="" selected disabled hidden class="form-controle" style="color:white;background-color: #FF4500;" disabled>Date du reservation</option>
+                                    {% for d in datetimetrs %}
+                                        <option value="{{d.iddt}}" >{{d.date | date}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="wow fadeIn col-lg-12 col-md-12 col-sm-12 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <h2 class="block-title text-center">
+                                    Vous pouvez ajouter des decoration
+                                </h2>
+                            </div>
+                            <hr>
+                             <div class="wow fadeIn col-lg-12 col-md-12 col-sm-12 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <div class="multiselect">
+                                    <div class="selectBox" onclick="showCheckboxes()"  >
+                                    <select   class="form-controle"  style="color:white;background-color: #FF4500;padding:30px;font-weight:bold;font-size: 18px;">
+                                        <option>Decoration du reservation</option>
+                                    </select>
+                                    <div name="decorationreservation" class="overSelect"></div>
+                                    </div>
+                                    <div   id="checkboxes" style="color:white;background-color: #FF4500;" >
+                                        {% for d in decorations %}
+                                        <label for="{{d.idD}}">
+                                            <input style="margin: 5px" type="checkbox" id="{{d.idD}}" value="{{d.idD}}" name="decoration" />
+                                            <img src="{{asset('uploads/images/')}}{{d.ImageD}}" width="100" height="100" style="margin: 5px">
+                                            {{d.nom}} ({{d.prix}} DT) 
+                                            
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                </div>
+                                <!--select multiple="multiple" name="decorationreservation" id="decorationreservation" class="form-controle" style="color:white;background-color: #FF4500;padding:30px;font-weight:bold;font-size: 18px;">
+                                    <option value="" selected disabled hidden class="form-controle" style="color:white;background-color: #FF4500;" disabled>Decoration du reservation</option>
+                                    % for d in decorations %}
+                                        <option value="{d.idD}}" >{d.nom}}</option>
+                                    % endfor %}
+                                </select-->
+                            </div>
                             <!-- end col -->
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="visibility: hidden;">
                                 <div class="form-box">
                                     <label>{{form_widget(form.datemodification, {'attr': {'class': 'hidden-row'}} )}}</label>
                                     {% if form_errors(form.datemodification) is not empty %}

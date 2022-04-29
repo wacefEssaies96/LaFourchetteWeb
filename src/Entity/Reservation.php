@@ -36,14 +36,14 @@ class Reservation
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="DateCreation", type="date", nullable=false)
+     * @ORM\Column(name="DateCreation", type="datetime", nullable=false)
      */
     private $datecreation;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="DateModification", type="date", nullable=false)
+     * @ORM\Column(name="DateModification", type="datetime", nullable=false)
      */
     private $datemodification;
     

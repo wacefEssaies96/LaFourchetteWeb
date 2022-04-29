@@ -1,0 +1,11 @@
+
+#uploadedImage {
+    display: block;
+    height: 260px;
+    width: 260px;
+}
+
+
+#cropButton {
+    display: none;
+}

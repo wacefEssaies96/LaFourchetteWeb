@@ -46,8 +46,7 @@
                                 
                                     {{form_label(form.imaged,'Image', {'attr': {'class': 'form-control'}} )}}
                                     <img src="{{asset("uploads/images/" ~ form.imaged.vars.data)}}" onerror="this.src='{{asset("uploads/images/imagenotfound.png")}}';"  width="300" height="300">
-                                    
-                                    
+                                    <br>
                                     <div class="form-group">
                                         {{form_widget(form.imaged,{'attr': {'class': 'form-control'}} )}}
                                     </div>

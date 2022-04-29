@@ -85,7 +85,7 @@ class Utilisateur
         return $this->idu;
     }
     
-    public function setIdu(string $email): self
+    public function setIdu(int $idu): self
     {
         $this->idu = $idu;
 

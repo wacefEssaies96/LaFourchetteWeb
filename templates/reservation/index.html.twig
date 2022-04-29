@@ -6,6 +6,14 @@
 <div class="content-wrapper">
 <section class="content">
 <div class="container-fluid">
+                {% for message in app.flashes('info')%}
+                  <div id="notification" class="alert alert-success">
+                  {{message}}
+                  <button type="button" class="close" style="color:white" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+                {% endfor %}
 <div class="card"  style="margin:5px">
               <div class="card-header"  style="background-color:#4d4d4d;color:white" >
                 <h3 class="card-title"  style="font-weight: bold">List des reservations</h3>
@@ -14,11 +22,11 @@
                 <div class="card-tools">
                   <form method="post" action="{{path('searchreservation')}}">
                   
-                    <button type="button"  class="btn btn-success">
+                    <!--button type="button"  class="btn btn-success">
                       Cretère
-                    </button>
+                    </button-->
                     <select name="TRR" id="TRR" class="btn btn-success" >
-
+                        <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
                         <option value="utilisateur" class="btn btn-success" {% if TRR == 'utilisateur' %} selected {% endif %}>Utilisateur</option>
                         <option value="datecreation" class="btn btn-success" {% if TRR == 'datecreation' %} selected {% endif %}>Date de Creation</option>
                         <option value="datemodification" class="btn btn-success" {% if TRR == 'datemodification' %} selected {% endif %}>Date de Modification</option>
@@ -105,8 +113,14 @@
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            <div class="utf_pagination_container_part margin-bottom-70">
+              <nav class="pagination">
+                <ul>
+                  <li>{{ knp_pagination_render(reservations) }}</li>
+                </ul>
+              </nav>
             </div>
-            
+            </div>
             
             </div>
             </section>

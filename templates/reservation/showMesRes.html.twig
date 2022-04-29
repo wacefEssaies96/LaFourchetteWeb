@@ -1,0 +1,130 @@
+
+    {% extends 'basemenufront.html.twig' %}
+    
+{% block title %}Details d'une Reservation{% endblock %}
+
+{% block body %}
+<div class="content">
+<section class="content">
+<div class="container-fluid">
+
+<div class="card"  style="margin:5px">
+    <div class="card-header"  style="background-color:#4d4d4d;color:white" >
+        <h3 class="card-title"  style="font-weight: bold">Details d'une reservation</h3>
+        
+        <button type="submit" class="btn btn-success float-right">
+        <a href="{{ path('pdfreservation',{'idr':reservation.idR}) }}"
+        style="color:white;">
+            PDF 
+        </a>
+        </button>
+    </div>
+
+        
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+        <div class="card-tools">
+        <table class="table table-hover text-nowrap" style="text-align: center;">
+            <thead>
+            <tr>
+                <!--<th>Id</th>-->
+                <th>Utilisateur</th>
+                <th>Date de création</th>
+                <th>Date de modification</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{reservation.idU.nomprenom}}</td>
+                
+                </td>
+                <td>{{reservation.DateCreation | date}}</td>
+                <td>{{reservation.DateModification | date}}</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    
+    <div class="col-md-6 float-left">
+    <div class="card-header " style="background-color:#4d4d4d;color:white" >
+        <h3 class="card-title"  style="font-weight: bold">Table restaurant</h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+        <table class="table table-hover text-nowrap" style="text-align: center;">
+            <thead>
+            <tr>
+                <th  width="50">Nombre<br> de <br> place</th>
+                <th width="250">Image</th>
+                <th  width="50">Vip</th>
+                <th  width="50">Prix</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for t in tableRestos %}
+            
+            <!--% if d == "App\Entity\TableResto" %}-->
+            <tr>
+                <td>{{t.nbrplace}}</td>
+                <td>
+                <img src="{{asset('uploads/images/')}}{{t.ImageTable}}" width="100" height="100">
+                </td>
+                <td>{{t.Vip}}</td>
+                <td>{{t.Prix}}</td>
+            </tr>
+            <!--% endif %}-->
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    <div class="col-md-6 float-right">
+    <div class="card-header "  style="background-color:#4d4d4d;color:white" >
+        <h3 class="card-title"  style="font-weight: bold">Decoration</h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive  ">
+        <table class="table table-hover text-nowrap" style="text-align: center;">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th width="50">Prix</th>
+                <th width="250">Image</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for d in decorations %}
+            <!--% if d == "App\Entity\Decoration" %}-->
+            <tr>
+                <!--<td>{d.idD}}</td>-->
+                <td>{{d.nom}}</td>
+                <td>{{d.prix}}</td>
+
+                <td>
+                <img src="{{asset('uploads/images/')}}{{d.imaged}}" width="50" height="50">
+                </td>
+            </tr>
+            
+            <!--% endif %}-->
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    </div>
+    <!-- /.card -->
+
+    </div>
+    </div>
+</section>
+{% endblock %}

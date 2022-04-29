@@ -73,8 +73,8 @@ class TableRestoRepository extends ServiceEntityRepository
             ->setParameter('valeur','%'.$VRT.'%');
             if($TRT == 'prix'){
                 $queryBuilder->where('tr.prix LIKE :valeur');
-            }else if($TRT == 'etat'){
-                $queryBuilder->where('tr.etat LIKE :valeur');
+            /*}else if($TRT == 'etat'){
+                $queryBuilder->where('tr.etat LIKE :valeur');*/
             }else{
                 $queryBuilder->where('tr.nbrplace LIKE :valeur');
             }
@@ -88,8 +88,8 @@ class TableRestoRepository extends ServiceEntityRepository
             ->select('tr');
             if($type == 'nbrp'){
                 $queryBuilder->orderBy('tr.nbrplace', 'ASC');
-            }else if($type == 'etat'){
-                $queryBuilder->orderBy('tr.etat', 'ASC');
+            /*}else if($type == 'etat'){
+                $queryBuilder->orderBy('tr.etat', 'ASC');*/
             }else{
                 $queryBuilder->orderBy('tr.prix', 'ASC');
             }

@@ -101,13 +101,13 @@ class ReservationRepository extends ServiceEntityRepository
         ->where('r.idu = :idu ')
         ;
         if($TRMR == 'datecreation'){
-            $queryBuilder->andwhere('r.datecreation = :valeur');
+            $queryBuilder->andwhere('r.datecreation LIKE :valeur');
         }else{
-            $queryBuilder->andwhere('r.datemodification = :valeur');
+            $queryBuilder->andwhere('r.datemodification LIKE :valeur');
         }
         return $queryBuilder
         ->setParameter('idu',$idu)
-        ->setParameter('valeur',$VRR)
+        ->setParameter('valeur','%'.$VRR.'%')
         ->getQuery()->getResult();
     }
     public function trireservation($type){
