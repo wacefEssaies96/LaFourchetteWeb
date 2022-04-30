@@ -1,64 +1,84 @@
-{% extends 'base.html.twig' %}
+{% extends 'Back/Back-base.html.twig' %}
 
 {% block title %}Plat{% endblock %}
 
 {% block body %}
-<div class="content-wrapper">
-<section class="content">
-<div class="container-fluid">
-<div class="card">
-              <div class="card-header">
-                <h3 class="card-title">List des Plats</h3>
+<div class="container-wrapper">
+  <section class="content">
+     <div class="container-fluid">
+      <div class="card" style="margin:5px">
+        <div class="card-header " style="background-color:#343a40;color:white" >
+          <h3 class="card-title btn btn-secondary" style="font-weight: bold"> Liste des Plats</h3>
+          <div class="card_tools float-right">
+            <div class="btn-group card-tools "  style="margin:5px ;width: 163px;">
 
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
+                  <button type="button" class="btn btn-success"><i class="fa fa-level-up" aria-hidden="true"></i>  Trier la liste</button>
+                  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                  <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu" role="menu">
+                  <a class="dropdown-item" href="{{ path('triPlat',{'type' : "designation"}) }}">Designation</a>
+                  <a class="dropdown-item" href="{{ path('triPlat',{'type': "nomprod"}) }}">Nom produit</a>
                   </div>
-                </div>
+            </div>
+            <form method="post" action="{{path('searchPlat')}}"  >
+
+            <select name="te" id="te" class="btn btn-success" style="margin:5px ;width: 163px;" >
+              <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
+              <option value="designation" class="btn btn-success" {% if te == 'designation' %} selected {% endif %}>Designation</option>
+              <option value="prix" class="btn btn-success" {% if te == 'prix' %} selected {% endif %}>Prix</option>
+            </select>
+            <div class="input-group input-group-sm "   style="margin:5px ;width: 163px;">
+              <input type="text" name="searchPlat" class="form-control" value="{{searchPlat}}" placeholder="Search">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
               </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-              <a href="{{ path('addPlat') }}">Add Plat</a>
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>Réference</th>
-                      <th>Désignation</th>
-                      <th>Prix</th>
-                      <th>Description</th>
-                      <th>Image</th>
-                      <th>NomProd</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for p in plats %}
-                    <tr>
-                      <td>{{p.reference}}</td>
-                      <td>{{p.designation}}</td>
-                      <td>{{p.prix}}</td>
-                      <td>{{p.description}}</td>
-                      <td>{{p.imageP}}</td>
-                      <td>{{p.nomProd}}</td>
-                      <td>
-                        <a href="{{ path('deletePlat',{'id' : p.reference}) }}">Delete</a>
-                        <a href="{{ path('updatePlat',{'id' : p.reference}) }}">Update</a>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
-            </div>
-            </div>
-            </section>
+              <a class="btn btn-success" style="margin:5px ;width: 163px;" href="{{ path('addPlat') }}">Add Plat</a>
+          </form>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+
+          <table class="table table-hover text-nowrap">
+            <thead>
+            <tr>
+              <th>Réference</th>
+              <th>Désignation</th>
+              <th>Prix</th>
+              <th>Description</th>
+              <th>Image</th>
+              <th>NomProd</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for p in plats %}
+              <tr>
+                <td>{{p.reference}}</td>
+                <td>{{p.designation}}</td>
+                <td>{{p.prix}}</td>
+                <td>{{p.description}}</td>
+                <td> <img src="{{asset('uploads/')}}{{p.ImageP}}" width="100" height="100"></td>
+                <td>{{p.nomProd}}</td>
+                <td>
+                  <a href="{{ path('deletePlat',{'id' : p.reference}) }}">Delete</a>
+                  <a href="{{ path('updatePlat',{'id' : p.reference}) }}">Update</a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+
+  </section>
+</div>
+
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PlatRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,10 +16,24 @@ class PlatController extends AbstractController
     /**
      * @Route("/plat", name="app_plat")
      */
-    public function index(): Response
-    {
+    public function index(Request $request): Response
+    {    $te=$request->request->get('te');
+        $tt=$request->request->get('searchPlat');
         $plats = $this->getDoctrine()->getRepository(Plat::class)->findAll();
         return $this->render('plat/index.html.twig', [
+            'plats' => $plats,
+            'te' => $te,
+            'searchPlat' => $tt,
+
+        ]);
+    }
+    /**
+     * @Route("/showplat", name="showplat")
+     */
+    public function showplat(): Response
+    {
+        $plats = $this->getDoctrine()->getRepository(Plat::class)->findAll();
+        return $this->render('Front/showplat.html.twig', [
             'plats' => $plats,
         ]);
     }
@@ -43,10 +58,16 @@ class PlatController extends AbstractController
         $form = $this->createForm(PlatType::class, $plat);
         $form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('imagep')->getData();
+            $imageName = md5(uniqid()).'.'.$image->guessExtension();
+            $image->move($this->getParameter('brochures_directory'), $imageName);
+            $plat->setImagep($imageName);
+            $plat->setReference($form->get('nomprod')->getData());
             $em = $this->getDoctrine()->getManager();
             $em->persist($plat);
             $em->flush();
+
             return $this->redirectToRoute('app_plat');
         }
         return $this->render("plat/add.html.twig",array('form'=>$form->createView()));
@@ -61,11 +82,46 @@ class PlatController extends AbstractController
         $form = $this->createForm(PlatType::class, $plat);
         $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('imagep')->getData();
+            $imageName = md5(uniqid()).'.'.$image->guessExtension();
+            $image->move($this->getParameter('brochures_directory'), $imageName);
+            $plat->setImagep($imageName);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('app_plat');
         }
         return $this->render("plat/update.html.twig",array('form'=>$form->createView()));
+    }
+    /**
+     * @Route("/searchPlat", name="searchPlat")
+     */
+    public function searchReclam(Request $request, PlatRepository $PlatRepository): Response
+    {
+        $te=$request->request->get('te');
+        $tt=$request->request->get('searchPlat');
+        $plats= $PlatRepository->searchPlat($te,$tt);
+        return $this->render('plat/index.html.twig', [
+            'plats' => $plats,
+            'te' => $te,
+            'searchPlat' => $tt,
+
+        ]);
+    }
+    /**
+     * @Route("/triPLat/{type}", name="triPlat" )
+     */
+    public function triPlat(Request $request,PlatRepository $PlatRepository,$type): Response
+    {
+        $te=$request->request->get('te');
+        $tt=$request->request->get('searchPlat');
+        $plats = $PlatRepository->triPlat($type);
+
+        return $this->render('plat/index.html.twig', [
+            'plats' => $plats,
+            'te' => $te,
+            'searchPlat' => $tt,
+        ]);
+
     }
 }

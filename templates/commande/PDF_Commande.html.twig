@@ -1,0 +1,39 @@
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 align="center" style="color:#fa521c">List des commandes</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap" border="1">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Utilisateur</th>
+                                <th>Plats</th>
+                                <th>Quantity</th>
+                                <th>Livraison</th>
+                                <th>Prix</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for c in commandes %}
+                                <tr>
+                                    <td>{{c.idC}}</td>
+                                    <td>{{c.idu.nomprenom}}</td>
+                                    <td>{{ c.referenceplat }}</td>
+                                    <td>{{c.quantity}}</td>
+                                    <td>{{c.livraison}}</td>
+                                    <td>{{c.prixC}}</td>
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+

@@ -53,6 +53,12 @@
             }
             window.setTimeout( closeDiv, 3000 );
             </script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+
+
+        {% endblock %}
+
+        {% block javascripts %}
             <!-- jQuery -->
             <script src="{{ asset('Back/plugins/jquery/jquery.min.js') }}"></script>
             <!-- jQuery UI 1.11.4 -->
@@ -101,6 +107,8 @@
             <script src="{{ asset('Back/dist/js/demo.js') }}"></script>
             <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
             <script src="{{ asset('Back/dist/js/pages/dashboard.js') }}"></script>
+          <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.js" integrity="sha256-DBxkGZLxKsLKhz054qUpBqtotG00r9AELGpSigJujLg=" crossorigin="anonymous"></script>
+
         {% endblock %}
     </head>
     <body>
@@ -121,11 +129,11 @@
      
      
       
-     
+    <!-- Right navbar links -->
+    
     </ul>
 
     <!-- Right navbar links -->
-    
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
       {# <li class="nav-item">
@@ -148,8 +156,6 @@
           </form>
         </div>
       </li> #}
-      
-      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
@@ -160,10 +166,8 @@
           <i class="fas fa-th-large"></i>
         </a>
       </li>
-      
     </ul>
   </nav>
- 
   <!-- /.navbar -->
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -225,7 +229,6 @@
                 </a>
               </li>
             </ul>
-          </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
@@ -301,6 +304,8 @@
               </li>
             </ul>
           </li>
+
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
@@ -353,9 +358,20 @@
               </li>
             </ul>
           </li>
+          <li class="nav-i tem">
+            <a href="../" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Calender
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+
+              </li>
+            </ul>
+
         </ul>
       </nav>
-      
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -364,10 +380,10 @@
         
         {% endblock %}
         <footer class="main-footer">
-        <strong>La Fourchette</strong>
-       
+        <strong>Copyright &copy; 2021-2022.</strong>
+        All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
-        
+        <b>Version</b> 1.0
         </div>
     </footer>
     </body>

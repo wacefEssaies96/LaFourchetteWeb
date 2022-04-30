@@ -45,6 +45,18 @@ class CommandeRepository extends ServiceEntityRepository
         }
     }
 
+    public function findfunction($idU)
+    {
+        return
+            $this->createQueryBuilder('c')
+                ->select('c')
+                ->where('c.idu = :value ')
+                ->setParameter('value', $idU)
+                ->getQuery()
+                ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Commande[] Returns an array of Commande objects
     //  */

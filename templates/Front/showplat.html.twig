@@ -20,26 +20,35 @@
     <link rel="shortcut icon" href="Front/images/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="Front/images/apple-touch-icon.png">
     {% block stylesheets %}
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="Front/css/bootstrap.min.css">
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="Front/css/style.css">
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="Front/css/responsive.css">
-    <!-- color -->
-    <link id="changeable-colors" rel="stylesheet" href="Front/css/colors/orange.css" />
-
-
-
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="Front/css/bootstrap.min.css">
+        <!-- Site CSS -->
+        <link rel="stylesheet" href="Front/css/style.css">
+        <!-- Responsive CSS -->
+        <link rel="stylesheet" href="Front/css/responsive.css">
+        <!-- color -->
+        <link id="changeable-colors" rel="stylesheet" href="Front/css/colors/orange.css" />
     {% endblock %}
 
 
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- start Gist JS code-->
+    <script>
+        (function(d,h,w){var gist=w.gist=w.gist||[];gist.methods=['trackPageView','identify','track','setAppId'];gist.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);gist.push(e);return gist;}};for(var i=0;i<gist.methods.length;i++){var c=gist.methods[i];gist[c]=gist.factory(c)}s=d.createElement('script'),s.src="https://widget.getgist.com",s.async=!0,e=d.getElementsByTagName(h)[0],e.appendChild(s),s.addEventListener('load',function(e){},!1),gist.setAppId("6xoohew2"),gist.trackPageView()})(document,'head',window);
+    </script>
+    <!-- end Gist JS code-->
 
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
-    {% block body %}
-
+{% block body %}
     <div id="loader">
         <div id="status"></div>
     </div>
@@ -59,7 +68,7 @@
                                 </button>
                                 <div class="logo">
                                     <a class="navbar-brand js-scroll-trigger logo-header" href="#">
-                                       <img src="Front/images/logo.png" alt="">
+                                        <img src="Front/images/logo.png" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -88,8 +97,8 @@
         </header>
         <!-- end header -->
     </div>
-	<!-- end site-header -->
-	
+    <!-- end site-header -->
+
     <div id="banner" class="banner full-screen-mode parallax">
         <div class="container pr">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -99,15 +108,9 @@
                             <h1>Bienvenu chez <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="La Fourchette" data-colors="red"></span><span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span></h1>
                             <h2>Commandez et emportez vos plats préférés</h2>
                             <p>Un apéritif, une soirée, un événement !</p>
-                            {% for message in app.flashes('info')%}
-                            <div id="notif" class="alert alert-success">
-                            {{message}}
-                            </div>
-                            {% endfor %}
                             <div class="book-btn">
                                 <a href="#reservation" class="table-btn hvr-underline-from-center">Réserver une table</a>
                             </div>
-                            
                             <a href="#about">
                                 <div class="mouse"></div>
                             </a>
@@ -252,8 +255,8 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                         <h2 class="block-title text-center">
-						Our Menu 	
-					</h2>
+                            Our Menu
+                        </h2>
                         <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. </p>
                     </div>
                     <div class="tab-menu">
@@ -278,43 +281,25 @@
                         <div class="slider slider-single">
                             <div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    {% for p in plats %}
                                     <div class="offer-item">
-                                        <img src="Front/images/menu-item-thumbnail-01.jpg" alt="" class="img-responsive">
+                                        <img src="{{asset('uploads/images/')}}{{p.ImageP}}" alt="" class="img-responsive">
                                         <div>
-                                            <h3>GARLIC BREAD</h3>
+                                            <h3>{{p.reference}}</h3>
+
+                                            <a href="{{ path('addReservationPlat',{'id': p.reference }) }}" class="rt-btn pill rt-sm rt-gradient d-block">ajouter</a>
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
+                                                {{p.description}}
                                             </p>
                                         </div>
-                                        <span class="offer-price">$8.5</span>
+                                        <span class="offer-price">{{p.prix}}</span>
                                     </div>
+                                    {% endfor %}
                                 </div>
                                 <!-- end col -->
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                    <div class="offer-item">
-                                        <img src="Front/images/menu-item-thumbnail-02.jpg" alt="" class="img-responsive">
-                                        <div>
-                                            <h3>MIXED SALAD</h3>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
-                                            </p>
-                                        </div>
-                                        <span class="offer-price">$25</span>
-                                    </div>
-                                </div>
-                                <!-- end col -->
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                                    <div class="offer-item">
-                                        <img src="Front/images/menu-item-thumbnail-03.jpg" alt="" class="img-responsive">
-                                        <div>
-                                            <h3>BBQ CHICKEN WINGS</h3>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis eleifend dapibus.
-                                            </p>
-                                        </div>
-                                        <span class="offer-price">$10</span>
-                                    </div>
-                                </div>
+
+
+
                                 <!-- end col -->
                             </div>
                             <div>
@@ -458,8 +443,8 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                         <h2 class="block-title text-center">
-						Our Team 	
-					</h2>
+                            Our Team
+                        </h2>
                         <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. </p>
                     </div>
                     <div class="team-box">
@@ -537,8 +522,8 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                         <h2 class="block-title text-center">
-						Our Gallery	
-					</h2>
+                            Our Gallery
+                        </h2>
                         <p class="title-caption text-center">There are many variations of passages of Lorem Ipsum available </p>
                     </div>
                     <div class="gal-container clearfix">
@@ -758,8 +743,8 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h2 class="block-title text-center">
-					Our Blog 	
-				</h2>
+                        Our Blog
+                    </h2>
                     <div class="blog-box clearfix">
                         <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                             <div class="col-md-6 col-sm-6">
@@ -854,8 +839,8 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h2 class="block-title text-center">
-						Pricing 	
-					</h2>
+                        Pricing
+                    </h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut orci varius, elementum lectus nec, aliquam lectus. Duis neque augue, maximus in sapien ut, porta pharetra odio.</p>
                 </div>
                 <div class="panel-pricing-in">
@@ -954,8 +939,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                             <h2 class="block-title text-center">
-						Reservations			
-					</h2>
+                                Reservations
+                            </h2>
                         </div>
                         <h4 class="form-title">BOOKING FORM</h4>
                         <p>PLEASE FILL OUT ALL REQUIRED* FIELDS. THANKS!</p>
@@ -1071,7 +1056,7 @@
                                 </div>
                             </div>
                             <!-- end col -->
-                            
+
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-box">
                                     <select name="typerec" id="no_of_persons"  >
@@ -1086,17 +1071,12 @@
                             <div class="col-lg-6 col-md-2 col-sm-6 col-xs-12">
                                 <div class="reserve-book-btn text-center center">
                                     <button class="hvr-underline-from-center fa fa-paper-plane-o " type="submit" value="SEND" id="submit"> Envoyer <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-                                    
+
                                 </div>
-                            </div>
-                            {% for message in app.flashes('info')%}
-                            <div class="alert alert-success">
-                            {{message}}
-                            {% endfor %}
                             </div>
                             <!-- end col -->
 
-                                
+
                         </form>
                     </div>
                     <!-- end col -->
@@ -1160,7 +1140,6 @@
                                     <li><a href="#">Spicy Thai Noodles</a></li>
                                     <li><a href="#">Triple Truffle Trotters</a></li>
                                 </ul>
-
                             </div>
                             <!-- end footer-box-b -->
                         </div>
@@ -1175,7 +1154,7 @@
                                 <p>
                                     <i class="fa fa-mobile" aria-hidden="true"></i>
                                     <span>
-									+91 80005 89080 
+									+91 80005 89080
 								</span>
                                 </p>
                                 <p>
@@ -1240,22 +1219,16 @@
             <a title="vivid-yellow" class="switcher vivid-yellow-bg"></a>
         </div>
     </section>
-    {% endblock %}
-    {% block js %}
-    <script> 
-            function closeDiv(){
-            document.getElementById("notif").style.display=" none";
-            }
-            window.setTimeout( closeDiv, 3000 );
-            </script>
+{% endblock %}
+{% block js %}
     <!-- ALL JS FILES -->
     <!-- Modernizer -->
     <script src="Front/js/modernizer.js"></script>
     <script src="Front/js/all.js"></script>
     <script src="Front/js/bootstrap.min.js"></script>
-    
+
     <!-- ALL PLUGINS -->
     <script src="Front/js/custom.js"></script>
-    {% endblock %}
+{% endblock %}
 </body>
 </html>

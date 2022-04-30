@@ -2,57 +2,80 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-// indexes={@ORM\Index(name="fk_plat", columns={"nomProd"})}
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+//indexes={@ORM\Index(name="fk_plat", columns={"nomProd"})}
 /**
  * Plat
  *
- * @ORM\Table(name="plat")
+ * @ORM\Table(name="plat", indexes={@ORM\Index(name="fk_plat", columns={"nomProd"})})
  * @ORM\Entity(repositoryClass="App\Repository\PlatRepository")
  */
 class Plat
 {
     /**
      * @var string
+     *  * @Assert\Type("string")
      * @ORM\Id
+     * @Assert\NotBlank(message="Le Champ Nom est obligatoire")
      * @ORM\Column(name="reference", type="string", nullable=false)
+
      */
     private $reference;
 
     /**
      * @var string
-     *
+     * @Assert\Type("string")
+     *@Assert\NotBlank(message="Le Champ Designation est obligatoire")
      * @ORM\Column(name="designation", type="string", length=255, nullable=false)
      */
     private $designation;
 
     /**
      * @var float
-     *
+
+     * @Assert\NotBlank(message="Le Champ prix est obligatoire")
+     * @Assert\Positive(message="Price should be >0")
+
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      */
     private $prix;
 
     /**
      * @var string
-     *
+     *  * @Assert\Type("string")
+    @Assert\NotBlank(message="Le Champ Description est obligatoire")
      * @ORM\Column(name="description", type="string", length=500, nullable=false)
      */
     private $description;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="imageP", type="string", length=255, nullable=false)
      */
     private $imagep;
 
     /**
      * @var string
-     *
+     * @Assert\Type("string")
+    @Assert\NotBlank(message="Le Champ nomprod est obligatoire")
      * @ORM\Column(name="nomProd", type="string", length=255, nullable=false)
      */
     private $nomprod;
+
+
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="referenceplat",cascade={"remove"}, orphanRemoval=true)
+     */
+    private $commande;
+
+    public function __construct()
+    {
+        $this->commande = new ArrayCollection();
+    }
 
     public function getReference(): ?string
     {
@@ -123,6 +146,22 @@ class Plat
 
         return $this;
     }
+
+
+    public function __toString()
+    {
+        return (string)$this->getReference();
+    }
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommande(): Collection
+    {
+        return $this->commande;
+    }
+
+
+
 
 
 }

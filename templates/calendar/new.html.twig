@@ -1,0 +1,19 @@
+{% extends 'Back/Back-base.html.twig' %}
+
+{% block title %}New Calendar{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card">
+    <h1>Create new Calendar</h1>
+
+    {{ include('calendar/_form.html.twig') }}
+
+
+            </div>
+            <a href="{{ path('calendar_index') }}">back to list</a>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+
+{% block title %}Mon panier {% endblock %}
+
+{% block content %}
+<h1> Mon panier</h1>
+Retrouvez l'ensemble des plats que vous avez ajouté a votre panier
+<hr>
+    <div class="col-xl-9 col-lg-10 mx-auto mt-5 mt-xl-0">
+    <div class="row">
+    <div class="col-lg-12">
+        <div class="flight-list-box rt-mb-30">
+            <form action="#" class="row" >
+
+                <div class="col-lg-3 col-md-6 mb-3 mb-lg-0">
+                    <a href="MesReservations.html" class="rt-btn pill rt-sm rt-gradient3 d-block">Mes Reservations</a>
+                </div><!-- /.col-lg-4 -->
+
+
+
+
+
+
+
+
+
+            </form>
+
+
+            {{ form_start(i)}}) }}
+        </div><!-- /.flight-list-box -->
+    </div><!-- /.col-lg-12 -->
+    <div class="col-lg-12 col-md-6">
+    <div class="flight-list-box rt-mb-30">
+    <div
+            class="top-content d-flex flex-lg-row flex-column align-items-lg-center justify-content-left  justify-content-lg-between">
+
+        <div class="pricing">
+            {{ form_label(i.referenceplat) }}
+            <h5>{{ form_widget(i.referenceplat,{'attr':{'class':'form-control'}}) }}</h5>
+        </div><!-- /.pricing -->
+
+
+        <div class="trip">
+            {{ form_label(i.idU)}}
+            {{ form_widget(i.idU,{'attr':{'class':'form-control'}}) }}
+
+        </div><!-- /.trip -->
+
+        <div class="trip">
+            {{ form_label(i.quantity) }}
+            {{ form_widget(i.quantity,{'attr':{'class':'form-control'}}) }}
+            {{ form_errors(i.quantity) }}
+
+        </div><!-- /.trip -->
+
+
+
+        <div class="custom-control custom-radio custom-control-inline">
+            <!-- <button class="rt-btn pill rt-sm rt-gradient d-block" data-toggle="modal"data-target="#reserv-modal" >Reserver</button>-->
+            {{ form_widget(i.Valider, {'attr':{'class':'btn btn-primary mr-2'}} ) }}
+        </div>
+    </div><!-- /.top-content -->
+
+
+    {{ form_end(i) }}
+
+
+{% endblock %}

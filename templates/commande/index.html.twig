@@ -11,15 +11,12 @@
                 <h3 class="card-title">List des commandes</h3>
 
                 <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
+                  <div class="card-tools float left">
+                    <div class="input-group card-tools" style="margin:5px ;width: 163px;">
+                      <a class="btn btn-success float-left" href="{{ path('PDF_Commande') }}"><i class="fas fa-file-pdf"></i>  Exporter liste  PDF  </a>
                     </div>
                   </div>
+
                 </div>
               </div>
               <!-- /.card-header -->
@@ -28,10 +25,12 @@
                   <thead>
                     <tr>
                       <th>Id</th>
-                      <th>IdUser</th>
-                      <th>Etat</th>
+                      <th>Utilisateur</th>
+                      <th>Plats</th>
+                      <th>Quantity</th>
                       <th>Livraison</th>
                       <th>Prix</th>
+
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -39,8 +38,9 @@
                   {% for c in commandes %}
                     <tr>
                       <td>{{c.idC}}</td>
-                      <td>{{c.idU}}</td>
-                      <td>{{c.etatC}}</td>
+                      <td>{{c.idu.nomprenom}}</td>
+                      <td>{{ c.referenceplat }}</td>
+                      <td>{{c.quantity}}</td>
                       <td>{{c.livraison}}</td>
                       <td>{{c.prixC}}</td>
                       <td>
@@ -56,6 +56,7 @@
             </div>
             <!-- /.card -->
             </div>
+</section>
             </div>
-            </section>
+
 {% endblock %}
