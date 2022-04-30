@@ -1,0 +1,65 @@
+{% extends 'Back/Back-base.html.twig' %}
+
+{% block body %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+{% for message in app.flashes('info')%}
+    <div id="notif" class="alert alert-success">
+    {{message}}
+    </div>
+    {% endfor %}
+<div class="card">
+              <div class="card-header">
+                <a  href="{{ path('app_reclam') }}"<h3 class="card-title btn btn-primary">La liste des Réclamation</h3><a/><br><br>
+                 <a class="btn btn-success " href="{{ path('orderByType') }}"> Trier liste des réclamations  </a>
+                <a class="btn btn-success " href="{{ path('PDF_Reclam') }}">Exporter liste  PDF </a> 
+                <a class="btn btn-success  " href="{{ path('listReclamWithSearch') }}"> <i class="fas fa-search"></i> </a> 
+              
+                <div class="card-tools">
+                 <br>                                                                          
+                 <br>
+                 
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                   
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Type de réclamation</th>
+                      {# <th>Id user</th> #}
+                      <th>Description</th>
+                      <th>Etat</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for p in reclams %}
+                    <tr>
+                      <td>{{p.idRec}}</td>
+                      <td>{{p.typeRec.typeRec}}</td>
+                      {# <td>{{p.idU}}</td> #}
+                    
+                      <td>{{p.description}}</td>
+                      <td>{{p.etatRec}}</td>
+                      <td>
+                        <a class="btn btn-danger" href="{{ path('deleteReclam',{'id':p.idRec}) }}" onclick="notify_delete_rec()"><i class="fa fa-trash" aria-hidden="true"></i>  Delete</a>
+                        <a class="btn btn-warning" href="{{ path('updateReclam',{'id':p.idRec}) }}"><i class="fas fa-edit"></i>  Update</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+            </section>
+{% endblock %}

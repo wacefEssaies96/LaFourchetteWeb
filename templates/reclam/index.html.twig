@@ -1,62 +1,97 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Reclamation{% endblock %}
+{% extends 'Back/Back-base.html.twig' %}
 
 {% block body %}
 <div class="content-wrapper">
 <section class="content">
-<div class="container-fluid">
-<div class="card">
-              <div class="card-header">
-                <h3 class="card-title">List des Réclamation</h3>
-
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+           <div class="container-fluid">
+              {% for message in app.flashes('info')%}
+              <div id="notif" class="alert alert-success">
+              {{message}}
               </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Type de réclamation</th>
-                      {# <th>Id user</th> #}
-                      <th>Description</th>
-                      <th>Etat</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for p in reclams %}
-                    <tr>
-                      <td>{{p.idRec}}</td>
-                      <td>{{p.typeRec.typeRec}}</td>
-                      {# <td>{{p.idU}}</td> #}
-                    
-                      <td>{{p.description}}</td>
-                      <td>{{p.etatRec}}</td>
-                      <td>
-                        <a href="{{ path('deleteReclam',{'id':p.idRec}) }}">Delete</a>
-                        <a href="{{ path('updateReclam',{'id':p.idRec}) }}">Update</a>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+              {% endfor %}
+    
+              <div class="card" style="margin:5px">
+                          <div class="card-header " style="background-color:#343a40;color:white" >
+                                <a  href="{{ path('app_reclam') }}"<h3 class="card-title btn btn-secondary" style="font-weight: bold"> Liste des réclamations</h3></a>
+                                
+                                <div class="card-tools ">
+                                              <div class="card-tools float left">
+                                                    <div class="input-group card-tools" style="margin:5px ;width: 163px;">
+                                                    <a  href="{{ path('statReclam') }}" class="btn btn-success float-left"><i class="fa fa-pie-chart" aria-hidden="true"></i>  Statistiques Recs</h3><a/>
+                                                    </div>
+                                              </div>
+
+                                              <div class="card-tools float left">
+                                                  <div class="input-group card-tools" style="margin:5px ;width: 163px;">
+                                                  <a class="btn btn-success float-left" href="{{ path('PDF_Reclam') }}"><i class="fas fa-file-pdf"></i>  Exporter liste  PDF  </a> 
+                                                  </div>
+                                              </div>
+
+                                            <div class="btn-group card-tools "  style="margin:5px ;width: 163px;">
+                                                <button type="button" class="btn btn-success"><i class="fa fa-level-up" aria-hidden="true"></i>  Trier la liste</button>
+                                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                                  <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <div class="dropdown-menu" role="menu">
+                                                  <a class="dropdown-item" href="{{ path('triReclam',{'type' : "Etat"}) }}">Etat</a>
+                                                  <a class="dropdown-item" href="{{ path('triReclam',{'type': "Type"}) }}">Type</a>
+                                                </div>
+                                            </div>
+                                              <form method="post" action="{{path('searchReclam')}}"  >
+                                              
+                                                            <select name="te" id="te" class="btn btn-success" style="margin:5px ;width: 163px;" >
+                                                                  <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
+                                                                  <option value="Identifiant" class="btn btn-success" {% if te == 'Identifiant' %} selected {% endif %}>Identifiant</option>
+                                                                  <option value="Etat" class="btn btn-success" {% if te == 'Etat' %} selected {% endif %}>Etat</option>
+                                                            </select>
+                                                            <div class="input-group input-group-sm "   style="margin:5px ;width: 163px;">
+                                                                        <input type="text" name="searchReclam" class="form-control" value="{{searchReclam}}" placeholder="Search">
+                                                                        <div class="input-group-append">
+                                                                                          <button type="submit" class="btn btn-default">
+                                                                                            <i class="fas fa-search"></i>
+                                                                                          </button>
+                                                                        </div>
+                                                            </div>
+                                              </form>
+                              </div>  
+                            </div>      
+             
+                <!-- /.card-header -->
+              
+                          <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                              <thead>
+                                <tr>
+                                  <th>Id</th>
+                                  <th>Type de réclamation</th>
+                                  <th>Email</th> 
+                                  <th>Description</th>
+                                  <th>Etat</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% for p in reclams %}
+                                <tr>
+                                  <td>{{p.idRec}}</td>
+                                  <td>{{p.typeRec.typeRec}}</td>
+                                  <td>{{p.idU.email}}</td> 
+                                
+                                  <td>{{p.description}}</td>
+                                  <td>{{p.etatRec}}</td>
+                                  <td>
+                                    <a class="btn btn-danger" href="{{ path('deleteReclam',{'id':p.idRec}) }}" onclick="notify_delete_rec()"><i class="fa fa-trash" aria-hidden="true"></i>  Delete</a>
+                                    <a class="btn btn-warning" href="{{ path('updateReclam',{'id':p.idRec,'u':p.idU.email,'nom':p.idU.nomPrenom,'typerec':p.typerec},{}) }}"><i class="fas fa-edit"></i>  Update </a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+               <!-- /.card-body -->
               </div>
-              <!-- /.card-body -->
-            </div>
             <!-- /.card -->
-            </div>
-            </div>
-            </section>
+         </div>
+      </div>
+  </section>
 {% endblock %}

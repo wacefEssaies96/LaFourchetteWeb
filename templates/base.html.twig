@@ -121,36 +121,35 @@
                 </button>
               </div>
             </div>
-          </form>
+            <!-- end row -->
         </div>
-      </li> #}
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
-<!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="La Fourchette Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">La Fourchette</span>
-    </a>
+        <!-- end container-fluid -->
+    </header>
+    <!-- end header -->
+</div>
+<!-- end site-header -->
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+<div id="banner" class="banner full-screen-mode parallax">
+    <div class="container pr">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="banner-static">
+                <div class="banner-text">
+                    <div class="banner-cell">
+                        <h1>Dinner with us  <span class="typer" id="some-id" data-delay="200" data-delim=":" data-words="Friends:Family:Officemates" data-colors="red"></span><span class="cursor" data-cursorDisplay="_" data-owner="some-id"></span></h1>
+                        <h2>Accidental appearances </h2>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diem nonummy nibh euismod</p>
+                        <div class="book-btn">
+                            <a href="#reservation" class="table-btn hvr-underline-from-center">Book my Table</a>
+                        </div>
+                        <a href="#about">
+                            <div class="mouse"></div>
+                        </a>
+                    </div>
+                    <!-- end banner-cell -->
+                </div>
+                <!-- end banner-text -->
+            </div>
+            <!-- end banner-static -->
         </div>
         <div class="info">
           {% for message in app.flashes('nom') %}
@@ -158,17 +157,96 @@
 
  {% endfor %}
         </div>
-      </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
 
-      <!-- SidebarSearch Form -->
-      {# <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
+<div class="special-menu pad-top-100 parallax">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                    <h2 class="block-title color-white text-center"> Today's Special </h2>
+                    <h5 class="title-caption text-center"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusm incididunt ut labore et dolore magna aliqua. Ut enim ad minim venia,nostrud exercitation ullamco. </h5>
+                </div>
+                <div class="special-box">
+                    <div id="owl-demo">
+                        <div class="item item-type-zoom">
+                            <a href="#" class="item-hover">
+                                <div class="item-info">
+                                    <div class="headline">
+                                        SALMON STEAK
+                                        <div class="line"></div>
+                                        <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="item-img">
+                                <img src="images/special-menu-1.jpg" alt="sp-menu">
+                            </div>
+                        </div>
+                        <div class="item item-type-zoom">
+                            <a href="#" class="item-hover">
+                                <div class="item-info">
+                                    <div class="headline">
+                                        ITALIAN PIZZA
+                                        <div class="line"></div>
+                                        <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="item-img">
+                                <img src="images/special-menu-2.jpg" alt="sp-menu">
+                            </div>
+                        </div>
+                        <div class="item item-type-zoom">
+                            <a href="#" class="item-hover">
+                                <div class="item-info">
+                                    <div class="headline">
+                                        VEG. ROLL
+                                        <div class="line"></div>
+                                        <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="item-img">
+                                <img src="images/special-menu-3.jpg" alt="sp-menu">
+                            </div>
+                        </div>
+                        <div class="item item-type-zoom">
+                            <a href="#" class="item-hover">
+                                <div class="item-info">
+                                    <div class="headline">
+                                        SALMON STEAK
+                                        <div class="line"></div>
+                                        <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="item-img">
+                                <img src="images/special-menu-1.jpg" alt="sp-menu">
+                            </div>
+                        </div>
+                        <div class="item item-type-zoom">
+                            <a href="#" class="item-hover">
+                                <div class="item-info">
+                                    <div class="headline">
+                                        VEG. ROLL
+                                        <div class="line"></div>
+                                        <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua. Ut enim ad minim venia.</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="item-img">
+                                <img src="images/special-menu-2.jpg" alt="sp-menu">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end special-box -->
+            </div>
+            <!-- end col -->
         </div>
       </div> #}
 
