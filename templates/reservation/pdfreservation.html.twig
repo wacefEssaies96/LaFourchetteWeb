@@ -1,0 +1,126 @@
+
+
+{% block title %}<h1 style="text-align: center;">Recue de Reservation</h1>{% endblock %}
+
+{% block body %}
+{% set total = 0 %}
+<div class="content-wrapper">
+<section class="content">
+<div class="container-fluid">
+
+<div class="card"  style="margin:5px">
+    <div class="card-header"  style="background-color:#4d4d4d;color:white" >
+        <h3 class="card-title"  style="font-weight: bold;text-align: center;">Detaille d'une reservation</h3>
+    </div>
+
+        
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+        <div class="card-tools">
+        <table class="table table-hover text-nowrap" style="text-align: center;">
+            <thead>
+            <tr >
+                <!--<th>Id</th>-->
+                <th>Utilisateur</th>
+                <th>Date de création</th>
+                <th>Date de modification</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{reservation.idU.nomprenom}}</td>
+                
+                </td>
+                <td>{{reservation.DateCreation | date}}</td>
+                <td>{{reservation.DateModification | date}}</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    
+    <div class="col-md-6 float-left">
+    <div class="card-header " style="background-color:#4d4d4d;color:white" >
+        <h3 class="card-title"  style="font-weight: bold;text-align: center;">Table restaurant</h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+        <table class="table table-hover text-nowrap" style="text-align: center;">
+            <thead>
+            <tr>
+                <th  width="50">Nombre de place</th>
+                <th width="50">Prix</th>
+                <th width="250">Image</th>
+                <th  width="50">Vip</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for t in tableRestos %}
+            
+            {% set total = total + t.Prix %}
+            <tr>
+                <td>{{t.nbrplace}}</td>
+                <td>{{t.Prix}}</td>
+                <td>
+                <img src="{{asset('uploads/images/')}}{{t.ImageTable}}" width="50" height="50">
+                </td>
+                <td>{{t.Vip}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    <div class="col-md-6 float-right">
+    <div class="card-header "  style="background-color:#4d4d4d;color:white" >
+        <h3 class="card-title"  style="font-weight: bold;text-align: center;">Decoration</h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive  ">
+        <table class="table table-hover text-nowrap" style="text-align: center;">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th width="50">Prix</th>
+                <th width="250">Image</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for d in decorations %}
+            {% set total = total + d.prix %}
+            <tr>
+                <td>{{d.nom}}</td>
+                <td>{{d.prix}}</td>
+
+                <td>
+                <img src="{{'/images/'}}{{d.imaged}}" width="50" height="50">
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    </div>
+    <!-- /.card -->
+
+    <div class="card-header"  style="background-color:#4d4d4d;color:white" >
+        <h3 class="card-title"  style="font-weight: bold;text-align: center;">Total</h3>
+        <h3 class="card-title"  style="font-weight: bold;text-align: center;">{{total}} DT</h3>
+
+    </div>
+
+
+    </div>
+    </div>
+</section>
+{% endblock %}

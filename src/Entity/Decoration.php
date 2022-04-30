@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Decoration
  *
  * @ORM\Table(name="decoration")
+ * 
  * @ORM\Entity(repositoryClass="App\Repository\DecorationRepository")
  */
 class Decoration
@@ -17,6 +20,7 @@ class Decoration
      *
      * @ORM\Column(name="IdD", type="integer", nullable=false)
      * @ORM\Id
+     * @ORM\OneToMany(targetEntity="DecorationReservation",mappedBy="Decoration")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idd;
@@ -25,6 +29,7 @@ class Decoration
      * @var string
      *
      * @ORM\Column(name="Nom", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Nom est obligatoire")
      */
     private $nom;
 
@@ -32,6 +37,11 @@ class Decoration
      * @var float
      *
      * @ORM\Column(name="Prix", type="float", precision=10, scale=0, nullable=false)
+     * @Assert\NotBlank(message="Le Champ prix est obligatoire")
+     * @Assert\GreaterThan(
+     *     value = 10,
+     *     message="Le prix doit etre superieur a 10"
+     * )
      */
     private $prix;
 
@@ -39,6 +49,7 @@ class Decoration
      * @var string
      *
      * @ORM\Column(name="ImageD", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Image est obligatoire")
      */
     private $imaged;
 

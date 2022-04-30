@@ -45,6 +45,58 @@ class TableRestoRepository extends ServiceEntityRepository
         }
     }
 
+    public function TD()
+    {
+        return
+            $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.etat = :value ')
+            ->setParameter('value', 'Disponible')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+    public function Searchnbrplace($nbrp)
+    {
+         return $this->createQueryBuilder('tr')
+            ->select('tr')
+            ->where('tr.nbrplace LIKE :nbrp')
+            ->setParameter('nbrp','%'.$nbrp.'%')
+            ->getQuery()->getResult();
+    }
+    
+    public function Search($TRT,$VRT)
+    {
+         $queryBuilder = $this->createQueryBuilder('tr')
+            ->select('tr')
+            ->setParameter('valeur','%'.$VRT.'%');
+            if($TRT == 'prix'){
+                $queryBuilder->where('tr.prix LIKE :valeur');
+            /*}else if($TRT == 'etat'){
+                $queryBuilder->where('tr.etat LIKE :valeur');*/
+            }else{
+                $queryBuilder->where('tr.nbrplace LIKE :valeur');
+            }
+            return $queryBuilder->getQuery()->getResult();
+    }
+    
+    public function tritableresto($type){
+
+         
+        $queryBuilder=$this->createQueryBuilder('tr')
+            ->select('tr');
+            if($type == 'nbrp'){
+                $queryBuilder->orderBy('tr.nbrplace', 'ASC');
+            /*}else if($type == 'etat'){
+                $queryBuilder->orderBy('tr.etat', 'ASC');*/
+            }else{
+                $queryBuilder->orderBy('tr.prix', 'ASC');
+            }
+            return $queryBuilder->getQuery()->getResult();
+    }
+    
+
     // /**
     //  * @return TableResto[] Returns an array of TableResto objects
     //  */

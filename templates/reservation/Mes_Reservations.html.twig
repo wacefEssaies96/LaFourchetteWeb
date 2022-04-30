@@ -1,0 +1,121 @@
+{% extends 'basemenufront.html.twig' %}
+
+{% block title %}Mes reservations{% endblock %}
+
+{% block body %}
+<div class="content">
+<section class="content">
+<div class="container-fluid">
+                {% for message in app.flashes('info')%}
+                  <div id="notif" class="alert alert-success">
+                  {{message}}
+                  <button type="button" class="close" style="color:white" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+                {% endfor %}
+<div class="card"  style="margin:5px">
+              <div class="card-header"  style="background-color:#4d4d4d;color:white" >
+                <h3 class="card-title"  style="font-weight: bold">Mes reservations</h3>
+
+                <div class="card-tools">
+                  <form method="post" action="{{path('searchMesreservation',{'idu' : iduser })}}">
+                  
+                    <!--button type="button"  class="btn btn-success">
+                      Cretère
+                    </button-->
+                    <select name="TRMR" id="TRMR" class="btn btn-success" >
+
+                        <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
+                        <option value="datecreation" class="btn btn-success" {% if TRMR == 'datecreation' %} selected {% endif %}>Date de Creation</option>
+                        <option value="datemodification" class="btn btn-success" {% if TRMR == 'datemodification' %} selected {% endif %}>Date de Modification</option>
+
+                    </select>
+                    <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
+                        <input type="text" name="searchMesreservation" class="form-control float-right" 
+                        value="{{searchMesreservation}}"
+                        placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                    </div>
+                  </form>
+                </div>
+                
+                  <div class="btn-group card-tools"  style="margin:10px">
+                    <button type="button" class="btn btn-success">TRI</button>
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                      <a class="dropdown-item" href="{{ path('triMesreservation',{'type' : "datecreation",'idu' : iduser}) }}">Date de Creation</a>
+                      <a class="dropdown-item" href="{{ path('triMesreservation',{'type': "datemodification",'idu' : iduser}) }}">Date de Modification</a>
+                    </div>
+                  </div>
+              </div>
+              
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <!--<th>Id</th>-->
+                      <th>Date de création</th>
+                      <th>Date de modification</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for r in reservations %}
+                    <tr>
+                      
+                      </td>
+                      <td>{{r.DateCreation | date}}</td>
+                      <td>{{r.DateModification | date}}</td>
+                      <td>
+                        <button type="submit" class="btn btn-primary " style="margin:5px">
+                          <a href="{{ path('showMesReservation',{'id':r.idR}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-edit" ></i>
+                            Details
+                          </a>
+                        </button>
+                        <br>
+                        <!--button type="submit" class="btn btn-success " style="margin:5px">
+                          <a href="{ path('updateReservation',{'id':r.idR}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-edit" ></i>
+                            Modifier 
+                          </a>
+                        </button-->
+                        <br>
+                        <button type="submit" class="btn btn-danger " style="margin:5px">
+                          <a href="{{ path('deleteMesReservation',{'id':r.idR,'idu':iduser}) }}" 
+                          style="color:white;">
+                            <i class="fas fa-trash" ></i>
+                            Supprimer 
+                          </a>
+                        </button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <div class="utf_pagination_container_part margin-bottom-70">
+              <nav class="pagination">
+                <ul>
+                  <li>{{ knp_pagination_render(reservations) }}</li>
+                </ul>
+              </nav>
+            </div>
+            </div>
+            </div>
+            </section>
+{% endblock %}

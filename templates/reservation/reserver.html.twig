@@ -1,0 +1,153 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Reserver{% endblock %}
+{% block javascripts %}
+<script>
+var expanded = false;
+
+function showCheckboxes() {
+  var checkboxes = document.getElementById("checkboxes");
+  if (!expanded) {
+    checkboxes.style.display = "block";
+    expanded = true;
+  } else {
+    checkboxes.style.display = "none";
+    expanded = false;
+  }
+}
+
+    $(document).ready(function() {
+        $("button").click(function(){
+            var idsD = [];
+            $.each($("input[name='decoration']:checked"), function(){
+                idsD.push($(this).val());
+            });
+            alert("Decoration selectionne: " + idsD.join(", "));
+        });
+    });
+</script>
+{% endblock %}
+{% block body %}
+
+    <div class="special-menu pad-top-100 parallax">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div id="reservation" class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <h2 class="block-title color-white text-center"> Reservation </h2>
+                        <h5 class="title-caption text-center">
+                        </h5>
+                    </div>
+                    <div class="special-box">
+                        <div id="owl-demo">
+                            <!--{ for t in tableRestos %}-->
+                                <div class="item item-type-zoom" >
+                                    <a href="#" class="item-hover">
+                                    <!--{ path('ConfirmerReservation',{'id':t.idT}) }}-->
+                                        <div class="item-info">
+                                            <div class="headline">
+                                                {% if t.Vip == 'Oui' %}
+                                                    Vip
+                                                {% endif %}
+                                                <div class="line"></div>
+                                                <div class="dit-line">
+                                                    Prix : {{t.Prix}} DT
+                                                    <br>
+                                                    Nombre de place{{t.NbrPlace}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="item-img" >
+                                        <img src="{{asset('uploads/images/')}}{{t.ImageTable}}" style="background-attachment: fixed;" alt="sp-menu">
+                                    </div>
+                                </div>
+                            <!--{ endfor %}-->
+                        </div>
+                        
+                        
+                    </div>
+                    <!-- end special-box -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end special-menu -->
+    <div  class="reservations-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+                <div class="form-reservations-box">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form methode="get" action="{{path('ConfirmerReservation',{'id' : t.idt})}}">
+                            <div class="wow fadeIn col-lg-12 col-md-12 col-sm-12 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <h2 class="block-title text-center">
+                                    Choisir la date de votre reservation
+                                </h2>
+                            </div>
+                             <div class="wow fadeIn col-lg-12 col-md-12 col-sm-12 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <select name="datereservation" id="datereservation" class="form-controle" style="color:white;background-color: #FF4500;padding:30px;font-weight:bold;font-size: 18px;">
+                                    <option value="" selected disabled hidden class="form-controle" style="color:white;background-color: #FF4500;" disabled>Date du reservation</option>
+                                    {% for d in datetimetrs %}
+                                        <option value="{{d.iddt}}" >{{d.date | date}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="wow fadeIn col-lg-12 col-md-12 col-sm-12 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <h2 class="block-title text-center">
+                                    Vous pouvez ajouter des decoration
+                                </h2>
+                            </div>
+                            <hr>
+                             <div class="wow fadeIn col-lg-12 col-md-12 col-sm-12 col-xs-12" data-wow-duration="1s" data-wow-delay="0.1s">
+                                <div class="multiselect">
+                                    <div class="selectBox" onclick="showCheckboxes()"  >
+                                    <select   class="form-controle"  style="color:white;background-color: #FF4500;padding:30px;font-weight:bold;font-size: 18px;">
+                                        <option>Decoration du reservation</option>
+                                    </select>
+                                    <div name="decorationreservation" class="overSelect"></div>
+                                    </div>
+                                    <div   id="checkboxes" style="color:white;background-color: #FF4500;" >
+                                        {% for d in decorations %}
+                                        <label for="{{d.idD}}">
+                                            <input style="margin: 5px" type="checkbox" id="{{d.idD}}" value="{{d.nom}}" name="decoration" />
+                                            <img src="{{asset('uploads/images/')}}{{d.ImageD}}" width="100" height="100" style="margin: 5px">
+                                            {{d.nom}} ({{d.prix}} DT) 
+                                            
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                </div>
+                                <!--select multiple="multiple" name="decorationreservation" id="decorationreservation" class="form-controle" style="color:white;background-color: #FF4500;padding:30px;font-weight:bold;font-size: 18px;">
+                                    <option value="" selected disabled hidden class="form-controle" style="color:white;background-color: #FF4500;" disabled>Decoration du reservation</option>
+                                    % for d in decorations %}
+                                        <option value="{d.idD}}" >{d.nom}}</option>
+                                    % endfor %}
+                                </select-->
+                                
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="reserve-book-btn text-center">
+                                        <input  type="submit"  class="hvr-underline-from-center" value="Enregistrer" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        </form>
+                        <!-- end form -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end reservations-box -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end reservations-main -->
+    
+                        
+
+{% endblock %}

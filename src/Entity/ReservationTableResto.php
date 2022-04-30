@@ -22,16 +22,22 @@ class ReservationTableResto
     private $idrtr;
 
     /**
-     * @var int
+     * @var Reservation
      *
-     * @ORM\Column(name="IdR", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Reservation",inversedBy="ReservationTableResto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="IdR", referencedColumnName="IdR")
+     * })
      */
     private $idr;
 
     /**
-     * @var int
+     * @var TableResto
      *
-     * @ORM\Column(name="IdT", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="TableResto",inversedBy="ReservationTableResto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="IdT", referencedColumnName="IdT")
+     * })
      */
     private $idt;
 
@@ -40,24 +46,24 @@ class ReservationTableResto
         return $this->idrtr;
     }
 
-    public function getIdr(): ?int
+    public function getIdr(): ?Reservation
     {
         return $this->idr;
     }
 
-    public function setIdr(int $idr): self
+    public function setIdr(?Reservation $idr): self
     {
         $this->idr = $idr;
 
         return $this;
     }
 
-    public function getIdt(): ?int
+    public function getIdt(): ?TableResto
     {
         return $this->idt;
     }
 
-    public function setIdt(int $idt): self
+    public function setIdt(?TableResto $idt): self
     {
         $this->idt = $idt;
 

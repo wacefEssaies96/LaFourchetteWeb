@@ -1,50 +1,116 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Decoration{% endblock %}
+{% block title %}Decorations{% endblock %}
 
 {% block body %}
 <div class="content-wrapper">
 <section class="content">
 <div class="container-fluid">
-<div class="card">
-              <div class="card-header">
-                <h3 class="card-title">List des décorations</h3>
 
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                {% for message in app.flashes('info')%}
+                  <div id="notification" class="alert alert-success">
+                  {{message}}
+                  <button type="button" class="close" style="color:white" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+                {% endfor %}
 
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
+<div class="card"  style="margin:5px">
+
+              <div class="card-header"  style="background-color:#4d4d4d;color:white" >
+                <h3 class="card-title " style="font-weight: bold">Liste des décorations</h3>
+                <div class="card-tools ">
+                  <form method="post" action="{{path('searchdecoration')}}">
+                  
+                    <!--button type="button"  class="btn btn-success">
+                      Cretère
+                    </button-->
+                    <select name="TRD" id="TRD" class="btn btn-success" >
+
+                        <option value="" selected disabled hidden class="btn btn-success" disabled>Critére recherche</option>
+                        <option value="prix" class="btn btn-success" {% if TRD == 'prix' %} selected {% endif %}>Prix</option>
+                        <option value="nom" class="btn btn-success" {% if TRD == 'nom' %} selected {% endif %}>Nom</option>
+
+                    </select>
+                    <div class="input-group input-group-sm"   style="margin:10px ;width: 150px;">
+                        <input type="text" name="searchdecoration" class="form-control float-right"
+                        value="{{searchdecoration}}"
+                         placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
                     </div>
+                  </form>
+                </div>
+                <div class="card-tools">
+                  <div class="input-group card-tools" style="margin:10px ;width: 150px;">
+                  
+                    <button type="submit" class="btn btn-primary ">
+                      <a href="{{ path('addDecoration') }}"
+                      style="color:white;">
+                        <i class="fas fa-plus" ></i>
+                        Ajouter 
+                      </a>
+                    </button>
                   </div>
                 </div>
+                  <div class="btn-group card-tools float right"  style="margin:10px">
+                    <button type="button" class="btn btn-success">TRI</button>
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                      <a class="dropdown-item" href="{{ path('tridecoration',{'type' : "nom"}) }}">Nom</a>
+                      <a class="dropdown-item" href="{{ path('tridecoration',{'type': "prix"}) }}">Prix</a>
+                    </div>
+                  </div>
+
+                
+              </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
-              <a href="{{ path('addDecoration') }}">Add decoration</a>
-                <table class="table table-hover text-nowrap">
+
+                <table class="table table-hover text-nowrap" style="text-align: center;">
                   <thead>
                     <tr>
-                      <th>Id</th>
+                      <!--<th>Id</th>-->
                       <th>Nom</th>
-                      <th>Prix</th>
-                      <th>Image</th>
+                      <th width="50">Prix</th>
+                      <th width="250">Image</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                  {% for c in decorations %}
+                  {% for d in decorations %}
                     <tr>
-                      <td>{{c.idD}}</td>
-                      <td>{{c.Nom}}</td>
-                      <td>{{c.Prix}}</td>
-                      <td>{{c.ImageD}}</td>
+                      <!--<td>{d.idD}}</td>-->
+                      <td>{{d.Nom}}</td>
+                      <td>{{d.Prix}}</td>
+
                       <td>
-                        <a href="{{ path('deleteDecoration',{'id':c.idD}) }}">Delete</a>
-                        <a href="{{ path('updateDecoration',{'id':c.idD}) }}">Update</a>
+                      <img src="{{asset('uploads/images/')}}{{d.ImageD}}" width="250" height="250">
+                      </td>
+                      <td>
+                      <button type="submit" class="btn btn-success " style="margin:5px">
+                        <a href="{{ path('updateDecoration',{'id':d.idD}) }}" 
+                        style="color:white;">
+                          <i class="fas fa-edit" ></i>
+                          Modifier 
+                        </a>
+                      </button>
+                      <br>
+                      <button type="submit" class="btn btn-danger " style="margin:5px">
+                        <a href="{{ path('deleteDecoration',{'id':d.idD}) }}" 
+                        style="color:white;">
+                          <i class="fas fa-trash" ></i>
+                          Supprimer 
+                        </a>
+                      </button>
                       </td>
                     </tr>
                     {% endfor %}
@@ -54,6 +120,13 @@
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            <div class="utf_pagination_container_part margin-bottom-70">
+              <nav class="pagination">
+                <ul>
+                  <li>{{ knp_pagination_render(decorations) }}</li>
+                </ul>
+              </nav>
+            </div>
             </div>
             </div>
             </section>
