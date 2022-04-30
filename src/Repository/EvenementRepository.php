@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Commentaire;
 use App\Entity\Evenement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -45,22 +46,23 @@ class EvenementRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Evenement[] Returns an array of Evenement objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    /**
+      * @return Commentaire[] Returns an array of Evenement objects
+     */
+
+   public function Join()
+    {   $em=$this->getEntityManager();
+        $query = $em->createQueryBuilder()
+            ->select('c')
+            ->from('App\Entity\Commentaire', 'c')
+            ->leftJoin('c.idevent', 'e', 'WITH', 'e.id=c.idevent')
+            ->from('App\Entity\Evenement', 'e');
+        return $query->getQuery()->getResult();
+        return $query->getResult();
+
+
+        
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Evenement

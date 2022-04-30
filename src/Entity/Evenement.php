@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Evenement
@@ -25,6 +26,7 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="designationE", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Designation est obligatoire")
      */
     private $designatione;
 
@@ -32,6 +34,11 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="descriptionE", type="string", length=500, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Description est obligatoire")
+     * @Assert\Length(
+     *     min=5,
+     *     minMessage="La Description doit contenir au moins 5 carcatères "
+     * )
      */
     private $descriptione;
 
@@ -39,6 +46,9 @@ class Evenement
      * @var \DateTime
      *
      * @ORM\Column(name="dateE", type="date", nullable=false)
+     *@Assert\Date
+     * @Assert\GreaterThanOrEqual("today",message="La date du fin doit être supérieure à la date début")
+
      */
     private $datee;
 
@@ -46,6 +56,7 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="imageE", type="string", length=255, nullable=false)
+     *  @Assert\NotBlank(message="Le Champ  imaage est obligatoire")
      */
     private $imagee;
 
@@ -53,6 +64,10 @@ class Evenement
      * @var int
      *
      * @ORM\Column(name="nbrParticipants", type="integer", nullable=false)
+     * @Assert\NotBlank(message="Le Champ nbr Participant est obligatoire")
+     * @Assert\GreaterThan(
+     *     value="1"
+     *    , message="Le Nombre de Participants doît être >1")php
      */
     private $nbrparticipants;
 
@@ -85,12 +100,12 @@ class Evenement
         return $this;
     }
 
-    public function getDatee(): ?\DateTimeInterface
+    public function getDatee()
     {
         return $this->datee;
     }
 
-    public function setDatee(\DateTimeInterface $datee): self
+    public function setDatee($datee): self
     {
         $this->datee = $datee;
 

@@ -2,23 +2,39 @@
 
 {% block body %}
 <div class="content-wrapper">
-{{ form_start(form) }}
+    {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
 <div class="form-group">
 <section class="content">
 <div class="container-fluid p-10">
     {{form_label(form.designatione,'Designation', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.designatione, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.designatione) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.designatione) }}</div>
+        {% endif %}
     {{form_label(form.descriptione,'Description', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.descriptione, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.descriptione) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.descriptione) }}</div>
+        {% endif %}
     {{form_label(form.datee,'Date', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.datee, {'attr': {'class': 'form-control'}} )}}
+    {% if form_errors(form.datee) is not empty %}
+        <div class="alert alert-danger" >{{ form_errors(form.datee) }}</div>
+    {% endif %}
     {{form_label(form.imagee,'Image', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.imagee, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.imagee) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.imagee) }}</div>
+        {% endif %}
     {{form_label(form.nbrparticipants,'Nombre de participants', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.nbrparticipants, {'attr': {'class': 'form-control'}} )}}
+        {% if form_errors(form.nbrparticipants) is not empty %}
+                <div class="alert alert-danger" >{{ form_errors(form.nbrparticipants) }}</div>
+        {% endif %}
 
 </div>
 {{ form_end(form) }}
+
 </section>
 </div>
 </div>
