@@ -7,7 +7,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use App\Data\SearchData;
+use App\Form\SearchForm;
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @method Employer|null find($id, $lockMode = null, $lockVersion = null)
  * @method Employer|null findOneBy(array $criteria, array $orderBy = null)
@@ -73,4 +77,27 @@ class EmployerRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function searchEmployer($ud,$uv)
+    {
+        $queryBuilder=$this->createQueryBuilder('search')->select('search')
+            ->setParameter('value', '%'.$uv.'%');
+            if($ud == 'nomPrenom'){
+                $queryBuilder->where('search.nomPrenom LIKE :value');
+            }else {
+                $queryBuilder->where('search.idem LIKE :value');
+            }
+            return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+    public function triEmployer($type)
+    {
+        $queryBuilder=$this->createQueryBuilder('tri')->select('tri');
+        if ($type == 'nomPrenom'){
+            $queryBuilder->orderBy('tri.nomPrenom', 'ASC');
+        }else {
+            $queryBuilder->orderBy('tri.idem', 'ASC');
+        }
+          return  $queryBuilder->getQuery()->getResult();
+    }
 }

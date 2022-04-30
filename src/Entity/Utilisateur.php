@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Utilisateur
  *
@@ -25,13 +27,18 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="nom_prenom", type="string", length=255, nullable=false)
-     */
+      */
     private $nomPrenom;
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     *@Assert\NotBlank(message="Le Champ email est obligatoire")
+          * @Assert\Email(message = "The email '{{ value }}' is not a valid email")
+
+     * 
+     * 
      */
     private $email;
 
@@ -39,6 +46,12 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Le Champ email est obligatoire")
+     *  @Assert\Length(
+     *     min=5,
+     *     minMessage="La Description doit contenir au moins 5 carcatères "
+     * )
+
      */
     private $password;
 
@@ -46,6 +59,7 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=30, nullable=false)
+     * 
      */
     private $role;
 
@@ -53,6 +67,7 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="adresse", type="string", length=255, nullable=false)
+     * 
      */
     private $adresse;
 
@@ -60,6 +75,7 @@ class Utilisateur
      * @var int
      *
      * @ORM\Column(name="telephone", type="integer", nullable=false)
+     * 
      */
     private $telephone;
 
@@ -67,6 +83,7 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="picture", type="string", length=100, nullable=false)
+     *
      */
     private $picture;
 
@@ -74,6 +91,7 @@ class Utilisateur
      * @var string
      *
      * @ORM\Column(name="verif", type="string", length=255, nullable=false)
+     * 
      */
     private $verif;
 
@@ -176,6 +194,12 @@ class Utilisateur
         $this->verif = $verif;
 
         return $this;
+    }
+    public function __construct($role,$verif)
+    {
+        $this->role =$role;
+        $this->verif=$verif;
+
     }
 
 

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+
+  <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+  <style>
+  body{
+background-image:url("{{asset('dist/resto.jpg')}}");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+}
+  </style>
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="../../index2.html"><b>Loginnnnn</b></a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
+        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+
+   
+    {{form_label(form.email,'Email', {'attr': {'class': 'form-control'}} )}}
+    
+    {{form_widget(form.email, {'attr': {'class': 'form-control'}} )}}
+     {{ form_errors(form.email) }}
+    {{form_label(form.password,'Mot de passe', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.password, {'attr': {'class': 'form-control'}} )}}
+     {{ form_errors(form.password) }}
+          <div style="display:none">
+  {{form_label(form.nomPrenom,'Nom et prénom', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.nomPrenom, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.adresse,'Adresse', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.adresse, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.telephone,'Télephone', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.telephone, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.picture,'Image', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.picture, {'attr': {'class': 'form-control'}} )}}
+   
+            {{ form_label(form.verif) }}
+
+        {{ form_widget(form.verif)  }}
+     {{ form_label(form.role) }}
+
+        {{ form_widget(form.role) }}
+  </div>
+
+    {{ form_end(form) }}
+
+    
+      <!-- /.social-auth-links -->
+
+      <p class="mb-1">
+        <a href="forgot-password.html">forgot my password</a>
+      </p>
+      <p class="mb-0">
+        <a href="/adduser" class="text-center" width="center">Register a new membership</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{{ asset('/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('/dist/js/adminlte.min.js') }}"></script>
+
+
+
+
+</body>
+</html>

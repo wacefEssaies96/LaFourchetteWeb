@@ -6,6 +6,8 @@ use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class UtilisateurType extends AbstractType
 {
@@ -18,7 +20,7 @@ class UtilisateurType extends AbstractType
             ->add('role')
             ->add('adresse')
             ->add('telephone')
-            ->add('picture')
+            ->add('picture', FileType::class, array('data_class' => null))
             ->add('verif')
         ;
     }

@@ -133,7 +133,10 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Admin</a>
+          {% for message in app.flashes('nom') %}
+                    <a href="#" class="d-block"> {{ message}}</a>
+
+ {% endfor %}
         </div>
       </div>
 
@@ -290,6 +293,7 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
+            
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/utilisateur" class="nav-link">
@@ -308,9 +312,16 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Job</p>
                 </a>
+                
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+                <a href="/login" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Deconnecter</p>
+                </a>
+              </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -328,6 +339,6 @@
         </div>
     </footer>
     </body>
-    
+ 
 
 </html>
