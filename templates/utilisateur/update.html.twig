@@ -6,25 +6,38 @@
 <div class="form-group">
 <section class="content">
 <div class="container-fluid p-10">
-    {{form_label(form.nomPrenom,'Nom et prénom', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.nomPrenom, {'attr': {'class': 'form-control'}} )}}
-    {{form_label(form.email,'Email', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.email, {'attr': {'class': 'form-control'}} )}}
-    {{form_label(form.password,'Mot de passe', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.password, {'attr': {'class': 'form-control'}} )}}
-    {{form_label(form.role,'Role', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.role, {'attr': {'class': 'form-control'}} )}}
-    {{form_label(form.adresse,'Adresse', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.adresse, {'attr': {'class': 'form-control'}} )}}
-    {{form_label(form.telephone,'Télephone', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.telephone, {'attr': {'class': 'form-control'}} )}}
-    {{form_label(form.picture,'Image', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.picture, {'attr': {'class': 'form-control'}} )}}
-    {{form_label(form.verif,'Etat', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.verif, {'attr': {'class': 'form-control'}} )}}
+  {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
+                                <div class="col-12">
+                                        <label for="yourName" class="form-label">Your Name</label>
+
+                                        <div class="invalid-feedback">Please, enter your name!</div>
+                                    {{ form_widget(form.name) }}
+
+                                </div>
+
+                                    <div class="col-12">
+                                        <label for="yourEmail" class="form-label">Your Email</label>
+                                        {{ form_widget(form.email) }}
+                                        <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                                    </div>
+
+
+
+                                    <div class="col-12">
+                                        <label for="yourPassword" class="form-label">Password</label>
+                                        {{ form_widget(form.password.first ) }}
+                                        <div class="invalid-feedback">Please enter your password!</div>
+                                    </div>
+
+                                <div class="col-12">
+                                    <label for="yourPassword" class="form-label">Confirm Password</label>
+                                    {{ form_widget(form.password.second) }}
+                                    <div class="invalid-feedback">Please confirm your password!</div>
+                                </div>
+ 
+                                {{ form_end(form) }}
 </div>
-{{ form_end(form) }}
-</section>
+ </section>
 </div>
 </div>
 {% endblock %}

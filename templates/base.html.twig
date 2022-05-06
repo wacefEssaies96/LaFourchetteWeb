@@ -133,11 +133,9 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          {% for message in app.flashes('nom') %}
-                    <a href="#" class="d-block"> {{ message}}</a>
+                     <a href="#" class="d-block"> {{ app.user.username }}</a>
 
- {% endfor %}
-        </div>
+         </div>
       </div>
 
       <!-- SidebarSearch Form -->
@@ -287,7 +285,6 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/utilisateur" class="nav-link">
@@ -306,12 +303,12 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Job</p>
                 </a>
-                
               </li>
+              
             </ul>
           </li>
-          <li class="nav-item">
-                <a href="/login" class="nav-link">
+            <li class="nav-item">
+                <a href="{{ path('app_logout') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Deconnecter</p>
                 </a>
@@ -333,6 +330,6 @@
         </div>
     </footer>
     </body>
- 
+    
 
 </html>
