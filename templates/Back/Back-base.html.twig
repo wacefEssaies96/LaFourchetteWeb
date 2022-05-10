@@ -55,10 +55,6 @@
             </script>
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
 
-
-        {% endblock %}
-
-        {% block javascripts %}
             <!-- jQuery -->
             <script src="{{ asset('Back/plugins/jquery/jquery.min.js') }}"></script>
             <!-- jQuery UI 1.11.4 -->
@@ -217,18 +213,25 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../produit" class="nav-link">
+                <a href="/produit" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Produit</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../fournisseur" class="nav-link">
+                <a href="/fournisseur" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Fournisseur</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="/produit/fournisseur" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Produit et Fournisseur</p>
+                </a>
+              </li>
             </ul>
+          </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
@@ -239,19 +242,19 @@
             </a>
             <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="../reservation" class="nav-link">
+                <a href="/reservation" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Réservation </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../table/resto" class="nav-link">
+                <a href="/table/resto" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Table resto </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../decoration" class="nav-link">
+                <a href="/decoration" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Décoration</p>
                 </a>
@@ -268,13 +271,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../evenement" class="nav-link">
+                <a href="/evenement" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Evenement</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../commentaire" class="nav-link">
+                <a href="/commentaire" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Commantaire</p>
                 </a>
@@ -291,21 +294,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../plat" class="nav-link">
+                <a href="/plat" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Plat</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../commande" class="nav-link">
+                <a href="commande" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Commandes</p>
                 </a>
               </li>
             </ul>
           </li>
-
-
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
@@ -316,13 +317,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../reclam" class="nav-link">
+                <a href="/reclam" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Réclamations</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../type/rec" class="nav-link">
+                <a href="/type/rec" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Type de réclamation</p>
                 </a>
@@ -339,7 +340,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../utilisateur" class="nav-link">
+                <a href="/utilisateur" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Utilisateurs</p>
                 </a>
@@ -356,20 +357,15 @@
                   <p>Job</p>
                 </a>
               </li>
+              
             </ul>
           </li>
-          <li class="nav-i tem">
-            <a href="../" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Calender
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-
+            <li class="nav-item">
+                <a href="{{ path('app_logout') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Deconnecter</p>
+                </a>
               </li>
-            </ul>
-
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
