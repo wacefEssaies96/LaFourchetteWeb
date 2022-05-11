@@ -9,6 +9,10 @@ use App\Entity\Decoration;
 use App\Form\DecorationType;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DecorationController extends AbstractController
 {
@@ -32,6 +36,15 @@ class DecorationController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/afficherdecoration", name="afficherdecoration")
+     */
+    public function afficherdecoration(){
+        $decorations = $this->getDoctrine()->getRepository(Decoration::class)->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($decorations);
+        return new JsonResponse($formatted);
+    }
             /**
      * @Route("/deleteDecoration/{id}", name="deleteDecoration")
      */

@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Evenement;
 use App\Entity\Reservation;
 use App\Entity\Utilisateur;
 use App\Entity\Decoration;
@@ -24,6 +25,10 @@ use Symfony\Component\Mime\Email;
 use App\Data\SearchData;
 use App\Form\SearchForm;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class ReservationController extends AbstractController
 {
@@ -76,6 +81,17 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    
+    /**
+     * @Route("/afficherReservation", name="afficherReservation")
+     */
+    public function afficherReservation(){
+        $reservations = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($reservations);
+        //dd($reservations);
+        return new JsonResponse($formatted);
+    }
      /**
      * @Route("/deleteMesReservation/{id}/{idu}", name="deleteMesReservation")
      */
@@ -207,6 +223,27 @@ class ReservationController extends AbstractController
         ]);
 
     }
+    
+    /**
+     * @Route("/showMesReservationjson/{id}", name="showMesReservationjson")
+     */
+    public function showMesReservationjson(Request $request,$id)
+    {
+        $reservations = $this->getDoctrine()->getRepository(Reservation::class)->find($id);
+        $decorations = $this->getDoctrine()->getRepository(DecorationReservation::class)->JRD($id);
+        $tableRestos = $this->getDoctrine()->getRepository(ReservationTableResto::class)->JRT($id);
+        
+        
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formattedres = $serializer->normalize($reservations);
+        $formatteddec= $serializer->normalize($decorations);
+        $formattedtres = $serializer->normalize($tableRestos);
+        $all=[$formattedres,$formatteddec,$formattedtres];
+        
+        $formattedall = $serializer->normalize($all);
+        return new JsonResponse($formattedall);
+
+    }
 
     
     /**
@@ -327,6 +364,100 @@ class ReservationController extends AbstractController
             )
         );
     }
+    
+    /**
+     * @param MailerInterface $mailer
+     * @return Response
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @Route("/ConfirmerReservationjson/{idt}/{idu}", name="ConfirmerReservationjson")
+     * 
+     */
+    public function ConfirmerReservationjson(Request $request,MailerInterface $mailer,$idt,$idu)
+    {
+        /*
+        $TRMR=$request->request->get('TRMR');
+        $VRR=$request->request->get('searchMesreservation');
+*/
+        $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($idu);
+        $maxidres = $this->getDoctrine()->getRepository(Reservation::class)->MaxId();
+        $tableResto = $this->getDoctrine()->getRepository(TableResto::class)->find($idt);
+        $datetimetrs =$this->getDoctrine()->getRepository(DatetimetrTableResto::class)->DTD($idt);
+        $decorations = $this->getDoctrine()->getRepository(Decoration::class)->findALL();
+        
+        $reservation = new Reservation();
+
+        $datereservation=$request->query->get('datereservation');
+        $decoration=$request->query->get('decoration');
+        
+
+            $datetimetr =$this->getDoctrine()->getRepository(Datetimetr::class)->find($datereservation);
+
+            $maxidres=$maxidres[0][1]+1;
+            $reservation->setIdr($maxidres);
+
+            $reservation->setDatecreation($datetimetr->getDate());
+            $reservation->setDatemodification($datetimetr->getDate());
+            
+            
+
+            $rtr = new ReservationTableResto();
+            $rtr->setIdr($reservation);
+            $rtr->setIdt($tableResto);
+            $tableResto->setEtat('Reserver');
+
+            $datetimetr->setEtat('Reserver');
+
+            
+            $decoration = $this->getDoctrine()->getRepository(Decoration::class)->find($decoration);
+            $dr = new DecorationReservation();
+            $dr->setIdr($reservation);
+            $dr->setIdd($decoration);
+
+            
+            /*
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reservation);
+            $em->flush();
+            $emrtr= $this->getDoctrine()->getManager();
+            $emrtr->persist($rtr);
+            $emrtr->flush();
+            $emtr= $this->getDoctrine()->getManager();
+            $emtr->persist($tableResto);
+            $em->flush();
+            $emdt= $this->getDoctrine()->getManager();
+            $emdt->persist($datetimetr);
+            $em->flush();
+            $emdr= $this->getDoctrine()->getManager();
+            $emdr->persist($dr);
+            $em->flush();
+            */
+            $email = (new Email())
+            ->from('lafourchette.esprit@gmail.com')
+            ->to($utilisateur->getEmail())
+            ->subject('Reservation effectue')
+            ->text('Date de reservation : ')
+            ->html('<p>Plus de detaille Consulter votre reservation </p>');
+            $mailer->send($email);
+            /*
+            return $this->render("reservation/Mes_Reservations.html.twig",
+            array(
+                'reservations' => $reservations,
+                'tableRestos' => $tableResto,
+                'iduser' => $reservation->getIdu()->getIdu(),
+                'TRMR' => $TRMR,
+                'searchMesreservation' => $VRR,
+                )
+            );
+            */
+            
+            
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($idu);
+            //dd($reservations);
+            return new JsonResponse($formatted);
+        
+        
+    }
     /**
      * @Route("/Mes_Reservations/{idu}", name="Mes_Reservations")
      */
@@ -350,15 +481,55 @@ class ReservationController extends AbstractController
         ]);
     }
     /**
-     * @Route("/front", name="front")
+     * @Route("/Mes_Reservationsjson/{idu}", name="Mes_Reservationsjson")
+     */
+    public function Mes_Reservationsjson(Request $request,$idu): Response
+    {
+        /*
+        $TRMR=$request->request->get('TRMR');
+        $VRR=$request->request->get('searchMesreservation');
+        */
+        $reservations = $this->getDoctrine()->getRepository(Reservation::class)->MR($idu);
+       
+        /*
+        return $this->render('reservation/Mes_Reservations.html.twig', [
+            'reservations' => $reservations,
+            'iduser' => $idu,
+            'TRMR' => $TRMR,
+            'searchMesreservation' => $VRR,
+        ]);
+        */
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($reservations);
+        //dd($reservations);
+        return new JsonResponse($formatted);
+    }
+    /**
+     * @Route("/frontiheb", name="front")
      */
     public function front(): Response
     {
         /*$tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->TD();*/
         $tableRestos = $this->getDoctrine()->getRepository(DatetimetrTableResto::class)->TD();
+        $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
         return $this->render('front.html.twig', [
             'tableRestos' => $tableRestos,
+            'evenements' => $evenements,
         ]);
+    }
+    
+    /**
+     * @Route("/tabledisponiblejson", name="tabledisponible")
+     */
+    public function tabledisponiblejson()
+    {
+        
+        $tableRestos = $this->getDoctrine()->getRepository(DatetimetrTableResto::class)->TD();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($tableRestos);
+        //dd($tableRestos);
+        return new JsonResponse($formatted);
+        
     }
     
     /**

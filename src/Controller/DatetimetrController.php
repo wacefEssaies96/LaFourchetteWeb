@@ -8,6 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Datetimetr;
 use App\Form\DatetimetrType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DatetimetrController extends AbstractController
 {
@@ -26,6 +30,25 @@ class DatetimetrController extends AbstractController
             'TRDTR' => $TRDTR,
             'searchdate' => $VRDTR,
         ]);
+    }
+    
+    /**
+     * @Route("/afficherDatetimetr", name="app_datafficherDatetimetretimetr")
+     */
+    public function afficherDatetimetr(Request $request): Response
+    {
+        /*
+        $TRDTR=$request->request->get('TRDTR');
+        $VRDTR=$request->request->get('searchdate');
+        */
+        $datetimetrs = $this->getDoctrine()->getRepository(Datetimetr::class)->findAll();
+        /*dd($datetimetrs);*/
+        
+            
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($datetimetrs);
+        //dd($reservations);
+        return new JsonResponse($formatted);
     }
 
     
