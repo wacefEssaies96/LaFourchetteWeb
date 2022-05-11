@@ -24,14 +24,22 @@ use Symfony\Component\HttpFoundation\Request;
             'controller_name' => 'SecurityController',
         ]);
     }
-   /**
+    /**
      * @Route("/")
+     */
+    public function index2( )
+    {
+        return $this->redirectToRoute('acceuil');
+    }
+   /**
+     * @Route("/acceuil", name="acceuil")
      */
     public function acceuil( )
     {
-    
-        return $this->redirectToRoute('app_login');
-
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('acceuil.html.twig');
     }
 
     /**
@@ -39,9 +47,9 @@ use Symfony\Component\HttpFoundation\Request;
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('acceuil');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -49,7 +57,6 @@ use Symfony\Component\HttpFoundation\Request;
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
- 
     }
 
     /**

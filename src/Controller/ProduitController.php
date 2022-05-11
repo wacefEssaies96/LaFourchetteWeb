@@ -10,7 +10,6 @@ use App\Entity\ProduitFournisseur;
 use App\Entity\Fournisseur;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ProduitType;
-// use ContainerAlUzHxa\PaginatorInterface_82dac15;
 use Knp\Component\Pager\PaginatorInterface;
 use Swift_Mailer;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
