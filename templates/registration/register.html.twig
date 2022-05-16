@@ -21,91 +21,99 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-                        <div class="d-flex justify-content-center py-4">
+                        <!--<div class="d-flex justify-content-center py-4">
                             <a href="index.html" class="logo d-flex align-items-center w-auto">
                                 <img src="assets/img/logo.png" alt="">
                                 <span class="d-none d-lg-block">NiceAdmin</span>
                             </a>
-                        </div><!-- End Logo -->
+                        </div>- End Logo -->
+                        <style>
+                            body{
+                            background-image:url("{{asset('dist/resto.jpg')}}");
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
+
+                            }
+                        </style>
 
                         <div class="card mb-3">
 
                             <div class="card-body">
 
                                 <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
-                                    <p class="text-center small">Enter your personal details to create account</p>
+                                    <h5 class="card-title text-center pb-0 fs-4">Créer Votre Compte</h5>
+                                    <p class="text-center small">Enter Vos données</p>
                                 </div>
 
 
                                 {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
                                 <div class="col-12">
-                                        <label for="yourName" class="form-label">Your Name</label>
+                                        <label for="yourName" class="form-label">Nom</label>
 
-                                        <div class="invalid-feedback">Please, enter your name!</div>
+                                        <div class="invalid-feedback">Veuillez entrer votre Nom !</div>
                                     {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
 
                                 </div>
 
                                     <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Your Email</label>
+                                        <label for="yourEmail" class="form-label">Email</label>
                                         {{ form_widget(form.email,{'attr':{'class':'form-control'}}) }}
-                                        <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                                        <div class="invalid-feedback">Veuillez entrer votre Email !</div>
                                     </div>
 
 
 
                                     <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Password</label>
+                                        <label for="yourPassword" class="form-label">Mot de passe</label>
                                         {{ form_widget(form.password.first,{'attr':{'class':'form-control'}}) }}
-                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <div class="invalid-feedback">Veuillez taper votre Mot de passe !</div>
                                     </div>
 
                                 <div class="col-12">
-                                    <label for="yourPassword" class="form-label">Confirm Password</label>
+                                    <label for="yourPassword" class="form-label">Confirmer Mot de passe</label>
                                     {{ form_widget(form.password.second,{'attr':{'class':'form-control'}}) }}
-                                    <div class="invalid-feedback">Please confirm your password!</div>
+                                    <div class="invalid-feedback">Veuillez confirmer votre Mot de passe!</div>
                                 </div>
                                 <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Your picture</label>
+                                        <label for="yourEmail" class="form-label">Image</label>
                                         {{ form_widget(form.picture,{'attr':{'class':'form-control'}}) }}
-                                        <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                                        <div class="invalid-feedback">Veuillez inserer votre image!</div>
                                     </div>
                                      <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Your addresse</label>
+                                        <label for="yourEmail" class="form-label">Adresse</label>
                                         {{ form_widget(form.addresse,{'attr':{'class':'form-control'}}) }}
-                                        <div class="invalid-feedback">Please enter a valid addresse adddress!</div>
+                                        <div class="invalid-feedback">Veuillez inserer votre Adresse !</div>
                                     </div>
                                      <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Your phone</label>
+                                        <label for="yourEmail" class="form-label">Numero Telephone</label>
                                         {{ form_widget(form.telephone,{'attr':{'class':'form-control'}}) }}
-                                        <div class="invalid-feedback">Please enter a valid phone number!</div>
+                                        <div class="invalid-feedback">Veuillez inserer votre Numero du Telephone!</div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="form-check">
+                                        <!--div class="form-check">
                                             <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required="">
                                             <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
                                             <div class="invalid-feedback">You must agree before submitting.</div>
-                                        </div>
+                                        </div-->
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                                        <button class="btn btn-primary w-100" type="submit">Créer un Compte</button>
                                     </div>
                                     <div class="col-12">
-                                        <p class="small mb-0">Already have an account? <a href="pages-login.html">Log in</a></p>
+                                        <p class="small mb-0">Vous avez déja un compte? <a href="/login">Se connecter</a></p>
                                     </div>
                                 {{ form_end(form) }}
 
                             </div>
                         </div>
-
+<!--
                         <div class="credits">
-                            <!-- All the links in the footer should remain intact. -->
-                            <!-- You can delete the links only if you purchased the pro version. -->
-                            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+                            <!- All the links in the footer should remain intact. ->
+                            <!- You can delete the links only if you purchased the pro version. ->
+                            <!- Licensing information: https://bootstrapmade.com/license/ ->
+                            <!- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ ->
                             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-                        </div>
+                        </div>-->
 
                     </div>
                 </div>

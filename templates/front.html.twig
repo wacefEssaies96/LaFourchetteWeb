@@ -35,6 +35,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+        
     {% endblock %}
 </head>
 <body>
@@ -65,15 +66,17 @@
                             </div>
                             <div id="navbar" class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav navbar-right">
-                                    <li class="active"><a href="#banner">Home</a></li>
-                                    <li><a href="#about">About us</a></li>
+                                    <li class="active"><a href="#">Home</a></li>
+                                    <!--<li><a href="#about">About us</a></li>-->
                                     <li><a href="#menu">Menu</a></li>
-                                    <li><a href="#our_team">Team</a></li>
-                                    <li><a href="#gallery">Reclamation</a></li>
-                                    <li><a href="#blog">Evenements</a></li>
-                                    <li><a href="#pricing">pricing</a></li>
-                                    <li><a href="#reservation">Reservaion</a></li>
-                                    <li><a href="#footer">Contact us</a></li>
+                                    <!--<li><a href="#our_team">Team</a></li>-->
+                                   <!-- <li><a href="#gallery">Gallery</a></li>-->
+                                    <li><a href="#blog">Evenement</a></li>
+                                    <!--<li><a href="#pricing">pricing</a></li>-->
+                                    <li><a href="/TableAReservre">Reservation</a></li>
+                                    <li><a href="/addReclam">Reclamation</a></li>
+                                    <li><a href="{{ path('app_logout') }}">Deconnecter</a></li>
+                                    <!--<li><a href="#footer">Contact us</a></li>-->
                                 </ul>
                             </div>
                             <!-- end nav-collapse -->

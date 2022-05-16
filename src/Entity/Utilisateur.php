@@ -17,6 +17,7 @@ class Utilisateur
     /**
      * @var int
      *
+     * @ORM\OneToMany(targetEntity="Commentaire", mappedBy="Utilisateur")
      * @ORM\OneToMany(targetEntity="Reservation", mappedBy="Utilisateur")
      * @ORM\Column(name="idU", type="integer", nullable=false)
      * @ORM\Id

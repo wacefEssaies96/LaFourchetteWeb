@@ -115,12 +115,29 @@ public function Employer(EmployerRepository $Repository): Response
 {
     $pdfOptions = new Options();
     $employes = $Repository->findAll();
+
+
     $pdfOptions->set('defaultFont', 'Arial');
+    $pdfOptions->set('isRemoteEnabled',true);
     // Instantiate Dompdf with our options
     $dompdf = new Dompdf($pdfOptions);
+    
+    $logo = file_get_contents('lafourchette.png');
+    $logo64 = base64_encode($logo);
+    
+    $listimge=[];
+    $ii=0;
+    
+    foreach($employes as $e){
+        $file = $this->getParameter('brochures_directory') . '/' . $e->getPicture();
+        $png = file_get_contents($file);
+        $pngbase64 = base64_encode($png);
+        $listimge[$ii]=$pngbase64;
+        $ii+=1;
+    } 
     // Retrieve the HTML generated in our twig file
     $html = $this->renderView('employer/listEmployer.html.twig', [
-        'employes' => $employes,
+        'employes' => $employes,"img64"=>$pngbase64,"listimge"=>$listimge,"logo"=>$logo64,
     ]);
     // Load HTML to Dompdf
     $dompdf->loadHtml($html);

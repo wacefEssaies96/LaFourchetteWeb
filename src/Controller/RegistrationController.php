@@ -22,6 +22,11 @@ class RegistrationController extends AbstractController
      */
     public function index(Request $request,\Swift_Mailer $mailer)
     {
+        if ($this->getUser() != null && $this->getUser()->isAdmin()) {
+            return $this->redirectToRoute('app_employer'); 
+       }else if ($this->getUser() != null && $this->getUser()->isClient()) {
+           return $this->redirectToRoute('frontbase'); 
+      }else{
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
@@ -39,12 +44,13 @@ class RegistrationController extends AbstractController
             $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
             $image->move($this->getParameter('brochures_directory'), $imageName);
             $user->setPicture($imageName);
+            //dd($user);
             // Save
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $message = (new \Swift_Message('TROOD'))
-            ->setFrom('wedev122@gmail.com')
+            $message = (new \Swift_Message('LaFourchette'))
+            ->setFrom('lafourchette.esprit@gmail.com')
             ->setTo($form->get('email')->getData())//
             ->setBody(
                 $this->renderView(
@@ -63,5 +69,6 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
     }
 }

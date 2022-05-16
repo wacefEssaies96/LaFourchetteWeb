@@ -24,22 +24,13 @@ use Symfony\Component\HttpFoundation\Request;
             'controller_name' => 'SecurityController',
         ]);
     }
-    /**
-     * @Route("/")
-     */
-    public function index2( )
-    {
-        return $this->redirectToRoute('acceuil');
-    }
    /**
-     * @Route("/acceuil", name="acceuil")
+     * @Route("/")
      */
     public function acceuil( )
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
-        return $this->render('acceuil.html.twig');
+        return $this->redirectToRoute('app_login');
+
     }
 
     /**
@@ -47,16 +38,31 @@ use Symfony\Component\HttpFoundation\Request;
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('acceuil');
+        if($this->getUser() == null){
+            // get the login error if there is one
+            $error = $authenticationUtils->getLastAuthenticationError();
+            // last username entered by the user
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
         }
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        if ($this->getUser()->isAdmin()) {
+             return $this->redirectToRoute('app_employer'); 
+        }else if ($this->getUser()->isClient()) {
+            return $this->redirectToRoute('frontbase'); 
+       }else{
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+            // get the login error if there is one
+            $error = $authenticationUtils->getLastAuthenticationError();
+            // last username entered by the user
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        
+        }
+        
+ 
     }
 
     /**
@@ -93,7 +99,7 @@ use Symfony\Component\HttpFoundation\Request;
             $url = $this->generateUrl('app_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
 
             $message = (new \Swift_Message('Oubli de mot de passe - Réinisialisation'))
-                ->setFrom('wedev122@gmail.com')
+                ->setFrom('lafourchette.esprit@gmail.com')
                 ->setTo($user[0]->getEmail())
                 ->setBody(
                     $this->renderView(

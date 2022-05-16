@@ -29,17 +29,10 @@
                     <tr>
                       <th>Id</th>
                       <th>Email</th>
-                      <th>Nom et prénom</th>
-
                        <th>Rôle</th>
-                       <th>Etat<th/>
-                                              <th>Addresse<th/>
-                                                                                            <th>telephone<th/>
-                                                                                            <th>image<th/>
-
-
-
-                    
+                       <th>Etat</th>
+                        <th>image</th>
+                        <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -47,14 +40,11 @@
                     <tr>
                       <td>{{p.id}}</td>
                       <td>{{p.email}}</td>
-                      <td>{{p.name}}</td>
                      <td>{% for  role in p.roles  %}
                     {{ role }}
-                     {% endfor %}</td>                 
+                     {% endfor %}                
                        </td>
                    <td>{{p.verif}}</td>
-                                      <td>{{p.addresse}}</td>
-                           <td>{{p.telephone}}</td>
                       <td><img src="{{asset('uploads/images/')}}{{p.picture}}" width="52" height="52" > </img></td>
 
 

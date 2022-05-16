@@ -75,4 +75,38 @@ class EvenementRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function orderbydesignation(){
+        $em=$this->getEntityManager();
+        $query =$em->createQuery(' select e from App\Entity\Evenement e order by e.designatione ASC');
+         return $query->getResult();
+    }
+    public function orderbyDate(){
+        $em=$this->getEntityManager();
+        $query =$em->createQuery(' select e from App\Entity\Evenement e order by e.datee ASC');
+        return $query->getResult();
+    }
+    public function orderbyNbrPartcipants(){
+        $em=$this->getEntityManager();
+        $query =$em->createQuery(' select e from App\Entity\Evenement e order by e.nbrparticipants ASC');
+        return $query->getResult();
+    }
+
+    public function searchEvent($te,$tt)
+    {
+        $queryBuilder=$this->createQueryBuilder('search')->select('search')
+            ->setParameter('value', '%'.$tt.'%');
+        if($te == 'nbrparticipants'){
+            $queryBuilder->where('search.nbrparticipants LIKE :value');
+        }else {
+            $queryBuilder->where('search.designatione LIKE :value');
+        }
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+
 }
+

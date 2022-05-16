@@ -1,6 +1,6 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-# index:
-#     path: /
-#     controller: App\Controller\SecurityController::index2
+index:
+    path: /
+    controller: App\Controller\SecurityController::acceuil

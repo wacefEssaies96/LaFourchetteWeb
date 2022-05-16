@@ -17,6 +17,7 @@ class Evenement
      * @var int
      *
      * @ORM\Column(name="idE", type="integer", nullable=false)
+     * @ORM\OneToMany(targetEntity="Commentaire",mappedBy="Evenement")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -47,7 +48,7 @@ class Evenement
      *
      * @ORM\Column(name="dateE", type="date", nullable=false)
      *@Assert\Date
-     * @Assert\GreaterThanOrEqual("today",message="La date du fin doit être supérieure à la date début")
+     * @Assert\GreaterThanOrEqual("today",message="La date du fin doit être supérieure à la date du jour")
 
      */
     private $datee;

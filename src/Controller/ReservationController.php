@@ -13,6 +13,8 @@ use App\Entity\DecorationReservation;
 use App\Entity\TableResto;
 use App\Entity\ReservationTableResto;
 use App\Entity\Datetimetr;
+use App\Entity\Plat;
+use App\Entity\Commande;
 use App\Entity\DatetimetrTableResto;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ReservationType;
@@ -64,10 +66,15 @@ class ReservationController extends AbstractController
      * @Route("/reservation", name="app_reservation")
      */
     public function index(PaginatorInterface $paginator,Request $request): Response
-    {
+    {   
+        
+        /*$user=$this->getUser();
+        dd($user);*/
+
         $TRR=$request->request->get('TRR');
         $VRR=$request->request->get('searchreservation');
         $reservations = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
+        //dd($reservations);
         $reservations = $paginator->paginate(
             $reservations,
             $request->query->getInt('page', 1),
@@ -283,7 +290,9 @@ class ReservationController extends AbstractController
         $form->handleRequest($request);
         $datereservation=$request->request->get('datereservation');
         $decoration=$request->request->get('decoration');
-        if ($form->isSubmitted() && $form->isValid()) {
+        $Tvofdecoration=$request->request->get('Tvofdecoration') ;
+        $myArray = explode(',', $Tvofdecoration);
+        if ($form->isSubmitted() && $form->isValid() && $datereservation != null) {
             $idu=$form->get('idu')->getData();
             $idu=1;
             $datetimetr =$this->getDoctrine()->getRepository(Datetimetr::class)->find($datereservation);
@@ -292,6 +301,8 @@ class ReservationController extends AbstractController
             $reservation->setIdr($maxidres);
             /*$date = new \DateTime('@'.strtotime('now'));*/
             
+            $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
+            $reservation->setIdU($utilisateur);
             $reservation->setDatecreation($datetimetr->getDate());
             $reservation->setDatemodification($datetimetr->getDate());
             
@@ -305,11 +316,7 @@ class ReservationController extends AbstractController
             $datetimetr->setEtat('Reserver');
 
             
-            $decoration = $this->getDoctrine()->getRepository(Decoration::class)->find($decoration);
-            $dr = new DecorationReservation();
-            $dr->setIdr($reservation);
-            $dr->setIdd($decoration);
-
+            
             
             
             $em = $this->getDoctrine()->getManager();
@@ -324,13 +331,20 @@ class ReservationController extends AbstractController
             $emdt= $this->getDoctrine()->getManager();
             $emdt->persist($datetimetr);
             $em->flush();
-            $emdr= $this->getDoctrine()->getManager();
-            $emdr->persist($dr);
-            $em->flush();
-            
+            if( $myArray[0] != ""){
+                foreach($myArray as $lid){
+                    $decoration = $this->getDoctrine()->getRepository(Decoration::class)->find((int)$lid);
+                    $dr = new DecorationReservation();
+                    $dr->setIdr($reservation);
+                    $dr->setIdd($decoration);
+                    $emdr= $this->getDoctrine()->getManager();
+                    $emdr->persist($dr);
+                    $em->flush();
+                }
+            }
             $email = (new Email())
             ->from('lafourchette.esprit@gmail.com')
-            ->to('iheb.benhelel@esprit.tn')
+            ->to($this->getUser()->getEmail())
             ->subject('Reservation effectue')
             ->text('Date de reservation : ')
             ->html('<p>Plus de detaille Consulter votre reservation </p>');
@@ -343,7 +357,10 @@ class ReservationController extends AbstractController
                 $request->query->getInt('page', 1),
                 4
             );
-            return $this->render("reservation/Mes_Reservations.html.twig",
+            
+            return $this->redirectToRoute("Mes_Reservations",['idu' => $this->getUser()->getId()]);
+
+            /*return $this->render("reservation/Mes_Reservations.html.twig",
             array(
                 'reservations' => $reservations,
                 'tableRestos' => $tableResto,
@@ -351,10 +368,13 @@ class ReservationController extends AbstractController
                 'TRMR' => $TRMR,
                 'searchMesreservation' => $VRR,
                 )
-            );
+            );*/
             
         }
         
+        if($form->isSubmitted() && $datereservation == null){
+            $this->addFlash('info','Choissir le temp de votre reservation ');
+        }
         return $this->render("reservation/add.html.twig",
         array(
             'form'=>$form->createView(),
@@ -505,16 +525,36 @@ class ReservationController extends AbstractController
         return new JsonResponse($formatted);
     }
     /**
-     * @Route("/frontiheb", name="front")
+     * @Route("/TableAReservre", name="TableAReservre")
      */
-    public function front(): Response
+    public function TableAReservre(): Response
     {
         /*$tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->TD();*/
         $tableRestos = $this->getDoctrine()->getRepository(DatetimetrTableResto::class)->TD();
-        $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
-        return $this->render('front.html.twig', [
+        
+        return $this->render('Front/TableAReservre.html.twig', [
             'tableRestos' => $tableRestos,
-            'evenements' => $evenements,
+        ]);
+    }
+    
+    /**
+     * @Route("/frontbase", name="frontbase")
+     */
+    public function frontbase(): Response
+    {
+        $plats = $this->getDoctrine()->getRepository(Plat::class)->findAll();
+        $commandes=$this->getDoctrine()->getRepository(Commande::class)->findAll();
+  
+        /*$tableRestos = $this->getDoctrine()->getRepository(TableResto::class)->TD();*/
+        $tableRestos = $this->getDoctrine()->getRepository(DatetimetrTableResto::class)->TD();
+        $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
+        
+        return $this->render('Front/Front-base1.html.twig', [
+            'tableRestos' => $tableRestos,
+            'evenements' => $evenement,
+            'plats' => $plats,
+            //'plat' => $plat,
+            'commande'=>$commandes,
         ]);
     }
     
@@ -544,26 +584,43 @@ class ReservationController extends AbstractController
 
         $pdfOptions->set('defaultFont', 'Arial');
         $dompdf = new Dompdf($pdfOptions);
+
+        $logo = file_get_contents('lafourchette.png');
+        $logo64 = base64_encode($logo);
         
-        $listimg=[];
+        $listimgd=[];
         $ii=0;
-        /*
+        
+        foreach($decorations as $d){
+            $file = $this->getParameter('brochures_directory') . '/' . $d->getImageD();
+            $png = file_get_contents($file);
+            $pngbase64 = base64_encode($png);
+            $listimgd[$ii]=$pngbase64;
+            $ii+=1;
+        } 
+
+        $listimgt=[];
+        $ii=0;
         foreach($tableRestos as $t){
             //l'image est située au niveau du dossier public
-            $png = file_get_contents('asset("uploads/images/" ~ $t.getImageTable())');
+            //$t->getImageTable()
+            $file = $this->getParameter('brochures_directory') . '/' . $t->getImageTable();
+            $png = file_get_contents($file);
             $pngbase64 = base64_encode($png);
-            $listimg[$ii]=$pngbase64;
+            $listimgt[$ii]=$pngbase64;
             $ii+=1;
         }
-        dd($listimg);*/
+        //dd($listimgd);
         $html = $this->renderView('reservation/pdfreservation.html.twig', [
             'reservation' => $reservation,
             'decorations' => $decorations,
             'tableRestos' => $tableRestos,
-            'listimg' => $listimg,
+            'listimgt' => $listimgt,
+            'listimgd' => $listimgd,
+            'logo' => $logo64,
         ]);
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('B6', 'portrait');
         $dompdf->render();
         $dompdf->stream("VotreReservation.pdf", [
             "Attachment" => true
@@ -582,11 +639,40 @@ class ReservationController extends AbstractController
         $decorations = $this->getDoctrine()->getRepository(DecorationReservation::class)->JRD($idr);
         $tableRestos = $this->getDoctrine()->getRepository(ReservationTableResto::class)->JRT($idr);
 
+        $logo = file_get_contents('lafourchette.png');
+        $logo64 = base64_encode($logo);
+        
+        $listimgd=[];
+        $ii=0;
+        
+        foreach($decorations as $d){
+            $file = $this->getParameter('brochures_directory') . '/' . $d->getImageD();
+            $png = file_get_contents($file);
+            $pngbase64 = base64_encode($png);
+            $listimgd[$ii]=$pngbase64;
+            $ii+=1;
+        } 
+
+        $listimgt=[];
+        $ii=0;
+        foreach($tableRestos as $t){
+            //l'image est située au niveau du dossier public
+            //$t->getImageTable()
+            $file = $this->getParameter('brochures_directory') . '/' . $t->getImageTable();
+            $png = file_get_contents($file);
+            $pngbase64 = base64_encode($png);
+            $listimgt[$ii]=$pngbase64;
+            $ii+=1;
+        }
+        //dd($listimgd);
         
         return $this->render('reservation/pdfreservation.html.twig', [
             'reservation' => $reservation,
             'decorations' => $decorations,
             'tableRestos' => $tableRestos,
+            'listimgt' => $listimgt,
+            'listimgd' => $listimgd,
+            'logo' => $logo64,
         ]);
         
 

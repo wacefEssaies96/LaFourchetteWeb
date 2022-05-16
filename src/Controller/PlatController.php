@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
 use App\Repository\PlatRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +34,11 @@ class PlatController extends AbstractController
     public function showplat(): Response
     {
         $plats = $this->getDoctrine()->getRepository(Plat::class)->findAll();
+        $r=$this->getDoctrine()->getRepository(Commande::class);
+        $reservation=$r->findAll();
         return $this->render('Front/showplat.html.twig', [
             'plats' => $plats,
+            'commande'=>$reservation,
         ]);
     }
      /**
@@ -46,6 +50,7 @@ class PlatController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($plat);
         $em->flush();
+        $this->addFlash('info','Plat supprimé !');
         return $this->redirectToRoute("app_plat");
     }
 
@@ -67,6 +72,7 @@ class PlatController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($plat);
             $em->flush();
+            $this->addFlash('info','                                            Plat ajouté !');
 
             return $this->redirectToRoute('app_plat');
         }
@@ -89,6 +95,7 @@ class PlatController extends AbstractController
             $plat->setImagep($imageName);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+            $this->addFlash('info','Plat supprimé !');
             return $this->redirectToRoute('app_plat');
         }
         return $this->render("plat/update.html.twig",array('form'=>$form->createView()));

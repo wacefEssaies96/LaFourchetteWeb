@@ -19,10 +19,11 @@ use App\Entity\Fournisseur;
 class ProduitApiController extends AbstractController
 {
     /**
-     * @Route("/json/produit")
+     * @Route("/api/produit")
      */
     public function afficheProduits(){
         $decorations = $this->getDoctrine()->getRepository(Produit::class)->findAll();
+        
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($decorations);
         return new JsonResponse($formatted);

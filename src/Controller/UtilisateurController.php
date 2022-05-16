@@ -62,6 +62,13 @@ class UtilisateurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Encode the new users password
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
+            
+            if($form->get('picture')->getData()){
+                $image = $form->get('picture')->getData();
+                $imageName = md5(uniqid()).'.'.$image->guessExtension(); 
+                $image->move($this->getParameter('brochures_directory'), $imageName);
+                $user->setPicture($imageName);
+            }
 
             // Set their role
  

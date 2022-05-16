@@ -1,10 +1,18 @@
 {% extends 'frontcommantaire.html.twig' %}
 
+
+
 {% block body %}
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h2 class="block-title text-center">
-            Evenements&Commantaires
-        </h2>
+    <div id="blog" class="blog-main pad-top-100 pad-bottom-100 parallax">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2 class="block-title text-center">
+                        Liste Des Commentaires
+                    <br>
+                    <li><a href="/frontbase">Home</a></li>
+                    </h2>
+                </div></div></div></div>
     <!-- boun
      <div class="blog-box clearfix">
     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
@@ -12,37 +20,30 @@
 
             <div class="blog-block">
                 <div class="blog-img-box">
-                    <img src="{{ asset('uploads/images/') }}{{ e.imageE }}" alt="" />
+                    <img src="{ asset('uploads/images/') }}{{ e.imageE }}" alt="" />
                     <div class="overlay">
                         <a href=""><i class="fa fa-link" aria-hidden="true"></i></a>
                     </div>
                 </div>
                 <div class="blog-dit">
 
-                    <h2>{{ e.designationE }}</h2>
-                    <p><span>{{ e.descriptionE }}</span></p>
-                    <p><span>{{ e.dateE ? e.dateE|date('Y-m-d') }}</span></p>
-                    <p><span>{{ e.nbrParticipants }}</span></p>
-
-
-
-
-
+                    <h2>{ e.designationE }}</h2>
+                    <p><span>{ e.descriptionE }}</span></p>
+                    <p><span>{ e.dateE ? e.dateE|date('Y-m-d') }}</span></p>
+                    <p><span>{ e.nbrParticipants }}</span></p>
                 </div>
             </div>
         </div>-->
-
-
         <!-- end col -->
 
     </div>
     <!-- DIRECT CHAT -->
     <div class="card direct-chat direct-chat-primary">
     <div class="card-header">
-        <h3 class="card-title">Commentaires</h3>
+
 
         <div class="card-tools">
-            <span title="3 New Messages" class="badge badge-primary">3</span>
+
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
             </button>
@@ -60,11 +61,15 @@
         <div class="direct-chat-messages">
             {% for c in comentaires %}
                 {% for u in utilisateurs %}
-                    {% if u.idU ==5 %}
-                        <div class="direct-chat-msg right">
-                        {% if c.idU == u.idU %}
+
+                        <div  {% if u.idU == app.user.id %}  class="direct-chat-msg right"  {% else %}  class="direct-chat-msg "{% endif %}>
+
+
+
+
+                        {% if c.idU.idu == u.idU %}
                             <div class="direct-chat-infos clearfix">
-                        <span class="direct-chat-name float-right">
+                        <span {% if u.idU == app.user.id %}  class="direct-chat-name float-right"  {% else %}  class= "direct-chat-name float-left" {% endif %} >
                             {{u.nomprenom}}
                             </span>
 
@@ -72,9 +77,13 @@
                             <img class="direct-chat-img" src="{{ asset('uploads/images/') }}{{ u.picture }}" alt="message user image">
                             <div class="direct-chat-text">
                                 {{ c.commantaire }}
+
                             </div>
+
+                            <a  class="fa fa-heart" href="{{ path('like',{'idC': c.idco}) }}"> {{ c.nbrlike}} like </a>
+
                         {% endif %}
-                    {% endif %}
+
                 {% endfor %}
                 <!-- /.direct-chat-img -->
 
@@ -84,27 +93,7 @@
             {% endfor %}
             <!-- Message to the right -->
 
-            {% for c in comentaires %}
-                {% for u in utilisateurs %}
-                    {% if u.idU !=5 %}
-                        <div class="direct-chat-msg ">
-                        {% if c.idU == u.idU %}
-                            <div class="direct-chat-infos clearfix">
-                        <span class="direct-chat-name float-left">
-                            {{u.nomprenom}}
-                            </span>
-                            </div>
 
-                            <img class="direct-chat-img" src="{{ asset('uploads/images/') }}{{ u.picture }}" alt="message user image">
-                            <div class="direct-chat-text">
-                                {{ c.commantaire }}
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-                <!-- /.direct-chat-img -->
-                </div>
-            {% endfor %}
 
         </div>
         <!--/.direct-chat-messages-->

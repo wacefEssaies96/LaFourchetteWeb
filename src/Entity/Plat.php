@@ -67,10 +67,7 @@ class Plat
 
 
 
-    /**
-     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="referenceplat",cascade={"remove"}, orphanRemoval=true)
-     */
-    private $commande;
+
 
     public function __construct()
     {
@@ -155,10 +152,7 @@ class Plat
     /**
      * @return Collection|Commande[]
      */
-    public function getCommande(): Collection
-    {
-        return $this->commande;
-    }
+
 
 
 

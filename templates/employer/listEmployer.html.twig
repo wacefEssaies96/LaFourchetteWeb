@@ -5,7 +5,8 @@
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
                         <div class="w3-serif">
-
+<img src="data:image;base64,<?= {{ logo }};?>" style=" margin: 60px 222px 60px;
+    display: block;" width="200" height="200">
                 <h1 align="center" style="color:#fa521c" > Liste des Employer </h1>
                         </div>
                         <table class="table table-hover text-nowrap" border="1">
@@ -23,17 +24,19 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {% set idexlistimge = 0 %}
                             {% for c in employes %}
                                 <tr>
                                     <td>{{c.idEM}}</td>
                                 <td>{{c.nomPrenom}}</td>
                                 <td>{{c.telephone}}</td>
                                  <td>{{c.adresse}}</td>
-                                 <td><img src="{{asset('uploads/images/')}}{{c.picture}}" width="52" height="52" > </img></td>
+                                 <td><img src="data:image;base64,<?= {{ listimge[idexlistimge] }};?>" width="52" height="52" > </img></td>
                                 <td>{{c.salaire}}</td>
                                  <td>{{c.jobEM.jobEM}}</td>
 
                                 </tr>
+                            {% set idexlistimge = idexlistimge + 1 %}
                             {% endfor %}
                             </tbody>
                         </table>

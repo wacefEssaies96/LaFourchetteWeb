@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+//use App\Entity\Evenement;
 
 /**
  * Commentaire
@@ -35,17 +36,24 @@ class Commentaire
      */
     private $nbrlike;
 
+
+
     /**
-     * @var int|null
+     * @var Utilisateur
      *
-     * @ORM\Column(name="idU", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Utilisateur", inversedBy="Commentaire")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idU", referencedColumnName="idU", nullable=false)
+     * })
      */
     private $idu;
 
     /**
-     * @var int
-
-     * @ORM\Column(name="idevent", type="integer", nullable=false)
+     * @var Evenement
+     * @ORM\ManyToOne(targetEntity="Evenement",inversedBy="Commentaire")
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="idevent", referencedColumnName="idE")
+     * })
      */
     private $idevent;
 
@@ -78,24 +86,24 @@ class Commentaire
         return $this;
     }
 
-    public function getIdu(): ?int
+    public function getIdu(): ?Utilisateur
     {
         return $this->idu;
     }
 
-    public function setIdu(?int $idu): self
+    public function setIdu(?Utilisateur $idu): self
     {
         $this->idu = $idu;
 
         return $this;
     }
 
-    public function getIdevent(): ?int
+    public function getIdevent():?Evenement
     {
         return $this->idevent;
     }
 
-    public function setIdevent(int $idevent): self
+    public function setIdevent(?Evenement $idevent): self
     {
         $this->idevent = $idevent;
 

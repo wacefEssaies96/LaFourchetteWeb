@@ -2,28 +2,26 @@
 
 namespace App\Controller;
 
-
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Reclam;
-use App\Notifications\Mailing_Reclam;
+use App\Entity\TypeRec;
 use App\Entity\Utilisateur;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Form\ReclamType;
-use App\Form\SearchReclamType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Joli\JoliNotif\Notification;
-use Joli\JoliNotif\NotifierFactory;
 use App\Repository\ReclamRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 class ReclamController extends AbstractController
 {
+   
      
   
     /**
@@ -41,6 +39,107 @@ class ReclamController extends AbstractController
      
             ]);
     }
+
+    /**
+     * @Route("/afficheReclamJSON", name="afficheReclamJSON")
+     */
+    public function afficheReclamJSON(){
+        $reclam = $this->getDoctrine()->getManager()->getRepository(Reclam::class)->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($reclam);
+        return new JsonResponse($formatted);
+    }
+    /**
+     * @Route("/afficheTypeReclamJSON", name="afficheTypeReclamJSON")
+     */
+    public function afficheTypeReclamJSON(){
+        $type = $this->getDoctrine()->getManager()->getRepository(TypeRec::class)->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($type);
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route("/afficheReclamUserJSON/{idu}", name="afficheReclamUseJSONr")
+     */
+    public function afficheReclamUserJSON($idu){
+        $reclam = $this->getDoctrine()->getManager()->getRepository(Reclam::class)->findBy(array('idu' => $idu),array('idu' => 'ASC'));
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($reclam);
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route("/pdfreclamation", name="PDF_Reclam", methods={"GET"})
+     */
+    public function pdfreclamation()
+    {
+        
+        
+        $pdfOptions = new Options();
+        $reclamation = $this->getDoctrine()->getRepository(Reclam::class)->findAll();
+        
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->set('isRemoteEnabled',true);
+        $dompdf = new Dompdf($pdfOptions);
+        
+        $png = file_get_contents("lafourchette.png");
+        $pngbase64 = base64_encode($png);
+        
+        $html = $this->renderView('reclam/PDF_Reclam.html.twig', [
+            'reclams' => $reclamation,
+            'logo' => $pngbase64,
+        ]);
+        
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('C6', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("ListeDesReclamtions.pdf", [
+            "Attachment" => true
+        ]);
+        
+    }
+    /**
+     * @Route("/addReclamJSON", name="addReclamJSON")
+     */
+
+    public function addReclamJSON(Request $request)
+    {
+        $reclam = new Reclam();
+        // $typrec = $request->query->get("typrec");
+        $description = $request->query->get("description");
+        // $etatrec = $request->query->get("etatrec");
+        //$idu = $request->query->get("idu");
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $this->getDoctrine()->getRepository(TypeRec::class)->find("Reclamation livraison");
+        $reclam->setTyperec($reclamation);
+
+        $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find(1);
+        $reclam->setIdu($utilisateur);
+        $reclam->setDescription($description);
+        $reclam->setEtatrec("En attente");
+        $em->persist($reclam);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($reclam);
+        return new JsonResponse("reclamation ajouté");
+
+        /*  $reclam = new Reclam();
+          $form = $this->createForm(ReclamType::class, $reclam);
+          //$form->add('Ajouter',SubmitType::class);
+          $form->handleRequest($request);
+          if ($form->isSubmitted() && $form->isValid()) {
+              $em = $this->getDoctrine()->getManager();
+              $em->persist($reclam);
+              $em->flush();
+              $this->addFlash('info','Réclamation envyée !');
+             // return $this->redirectToRoute('app_reclam');
+              return $this->render("Front/Front-base.html.twig");
+          }
+          return $this->render("reclam/ADD_Reclam.html.twig",array('form'=>$form->createView()));
+
+          */
+    }
      /**
      * @Route("/deleteReclam/{id}", name="deleteReclam")
      */
@@ -50,107 +149,50 @@ class ReclamController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($reclam);
         $em->flush();
-        $this->addFlash('info','Réclamation supprimée !');
         return $this->redirectToRoute("app_reclam");
     }
 
      /**
      * @Route("/addReclam", name="addReclam")
      */
-    
     public function addReclam(Request $request)
     {
+        
         $reclam = new Reclam();
         $form = $this->createForm(ReclamType::class, $reclam);
         //$form->add('Ajouter',SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $cu=$request->request->get('currentuser');
+            $us = $this->getDoctrine()->getRepository(Utilisateur::class)->find((int)$cu);
+        
+            $reclam->setIdu($us);
+            //dd($reclam);
             $em = $this->getDoctrine()->getManager();
             $em->persist($reclam);
             $em->flush();
-            $this->addFlash('info','Réclamation envyée !');
-           // return $this->redirectToRoute('app_reclam');
-            return $this->render("Front/Front-base.html.twig");
+           return $this->redirectToRoute('frontbase');
         }
         return $this->render("reclam/ADD_Reclam.html.twig",array('form'=>$form->createView()));
     }
 
     /**
-     * @Route("/updateReclam/{id}/{u}/{nom}/{typerec}", name="updateReclam")
+     * @Route("/updateReclam/{id}", name="updateReclam")
      */
-    public function updateReclam(Request $request,$id,$u,$nom,$typerec , \Swift_Mailer $mailer)
+    public function updateReclam(Request $request,$id)
     {
         $reclam = $this->getDoctrine()->getRepository(Reclam::class)->find($id);
         $form = $this->createForm(ReclamType::class, $reclam);
-        $form->add('modifier',SubmitType::class, [
-            'attr' => ['class' => 'btn btn-success float-right'],
-        ]);
+        $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()  && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            $etat = $reclam->getEtatrec();
-            if( $etat=="Traitée"){
-              $message = (new \Swift_Message('Réclamation'))
-              ->setFrom('lafourchette.esprit@gmail.com')
-              ->setTo($u)
-              ->setBody(
-                  $this->renderView(
-                      'emails/Reclam_traitée.html.twig', [
-                        'nom' => json_encode($nom),
-                        'typerec' => json_encode($typerec),
-                       
-                    ]
-                  ),
-                  'text/html'
-              )
-              ;
-              $mailer->send($message);
-              $this->addFlash('info','Email envyée !');
-            }
-            $this->addFlash('info','Réclamation modifiée !');
-              
             return $this->redirectToRoute('app_reclam');
         }
         return $this->render("reclam/update.html.twig",array('form'=>$form->createView()));
     }
-    /**
-     * @Route("/pdf", name="PDF_Reclam", methods={"GET"})
-     */
-    public function pdf(ReclamRepository $ReclamRepository)
-    {
-        // Configure Dompdf according to your needs
-        $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont', 'Arial');
-        $pdfOptions->set('isRemoteEnabled',true);
-       // $pdfOptions->set('enable_html5_parser',true);
-       //$pdfOptions->set('tempDir','C:\wamp64\www'); 
-
-        // Instantiate Dompdf with our options
-        $dompdf = new Dompdf($pdfOptions);
-        $png = file_get_contents("lafourchette.png");
-        $pngbase64 = base64_encode($png);
-       // $imgpath='<img src="data:image/png;base64, '.$dataBase64.'">';
-        //$HTML='<body><div>'.$imgpath.'</div></body>';
-        // Retrieve the HTML generated in our twig file
-        
-        $html = $this->renderView('reclam/PDF_Reclam.html.twig', [
-            'reclams' => $ReclamRepository->findAll(),"img64"=>$pngbase64
-        ]);
-
-        // Load HTML to Dompdf
-        $dompdf->loadHtml($html);
-        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
-        $dompdf->setPaper('C6', 'portrait');
-        
-        // Render the HTML as PDF
-        $dompdf->render();
-        // Output the generated PDF to Browser (inline view)
-        // $dompdf->set_base_path(realpath('Back/plugins/fontawesome-free/css/all.min.css'));
-        $dompdf->stream("ListeDesReclamtions.pdf", [
-            "reclams" => true
-        ]);
-    }
+    
     /**
      * @Route("/searchReclam", name="searchReclam")
      */
@@ -214,4 +256,5 @@ class ReclamController extends AbstractController
             
          ]);
     }
+
 }

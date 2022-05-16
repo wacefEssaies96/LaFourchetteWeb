@@ -6,10 +6,12 @@
 <div class="form-group">
 <section class="content">
 <div class="container-fluid p-10">
+    {{form_label(form.referenceplat,'Reference', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.referenceplat, {'attr': {'class': 'form-control'}} )}}
     {{form_label(form.idu,'Id Utilisateur', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.idu, {'attr': {'class': 'form-control'}} )}}
-    {{form_label(form.etatc,'Quantité', {'attr': {'class': 'form-control'}} )}}
-    {{form_widget(form.etatc, {'attr': {'class': 'form-control'}} )}}
+    {{form_label(form.quantity,'Quantité', {'attr': {'class': 'form-control'}} )}}
+    {{form_widget(form.quantity, {'attr': {'class': 'form-control'}} )}}
     {{form_label(form.livraison,'Livraison', {'attr': {'class': 'form-control'}} )}}
     {{form_widget(form.livraison, {'attr': {'class': 'form-control'}} )}}
     {{form_label(form.prixc,'Prix', {'attr': {'class': 'form-control'}} )}}

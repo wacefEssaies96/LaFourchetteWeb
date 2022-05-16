@@ -1,61 +1,69 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Panier{% endblock %}
 
 {% block body %}
-<div class="col-xl-9 col-lg-10 mx-auto mt-5 mt-xl-0">
-    {% for i in commande %}
-        <div class="row">
+    <div class="content-page">
 
 
-            <div class="col-lg-12 col-md-6">
-                <div class="flight-list-box rt-mb-30">
-                    <div
-                            class="top-content d-flex flex-lg-row flex-column align-items-lg-center justify-content-left  justify-content-lg-between">
+        <!-- Start content -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="about-section-box">
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <h1>Panier</h1>
 
 
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Quantity</th>
 
 
-                        <div class="trip">
-                            <label>Nom plat : </label>{{ i.referenceplat }}
-
-
-                        </div><!-- /.trip -->
-                        <div class="trip">
-                            <label>livraison : </label>
-                            {{ i.livraison }}
-                        </div><!-- /.col-lg-3 -->
-                        <div class="trip">
-                            <label>Quantity : </label>
-                            {{ i.quantity }}
-                        </div><!-- /.col-lg-3 -->
-
-
-
-
-                    </div><!-- /.top-content -->
-                    <div class="collapse bottom-content" id="collapseExample">
-                        <p><span>Composition</span></p>
-
-                    </div><!-- /.bottom content -->
-                </div><!-- /.flight-box -->
-            </div><!-- /.col-lg-12 -->
-
-
-
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for i in commande %}
+                                        <tr>
+                                            <td>{{i.referenceplat}}</td>
+                                            <td>{{i.quantity}}</td>
+                                            {# <td>{{p.idU}}</td> #}
 
 
 
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
 
 
 
 
 
 
-        </div><!-- /.row -->
-    {% endfor %}
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            {{ knp_pagination_render(commande) }}
-        </ul>
-    </nav>
-</div><!-- /.col-lg-9 -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
-

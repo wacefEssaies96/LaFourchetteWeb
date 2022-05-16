@@ -3,9 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Commentaire;
+use App\Entity\Evenement;
+use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class CommentaireType extends AbstractType
 {
@@ -14,8 +18,12 @@ class CommentaireType extends AbstractType
         $builder
             ->add('commantaire')
             ->add('nbrlike')
-            ->add('idu ')
-            ->add('idevent')
+            ->add('idu',EntityType::class,[
+                'class'=> Utilisateur::class,
+                'choice_label'=>'idu',])
+            ->add('idevent',EntityType::class,[
+                'class'=> Evenement::class,
+                'choice_label'=>'ide',])
         ;
     }
 

@@ -1,0 +1,47 @@
+
+{% block body %}
+ <h5>la fourchette </h5>
+
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <div class="w3-serif">
+                            <img src="data:image;base64,<?= {{ logo }};?>" style=" margin: 1px 25px 1px;
+    display: block;" width="130" height="130">
+                <h1 align="center" style="color:#fa521c" > Liste des Evenements </h1>
+                        </div>
+                        <table class="table table-hover text-nowrap" border="1">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Designation</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Image</th>
+                                <th>Nombre de Participants</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set idexlistimge = 0 %}
+                            {% for c in evenements %}
+                                <tr>
+                                    <td>{{c.idE}}</td>
+                                    <td>{{c.designationE}}</td>
+                                    <td>{{c.descriptionE}}</td>
+                                    <td>{{c.dateE | date}}</td>
+                                    <td><img src="data:image;base64,<?= {{ listimge[idexlistimge] }};?>" height="52" width="52"></td>
+                                    <td>{{c.nbrParticipants}}</td>
+
+                                </tr>
+                                {% set idexlistimge = idexlistimge + 1 %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+    </div>
+    </section>
+{% endblock %}

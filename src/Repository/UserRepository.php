@@ -106,7 +106,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            UPDATE user set verif="bloc" where email=:mail
+            UPDATE utilisateur set verif="bloc" where email=:mail
             ';
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery(['mail' => $email]);
@@ -118,7 +118,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            UPDATE user set verif="non_bloc" where email=:mail
+            UPDATE utilisateur set verif="non_bloc" where email=:mail
             ';
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery(['mail' => $email]);

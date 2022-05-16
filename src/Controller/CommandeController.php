@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Plat;
 
+use App\Entity\Utilisateur;
 use App\Form\CommandeplatType;
 
 use Dompdf\Dompdf;
@@ -76,6 +77,7 @@ class CommandeController extends AbstractController
         $form = $this->createForm(CommandeType::class, $commande);
         $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
@@ -84,49 +86,68 @@ class CommandeController extends AbstractController
         return $this->render("commande/update.html.twig",array('form'=>$form->createView()));
     }
 
+
     /**
      * @Route("/addcommande{id}", name="addReservationPlat")
      */
     public function ajouterReservation(Request $request ,$id){
-
-
-        $reservation = new Commande();
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findAll();
+        $plats = $this->getDoctrine()->getRepository(Plat::class)->findAll();
         $plat = $this->getDoctrine()->getRepository(Plat::class)->findOneBy(['reference'=>$id]);
-         $currentuser=1;
-        $reservation->setreferenceplat($plat);
-        $q=$reservation->getquantity();
 
-        $reservation->setPrixc($reservation->getquantity()*$plat->getprix());
+        $Commande = new Commande();
+
+        $CUser = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
+
+        $Commande->setReferenceplat($plat);
+
+
+        $Commande->setIdu($CUser);
 
 
 
-        $form = $this->createForm(CommandeplatType::class,$reservation);
+        //$reservation->setPrixc($reservation->getQuantity()*$plat->);
+
+        $form = $this->createForm(CommandeplatType::class,$Commande);
 
 
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+          $d=  $form->get('quantity')->getData();
+          $l=  $form->get('livraison')->getData();
+          $pu=$plat->getPrix();
+          $pt=$d*$pu;
+          $Commande->setPrixc($pt);
+          $Commande->setLivraison($l);
 
 
             $em =$this->getDoctrine()->getManager();
-            $em->persist($reservation);
+            $em->persist($Commande);
             $em->flush();
-            return $this->redirectToRoute('Mescommandes',array('id' => $currentuser));
+            
+            return $this->redirectToRoute("frontbase");
+
         }
-        return $this->render('Front/panier.html.twig', array('i' => $form->createView()));
+        
+        return $this->render('Front/commanderPlat.html.twig', array(
+            'i' => $form->createView(),
+            'plats'=>$plats,
+            'plat'=>$plat,
+            'commande'=>$commandes
+        ));
 
     }
+
     /**
      * @Route("/Mescommandes/{id}", name="Mescommandes")
      */
     public function afficherReservationP(Request $request, PaginatorInterface $paginator,$id){
         $r=$this->getDoctrine()->getRepository(Commande::class);
-        $reservation=$r->findfunction($id);
+        $reservation=$r->findAll();
 
         $reservation= $paginator->paginate(
             $reservation,
-            $request->query->getInt('page',1),
-            2);
+           $request->query->getInt('page',1), 10);
 
         return $this->render('Front/Mescommandes.html.twig', array('commande'=>$reservation));
 

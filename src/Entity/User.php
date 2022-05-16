@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     const ROLE_ADMIN="ROLE_ADMIN";
+    const ROLE_USER="ROLE_USER";
 
     /**
      * @ORM\Id
@@ -129,7 +130,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->name;
     }
 
     /**
@@ -204,6 +205,9 @@ class User implements UserInterface
 
     public function isAdmin():bool{
         return in_array(self::ROLE_ADMIN,$this->getRoles());
+    }
+    public function isClient():bool{
+        return in_array(self::ROLE_USER,$this->getRoles());
     }
 
     public function getResetToken(): ?string

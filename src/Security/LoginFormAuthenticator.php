@@ -96,13 +96,33 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             return new RedirectResponse($targetPath);
         }
         if($token->getUser()->getVerif() =="bloc"){
-            return new  Response("Vous etes bloqué");
+            //$this->addFlash('info',"Vous etes bloqué ");
+            return new RedirectResponse($this->urlGenerator->generate('app_login')); 
+            
         }
-        if($token->getUser()->isAdmin()){
-            return new RedirectResponse($this->urlGenerator->generate('app_employer'));        }
+        if($token->getUser()->isAdmin() ){
+            return new RedirectResponse($this->urlGenerator->generate('app_employer'));        
+        }
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        return new  Response("Bonjour client");    
+        
+        if($token->getUser()->isClient()){
+            return new RedirectResponse($this->urlGenerator->generate('frontbase')); 
+        }   
+        else{
+            
+            //$this->addFlash('info',"role problem");
+            return new RedirectResponse($this->urlGenerator->generate('app_login')); 
+        }
       
+
+        //return lel front
+        
+        //current user
+        /*{% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}*/
 
     }
 

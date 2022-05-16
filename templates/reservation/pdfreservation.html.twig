@@ -1,6 +1,14 @@
 
 
-{% block title %}<h1 style="text-align: center;">Recue de Reservation</h1>{% endblock %}
+{% block title %}
+<h1 style="text-align: center;">
+<img src="data:image;base64,<?= {{ logo }};?>" width="100" height="100" style="float:left;">
+Recue de Reservation
+</h1>
+<br><br>
+{% endblock %}
+
+
 
 {% block body %}
 {% set total = 0 %}
@@ -59,17 +67,21 @@
             </tr>
             </thead>
             <tbody>
+            
+            {% set idexlistimgt = 0 %}
             {% for t in tableRestos %}
             
-            {% set total = total + t.Prix %}
-            <tr>
-                <td>{{t.nbrplace}}</td>
-                <td>{{t.Prix}}</td>
-                <td>
-                <img src="{{asset('uploads/images/')}}{{t.ImageTable}}" width="50" height="50">
-                </td>
-                <td>{{t.Vip}}</td>
-            </tr>
+                {% set total = total + t.Prix %}
+                <tr>
+                    <td>{{t.nbrplace}}</td>
+                    <td>{{t.Prix}}</td>
+                    <td>
+                    <img src="data:image;base64,<?= {{ listimgt[idexlistimgt] }};?>" width="150" height="150">
+                    </td>
+                    <td>{{t.Vip}}</td>
+                </tr>
+                
+                {% set idexlistimgt = idexlistimgt + 1 %}
             {% endfor %}
             </tbody>
         </table>
@@ -94,16 +106,18 @@
             </tr>
             </thead>
             <tbody>
+            {% set idexlistimgd = 0 %}
             {% for d in decorations %}
             {% set total = total + d.prix %}
-            <tr>
-                <td>{{d.nom}}</td>
-                <td>{{d.prix}}</td>
+                <tr>
+                    <td>{{d.nom}}</td>
+                    <td>{{d.prix}}</td>
 
-                <td>
-                <img src="{{'/images/'}}{{d.imaged}}" width="50" height="50">
-                </td>
-            </tr>
+                    <td>
+                    <img src="data:image;base64,<?= {{ listimgd[idexlistimgd] }};?>" width="150" height="150">
+                    </td>
+                </tr>
+                {% set idexlistimgd = idexlistimgd + 1 %}
             {% endfor %}
             </tbody>
         </table>
